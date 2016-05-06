@@ -9,30 +9,60 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $password;
     public $authKey;
     public $accessToken;
+    public $no_kp;
+    public $katalaluan;
+    public $id_personal;
+    public $nama;
+    public $id_personal_penyelia;
+    public $emel;
+    public $jantina;
+    public $status_oku;
+    public $jenis_oku;
+    public $status_warganegara;
+    public $nama_warganegara;
+    public $bangsa;
+    public $bangsa_lain;
+    public $status_perkahwinan;
+    public $alamat1;
+    public $alamat2;
+    public $bandar;
+    public $poskod;
+    public $negeri;
+    public $no_telefon_peribadi;
+    public $gambar_personal;
+    public $status;
+    public $tahap_akses;
 
-    private static $users = [
-        // '100' => [
-        //     'id' => '100',
-        //     'username' => 'admin',
-        //     'password' => 'admin',
-        //     'authKey' => 'test100key',
-        //     'accessToken' => '100-token',
-        // ],
-        // '101' => [
-        //     'id' => '101',
-        //     'username' => 'demo',
-        //     'password' => 'demo',
-        //     'authKey' => 'test101key',
-        //     'accessToken' => '101-token',
-        // ],
-    ];
+
+
+    // private static $users = [
+    //     '100' => [
+    //         'id' => '100',
+    //         'username' => 'admin',
+    //         'password' => 'admin',
+    //         'authKey' => 'test100key',
+    //         'accessToken' => '100-token',
+    //     ],
+    //     '101' => [
+    //         'id' => '101',
+    //         'username' => 'demo',
+    //         'password' => 'demo',
+    //         'authKey' => 'test101key',
+    //         'accessToken' => '101-token',
+    //     ],
+    // ];
 
     /**
      * @inheritdoc
      */
     public static function findIdentity($id)
     {
-        return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
+        $user = Personal::findOne($id);
+        if(count($user)) {
+            return new static($user);
+        }
+        return null;
+        //return isset(self::$users[$id]) ? new static(self::$users[$id]) : null;
     }
 
     /**
@@ -57,11 +87,17 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public static function findByUsername($username)
     {
-        foreach (self::$users as $user) {
-            if (strcasecmp($user['username'], $username) === 0) {
-                return new static($user);
-            }
+        $user = Personal::find()->where(['no_kp' => $username])->one();
+
+        if(count($user)) {
+            return new static($user);
         }
+
+        // foreach (self::$users as $user) {
+        //     if (strcasecmp($user['username'], $username) === 0) {
+        //         return new static($user);
+        //     }
+        // }
 
         return null;
     }
@@ -71,7 +107,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public function getId()
     {
-        return $this->id;
+        return $this->id_personal;
     }
 
     /**
@@ -98,6 +134,6 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
      */
     public function validatePassword($password)
     {
-        return $this->password === $password;
+        return $this->katalaluan === md5($password);
     }
 }

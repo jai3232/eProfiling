@@ -20,7 +20,6 @@ use Yii;
  * @property integer $bangsa
  * @property string $bangsa_lain
  * @property integer $status_perkahwinan
- * @property string $jenis_perkahwinan
  * @property string $alamat1
  * @property string $alamat2
  * @property string $bandar
@@ -53,14 +52,14 @@ class Personal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nama', 'no_kp', 'id_personal_penyelia', 'emel', 'jantina', 'jenis_oku', 'nama_warganegara', 'bangsa', 'bangsa_lain', 'jenis_perkahwinan', 'alamat1', 'bandar', 'poskod', 'negeri', 'no_telefon_peribadi', 'katalaluan', 'tahap_akses'], 'required'],
+            [['nama', 'no_kp', 'id_personal_penyelia', 'emel', 'jantina', 'jenis_oku', 'nama_warganegara', 'bangsa', 'alamat1', 'bandar', 'poskod', 'negeri', 'no_telefon_peribadi', 'katalaluan', 'tahap_akses'], 'required'],
             [['id_personal_penyelia', 'status_oku', 'status_warganegara', 'bangsa', 'status_perkahwinan', 'poskod', 'negeri', 'status'], 'integer'],
             [['nama', 'katalaluan'], 'string', 'max' => 255],
             [['no_kp', 'no_telefon_peribadi'], 'string', 'max' => 12],
             [['emel', 'jenis_oku'], 'string', 'max' => 100],
             [['jantina'], 'string', 'max' => 1],
             [['nama_warganegara'], 'string', 'max' => 30],
-            [['bangsa_lain', 'jenis_perkahwinan', 'tahap_akses'], 'string', 'max' => 10],
+            [['bangsa_lain', 'tahap_akses'], 'string', 'max' => 10],
             [['alamat1', 'alamat2', 'bandar', 'gambar_personal'], 'string', 'max' => 50],
             [['emel'], 'unique'],
             [['no_kp'], 'unique'],
@@ -86,7 +85,6 @@ class Personal extends \yii\db\ActiveRecord
             'bangsa' => 'Bangsa',
             'bangsa_lain' => 'Bangsa Lain',
             'status_perkahwinan' => 'Status Perkahwinan',
-            'jenis_perkahwinan' => 'Jenis Perkahwinan',
             'alamat1' => 'Alamat1',
             'alamat2' => 'Alamat2',
             'bandar' => 'Bandar',

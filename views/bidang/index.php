@@ -8,13 +8,13 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Bidang';
-$this->params['breadcrumbs'][] = ['label' => 'Agensi', 'url' => ['agensi/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Agensi ('.$agensi->kod_agensi.')', 'url' => ['agensi/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bidang-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <?php //echo ;?>
 
     <p>
         <?= Html::a('Tambah Bidang', ['create', 'idag' => Yii::$app->request->get('idag')], ['class' => 'btn btn-success']) ?>
@@ -22,6 +22,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+        'tableOptions' => ['class' => 'table table-striped table-bordered table-hover table-condensed'],
+        'showOnEmpty' => false,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -33,6 +35,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'id_jenis_kompetensi',
 
             ['class' => 'yii\grid\ActionColumn'],
+            [
+                'label' => 'Bidang Tier',
+                'format' => 'raw',
+                'value' => function($data){
+                    return HTML::a('<span class="glyphicon glyphicon-list"></span>', ['bidang-tier/index', 'idag' => $data->id_agensi, 'idbi' => $data->id_bidang], ['title' => 'List']);
+                }
+            ],
         ],
+
     ]); ?>
 </div>

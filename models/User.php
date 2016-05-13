@@ -14,6 +14,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $id_personal;
     public $nama;
     public $id_personal_penyelia;
+    public $id_agensi_institut;
     public $emel;
     public $jantina;
     public $status_oku;

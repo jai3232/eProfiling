@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "personal".
  *
  * @property integer $id_personal
+ * @property integer $id_agensi_institut
  * @property string $nama
  * @property string $no_kp
  * @property integer $id_personal_penyelia
@@ -31,8 +32,7 @@ use Yii;
  * @property integer $status
  * @property string $tahap_akses
  *
- * @property PenilaianProfil[] $penilaianProfils
- * @property PersonalBidang[] $personalBidangs
+ * @property AgensiInstitut $idAgensiInstitut
  * @property PersonalKelulusan[] $personalKelulusans
  * @property PersonalPerjawatan[] $personalPerjawatans
  */
@@ -52,8 +52,8 @@ class Personal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['nama', 'no_kp', 'id_personal_penyelia', 'emel', 'jantina', 'jenis_oku', 'nama_warganegara', 'bangsa', 'alamat1', 'bandar', 'poskod', 'negeri', 'no_telefon_peribadi', 'katalaluan', 'tahap_akses'], 'required'],
-            [['id_personal_penyelia', 'status_oku', 'status_warganegara', 'bangsa', 'status_perkahwinan', 'poskod', 'negeri', 'status'], 'integer'],
+            [['id_agensi_institut', 'nama', 'no_kp', 'id_personal_penyelia', 'emel', 'jantina', 'jenis_oku', 'nama_warganegara', 'bangsa', 'alamat1', 'bandar', 'poskod', 'negeri', 'no_telefon_peribadi', 'katalaluan', 'tahap_akses'], 'required'],
+            [['id_agensi_institut', 'id_personal_penyelia', 'status_oku', 'status_warganegara', 'bangsa', 'status_perkahwinan', 'poskod', 'negeri', 'status'], 'integer'],
             [['nama', 'katalaluan'], 'string', 'max' => 255],
             [['no_kp', 'no_telefon_peribadi'], 'string', 'max' => 12],
             [['emel', 'jenis_oku'], 'string', 'max' => 100],
@@ -61,8 +61,9 @@ class Personal extends \yii\db\ActiveRecord
             [['nama_warganegara'], 'string', 'max' => 30],
             [['bangsa_lain', 'tahap_akses'], 'string', 'max' => 10],
             [['alamat1', 'alamat2', 'bandar', 'gambar_personal'], 'string', 'max' => 50],
-            [['emel'], 'unique'],
             [['no_kp'], 'unique'],
+            [['emel'], 'unique'],
+            [['id_agensi_institut'], 'exist', 'skipOnError' => true, 'targetClass' => AgensiInstitut::className(), 'targetAttribute' => ['id_agensi_institut' => 'id_agensi_institut']],
         ];
     }
 
@@ -73,6 +74,7 @@ class Personal extends \yii\db\ActiveRecord
     {
         return [
             'id_personal' => 'Id Personal',
+            'id_agensi_institut' => 'Id Agensi Institut',
             'nama' => 'Nama',
             'no_kp' => 'No Kp',
             'id_personal_penyelia' => 'Id Personal Penyelia',
@@ -101,17 +103,9 @@ class Personal extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getPenilaianProfils()
+    public function getIdAgensiInstitut()
     {
-        return $this->hasMany(PenilaianProfil::className(), ['id_personal' => 'id_personal']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getPersonalBidangs()
-    {
-        return $this->hasMany(PersonalBidang::className(), ['id_personal' => 'id_personal']);
+        return $this->hasOne(AgensiInstitut::className(), ['id_agensi_institut' => 'id_agensi_institut']);
     }
 
     /**

@@ -3,18 +3,18 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\RefJenisKompetensi;
 use app\models\Agensi;
 use app\models\Bidang;
-use app\models\BidangSearch;
+use app\models\BidangTier;
+use app\models\BidangTierSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * BidangController implements the CRUD actions for Bidang model.
+ * BidangTierController implements the CRUD actions for BidangTier model.
  */
-class BidangController extends Controller
+class BidangTierController extends Controller
 {
     /**
      * @inheritdoc
@@ -32,25 +32,27 @@ class BidangController extends Controller
     }
 
     /**
-     * Lists all Bidang models.
+     * Lists all BidangTier models.
      * @return mixed
      */
-    public function actionIndex($idag = 0)
+    public function actionIndex($idbi)
     {
-        $searchModel = new BidangSearch();
+        $searchModel = new BidangTierSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //$model = Bidang::findOne(['id_agensi' => $idag]);
-        $agensi = Agensi::findOne(['id_agensi' => $idag]);
+        $model = Bidang::findOne(['id_bidang' => $idbi]);
+        $agensi = Agensi::findOne(['id_agensi' => $model->id_agensi]);
+        
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model,
             'agensi' => $agensi,
         ]);
     }
 
     /**
-     * Displays a single Bidang model.
+     * Displays a single BidangTier model.
      * @param integer $id
      * @return mixed
      */
@@ -62,31 +64,28 @@ class BidangController extends Controller
     }
 
     /**
-     * Creates a new Bidang model.
+     * Creates a new BidangTier model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($idag)
+    public function actionCreate($idbi)
     {
-        $model = new Bidang();
-        $jenisKompetensi = new RefJenisKompetensi();
-        $agensi = Agensi::findOne(['id_agensi' => $idag]);
+        $model = new BidangTier();
 
-        $model->id_agensi = $idag;
+        $model->id_bidang = $idbi;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_bidang]);
+            //return $this->redirect(['view', 'id' => $model->id_bidang_tier, 'idag' => $idag,'idbi' => $model->id_bidang]);
+            return $this->redirect(['view', 'id' => $model->id_bidang_tier, 'idbi' => $model->id_bidang]);
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'jenisKompetensi' => $jenisKompetensi,
-                'agensi' => $agensi,
             ]);
         }
     }
 
     /**
-     * Updates an existing Bidang model.
+     * Updates an existing BidangTier model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -94,20 +93,18 @@ class BidangController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $jenisKompetensi = new RefJenisKompetensi();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_bidang]);
+            return $this->redirect(['view', 'id' => $model->id_bidang_tier]);
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'jenisKompetensi' => $jenisKompetensi,
             ]);
         }
     }
 
     /**
-     * Deletes an existing Bidang model.
+     * Deletes an existing BidangTier model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -120,15 +117,15 @@ class BidangController extends Controller
     }
 
     /**
-     * Finds the Bidang model based on its primary key value.
+     * Finds the BidangTier model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Bidang the loaded model
+     * @return BidangTier the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Bidang::findOne($id)) !== null) {
+        if (($model = BidangTier::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

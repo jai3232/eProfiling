@@ -62,5 +62,6 @@ class Agensi extends \yii\db\ActiveRecord
     public function getBidangs()
     {
         return $this->hasMany(Bidang::className(), ['id_agensi' => 'id_agensi']);
-    }
+    }  
+
 }

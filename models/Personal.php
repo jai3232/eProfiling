@@ -8,7 +8,6 @@ use Yii;
  * This is the model class for table "personal".
  *
  * @property integer $id_personal
- * @property integer $id_agensi_institut
  * @property string $nama
  * @property string $no_kp
  * @property integer $id_personal_penyelia
@@ -32,7 +31,6 @@ use Yii;
  * @property integer $status
  * @property string $tahap_akses
  *
- * @property AgensiInstitut $idAgensiInstitut
  * @property PersonalKelulusan[] $personalKelulusans
  * @property PersonalPerjawatan[] $personalPerjawatans
  */
@@ -41,6 +39,10 @@ class Personal extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+
+    public $emel_repeat;
+    public $captcha;
+
     public static function tableName()
     {
         return 'personal';
@@ -52,8 +54,8 @@ class Personal extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_agensi_institut', 'nama', 'no_kp', 'id_personal_penyelia', 'emel', 'jantina', 'jenis_oku', 'nama_warganegara', 'bangsa', 'alamat1', 'bandar', 'poskod', 'negeri', 'no_telefon_peribadi', 'katalaluan', 'tahap_akses'], 'required'],
-            [['id_agensi_institut', 'id_personal_penyelia', 'status_oku', 'status_warganegara', 'bangsa', 'status_perkahwinan', 'poskod', 'negeri', 'status'], 'integer'],
+            [['nama', 'no_kp', 'emel'], 'required'],
+            [['id_personal_penyelia', 'status_oku', 'status_warganegara', 'bangsa', 'status_perkahwinan', 'poskod', 'negeri', 'status'], 'integer'],
             [['nama', 'katalaluan'], 'string', 'max' => 255],
             [['no_kp', 'no_telefon_peribadi'], 'string', 'max' => 12],
             [['emel', 'jenis_oku'], 'string', 'max' => 100],
@@ -63,7 +65,12 @@ class Personal extends \yii\db\ActiveRecord
             [['alamat1', 'alamat2', 'bandar', 'gambar_personal'], 'string', 'max' => 50],
             [['no_kp'], 'unique'],
             [['emel'], 'unique'],
-            [['id_agensi_institut'], 'exist', 'skipOnError' => true, 'targetClass' => AgensiInstitut::className(), 'targetAttribute' => ['id_agensi_institut' => 'id_agensi_institut']],
+            ['emel_repeat', 'compare', 'compareAttribute' => 'emel'],
+            ['emel', 'filter', 'filter' => 'trim'],
+            ['emel', 'email'],
+            [['captcha'], 'captcha', 'captchaAction'=>'site/captcha', 'on'=>'captchaRequired'],
+            //['captcha', 'captcha','captchaAction'=>'personal/create'],
+
         ];
     }
 
@@ -74,11 +81,11 @@ class Personal extends \yii\db\ActiveRecord
     {
         return [
             'id_personal' => 'Id Personal',
-            'id_agensi_institut' => 'Id Agensi Institut',
             'nama' => 'Nama',
             'no_kp' => 'No Kp',
             'id_personal_penyelia' => 'Id Personal Penyelia',
             'emel' => 'Emel',
+            'emel_repeat' => 'Ulang emel',
             'jantina' => 'Jantina',
             'status_oku' => 'Status Oku',
             'jenis_oku' => 'Jenis Oku',
@@ -97,15 +104,8 @@ class Personal extends \yii\db\ActiveRecord
             'katalaluan' => 'Katalaluan',
             'status' => 'Status',
             'tahap_akses' => 'Tahap Akses',
+            'captcha' => 'Captcha (Klik pada captcha untuk tukar)',
         ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getIdAgensiInstitut()
-    {
-        return $this->hasOne(AgensiInstitut::className(), ['id_agensi_institut' => 'id_agensi_institut']);
     }
 
     /**

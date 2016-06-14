@@ -11,6 +11,8 @@ use app\models\PersonalPerjawatan;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use yii\data\ActiveDataProvider;
 
 /**
  * PersonalController implements the CRUD actions for Personal model.
@@ -87,8 +89,34 @@ class PersonalController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            $model->image_file = UploadedFile::getInstance($model, 'image_file');
+            if($model->image_file) {
+                $model->image_file->saveAs('uploads/'.$model->no_kp.'.'.$model->image_file->extension);
+                $model->gambar_personal = $model->no_kp.'.'.$model->image_file->extension;
+            }
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id_personal]);
+        } else {
+            print_r($model->getErrors());
+            return $this->render('update', [
+                'model' => $model,
+            ]);
+        }
+    }
+
+    public function actionUpdate2($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->load(Yii::$app->request->post())) {
+            $model->image_file = UploadedFile::getInstance($model, 'image_file');
+            if($model->image_file) {
+                $model->image_file->saveAs('uploads/'.$model->no_kp.'.'.$model->image_file->extension);
+                $model->gambar_personal = $model->no_kp.'.'.$model->image_file->extension;
+            }
+            $model->save();
+            return $this->redirect(['info', 'id' => $model->id_personal]);
         } else {
             print_r($model->getErrors());
             return $this->render('update', [
@@ -248,6 +276,31 @@ class PersonalController extends Controller
         }
         else
             return '<option> - </option>';
+    }
+
+    public function actionInfo()
+    {
+        $id = \Yii::$app->user->identity->id_personal;
+
+        $perjawatanQuery = PersonalPerjawatan::find()->where(['id_personal' => $id]);
+
+        $perjawatanProvider = new ActiveDataProvider([
+            'query' => $perjawatanQuery,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    //'created_at' => SORT_DESC,
+                    //'title' => SORT_ASC, 
+                ]
+            ],
+        ]);
+
+        return $this->render('info', [
+            'personal' => $this->findModel($id),
+            'perjawatanDataProvider' => $perjawatanProvider,
+        ]);
     }
 
     /**

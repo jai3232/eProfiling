@@ -8,7 +8,7 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Bidang';
-$this->params['breadcrumbs'][] = ['label' => 'Agensi ('.$agensi->kod_agensi.')', 'url' => ['agensi/index']];
+//$this->params['breadcrumbs'][] = ['label' => 'Agensi ('.$agensi->kod_agensi.')', 'url' => ['agensi/index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bidang-index">
@@ -28,7 +28,6 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             //'id_bidang',
-            'idAgensi.kod_agensi',
             'kod_noss',
             'nama_bidang',
             'status_bidang',
@@ -39,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Bidang Tier',
                 'format' => 'raw',
                 'value' => function($data){
-                    return HTML::a('<span class="glyphicon glyphicon-list"></span>', ['bidang-tier/index', 'idag' => $data->id_agensi, 'idbi' => $data->id_bidang], ['title' => 'List']);
+                    return HTML::a('<span class="glyphicon glyphicon-list"></span>', ['bidang-tier/index', 'idbi' => $data->id_bidang], ['title' => 'List']);
                 }
             ],
         ],

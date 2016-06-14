@@ -8,8 +8,8 @@ use yii\helpers\Html;
 /* @var $model app\models\Bidang */
 
 $this->title = 'Tambah Bidang';
-$this->params['breadcrumbs'][] = ['label' => 'Agensi ('.$agensi->kod_agensi.')', 'url' => ['agensi/index']];
-$this->params['breadcrumbs'][] = ['label' => 'Bidang', 'url' => ['index', 'idag' => Yii::$app->request->get('idag')]];
+//$this->params['breadcrumbs'][] = ['label' => 'Agensi ('.$agensi->kod_agensi.')', 'url' => ['agensi/index']];
+$this->params['breadcrumbs'][] = ['label' => 'Bidang', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bidang-create">

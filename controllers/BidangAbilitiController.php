@@ -44,7 +44,7 @@ class BidangAbilitiController extends Controller
         $bidangDuti = BidangDuti::findOne(['id_bidang_duti' => $idbd]);
         $bidangTier = BidangTier::findOne(['id_bidang_Tier' => $idbt]);
         $bidang = Bidang::findOne(['id_bidang' => $idbi]);
-        $agensi = Agensi::findOne(['id_agensi' => $bidang->id_agensi]);
+        //$agensi = Agensi::findOne(['id_agensi' => $bidang->id_agensi]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -52,7 +52,7 @@ class BidangAbilitiController extends Controller
             'bidangDuti' => $bidangDuti,
             'bidangTier' => $bidangTier,
             'bidang' => $bidang,
-            'agensi' => $agensi,
+            //'agensi' => $agensi,
         ]);
     }
 

@@ -42,6 +42,7 @@ class Personal extends \yii\db\ActiveRecord
 
     public $emel_repeat;
     public $captcha;
+    public $image_file;
 
     public static function tableName()
     {
@@ -68,6 +69,7 @@ class Personal extends \yii\db\ActiveRecord
             ['emel_repeat', 'compare', 'compareAttribute' => 'emel'],
             ['emel', 'filter', 'filter' => 'trim'],
             ['emel', 'email'],
+            ['image_file', 'file'],
             [['captcha'], 'captcha', 'captchaAction'=>'site/captcha', 'on'=>'captchaRequired'],
             //['captcha', 'captcha','captchaAction'=>'personal/create'],
 
@@ -105,6 +107,7 @@ class Personal extends \yii\db\ActiveRecord
             'status' => 'Status',
             'tahap_akses' => 'Tahap Akses',
             'captcha' => 'Captcha (Klik pada captcha untuk tukar)',
+            'image_file' => 'Fail Gambar',
         ];
     }
 

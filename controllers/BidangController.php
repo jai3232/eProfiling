@@ -35,17 +35,15 @@ class BidangController extends Controller
      * Lists all Bidang models.
      * @return mixed
      */
-    public function actionIndex($idag = 0)
+    public function actionIndex()
     {
         $searchModel = new BidangSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         //$model = Bidang::findOne(['id_agensi' => $idag]);
-        $agensi = Agensi::findOne(['id_agensi' => $idag]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'agensi' => $agensi,
         ]);
     }
 
@@ -66,13 +64,11 @@ class BidangController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($idag)
+    public function actionCreate()
     {
         $model = new Bidang();
         $jenisKompetensi = new RefJenisKompetensi();
-        $agensi = Agensi::findOne(['id_agensi' => $idag]);
 
-        $model->id_agensi = $idag;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id_bidang]);
@@ -80,7 +76,6 @@ class BidangController extends Controller
             return $this->render('create', [
                 'model' => $model,
                 'jenisKompetensi' => $jenisKompetensi,
-                'agensi' => $agensi,
             ]);
         }
     }

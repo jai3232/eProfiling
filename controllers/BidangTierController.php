@@ -40,14 +40,14 @@ class BidangTierController extends Controller
         $searchModel = new BidangTierSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $model = Bidang::findOne(['id_bidang' => $idbi]);
-        $agensi = Agensi::findOne(['id_agensi' => $model->id_agensi]);
+        //$agensi = Agensi::findOne(['id_agensi' => $model->id_agensi]);
         
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
             'model' => $model,
-            'agensi' => $agensi,
+            //'agensi' => $agensi,
         ]);
     }
 

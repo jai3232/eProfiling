@@ -18,7 +18,7 @@ class BidangSearch extends Bidang
     public function rules()
     {
         return [
-            [['id_bidang', 'id_agensi', 'status_bidang', 'id_jenis_kompetensi'], 'integer'],
+            [['id_bidang', 'status_bidang', 'id_jenis_kompetensi'], 'integer'],
             [['kod_noss', 'nama_bidang'], 'safe'],
         ];
     }
@@ -43,8 +43,8 @@ class BidangSearch extends Bidang
     {
         $query = Bidang::find();
 
-        if(!isset($params['idag']))
-            $params['idag'] = 0;
+        // if(!isset($params['idag']))
+        //     $params['idag'] = 0;
 
         // add conditions that should always apply here
 
@@ -63,7 +63,7 @@ class BidangSearch extends Bidang
         // grid filtering conditions
         $query->andFilterWhere([
             'id_bidang' => $this->id_bidang,
-            'id_agensi' =>  $params['idag'],//$this->id_agensi,
+            //'id_agensi' =>  $params['idag'],//$this->id_agensi,
             'status_bidang' => $this->status_bidang,
             'id_jenis_kompetensi' => $this->id_jenis_kompetensi,
         ]);

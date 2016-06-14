@@ -8,7 +8,7 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = 'Bidang Tier';
-$this->params['breadcrumbs'][] = ['label' => 'Agensi ('.$agensi->kod_agensi.')', 'url' => ['agensi/index']];
+//$this->params['breadcrumbs'][] = ['label' => 'Agensi ('.$agensi->kod_agensi.')', 'url' => ['agensi/index']];
 $this->params['breadcrumbs'][] = ['label' => 'Bidang ('.$model->nama_bidang.')', 'url' => ['bidang/index', 'idag' => Yii::$app->request->get('idag')]];
 $this->params['breadcrumbs'][] = $this->title;
 //echo "X". $dataProvider->idag

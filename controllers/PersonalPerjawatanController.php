@@ -3,19 +3,17 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Agensi;
-use app\models\Bidang;
-use app\models\BidangTier;
-use app\models\BidangDuti;
-use app\models\BidangDutiSearch;
+use app\models\PersonalPerjawatan;
+use app\models\PersonalPerjawatanSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use app\models\AgensiInstitut;
 
 /**
- * BidangDutiController implements the CRUD actions for BidangDuti model.
+ * PersonalPerjawatanController implements the CRUD actions for PersonalPerjawatan model.
  */
-class BidangDutiController extends Controller
+class PersonalPerjawatanController extends Controller
 {
     /**
      * @inheritdoc
@@ -33,65 +31,57 @@ class BidangDutiController extends Controller
     }
 
     /**
-     * Lists all BidangDuti models.
+     * Lists all PersonalPerjawatan models.
      * @return mixed
      */
-    public function actionIndex($idbt, $idbi)
+    public function actionIndex()
     {
-        $searchModel = new BidangDutiSearch();
+        $searchModel = new PersonalPerjawatanSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        $bidangTier = BidangTier::findOne(['id_bidang_Tier' => $idbt]);
-        $bidang = Bidang::findOne(['id_bidang' => $idbi]);
-        //$agensi = Agensi::findOne(['id_agensi' => $bidang->id_agensi]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-            'bidangTier' => $bidangTier,
-            'bidang' => $bidang,
-            //'agensi' => $agensi,
         ]);
     }
 
     /**
-     * Displays a single BidangDuti model.
+     * Displays a single PersonalPerjawatan model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
-        $model = $this->findModel($id);
-        $bidangTier = BidangTier::findOne(['id_bidang_tier' => $model->id_bidang_tier]);
-        $bidang = Bidang::findOne(['id_bidang' => $bidangTier->id_bidang]);
-
-        return $this->render('view', [
-            'model' => $model,
-            'bidang' => $bidang,
+        return $this->renderAjax('view', [
+            'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new BidangDuti model.
+     * Creates a new PersonalPerjawatan model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($idbt)
+    public function actionCreate($id)
     {
-        $model = new BidangDuti();
+        $model = new PersonalPerjawatan();
 
-        $model->id_bidang_tier = $idbt;
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_bidang_duti]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->id_personal = $id;
+            if($model->save())
+            {
+                echo 1;
+            }
+            //return $this->redirect(['view', 'id' => $model->id_personal_perjawatan]);
         } else {
-            return $this->render('create', [
+            return $this->renderAjax('create', [
                 'model' => $model,
             ]);
         }
     }
 
     /**
-     * Updates an existing BidangDuti model.
+     * Updates an existing PersonalPerjawatan model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -99,21 +89,19 @@ class BidangDutiController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $bidangTier = BidangTier::findOne(['id_bidang_tier' => $model->id_bidang_tier]);
-        $bidang = Bidang::findOne(['id_bidang' => $bidangTier->id_bidang]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_bidang_duti]);
+            echo 2;
+            //return $this->redirect(['view', 'id' => $model->id_personal_perjawatan]);
         } else {
-            return $this->render('update', [
+            return $this->renderAjax('update', [
                 'model' => $model,
-                'bidang' => $bidang,
             ]);
         }
     }
 
     /**
-     * Deletes an existing BidangDuti model.
+     * Deletes an existing PersonalPerjawatan model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -125,16 +113,29 @@ class BidangDutiController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionList($id)
+    {
+        $instituts = AgensiInstitut::find()->where(['id_agensi' => $id])->all();
+        if(count($instituts) > 0) {
+            echo "<option value=\"\">Sila Pilih</option>";
+            foreach($instituts as $institut){
+                echo "<option value=\"".$institut->id_agensi_institut."\">".$institut->nama_institut."</option>";    
+            }
+        }
+        else
+            echo "<option> - </option>";
+    }
+
     /**
-     * Finds the BidangDuti model based on its primary key value.
+     * Finds the PersonalPerjawatan model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return BidangDuti the loaded model
+     * @return PersonalPerjawatan the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = BidangDuti::findOne($id)) !== null) {
+        if (($model = PersonalPerjawatan::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

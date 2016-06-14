@@ -29,6 +29,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'no_kp',
             'id_personal_penyelia',
             'emel',
+            [
+                'label' => 'email',
+                'attribute' => 'emel',
+            ]
+            ,
             // 'jantina',
             // 'status_oku',
             // 'jenis_oku',

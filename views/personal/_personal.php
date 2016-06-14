@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 
 <div class="personal-form">
 
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data'], 'action' => ['personal/update2', 'id' => $model->id_personal]]); ?>
 
     <?= $form->field($model, 'nama')->textInput(['maxlength' => true]) ?>
 
@@ -50,7 +50,7 @@ use yii\widgets\ActiveForm;
 
     <?php
         if(!$model->isNewRecord)
-            echo Html::img('uploads/'.$model->gambar_personal, ['width' => 250, 'style' => 'border: 1px solid #333; border-radius: 5px;'])
+            echo Html::img('uploads/'.$model->gambar_personal.'?'.rand(), ['width' => 250, 'style' => 'border: 1px solid #333; border-radius: 5px;'])
     ?>
 
     <?= $form->field($model, 'image_file')->fileInput(['class' => 'form-control file'])  ?>

@@ -3,17 +3,16 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\PersonalPerjawatan;
-use app\models\PersonalPerjawatanSearch;
+use app\models\PersonalKelulusan;
+use app\models\PersonalKelulusanSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use app\models\AgensiInstitut;
 
 /**
- * PersonalPerjawatanController implements the CRUD actions for PersonalPerjawatan model.
+ * PersonalKelulusanController implements the CRUD actions for PersonalKelulusan model.
  */
-class PersonalPerjawatanController extends Controller
+class PersonalKelulusanController extends Controller
 {
     /**
      * @inheritdoc
@@ -31,12 +30,12 @@ class PersonalPerjawatanController extends Controller
     }
 
     /**
-     * Lists all PersonalPerjawatan models.
+     * Lists all PersonalKelulusan models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new PersonalPerjawatanSearch();
+        $searchModel = new PersonalKelulusanSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,7 +45,7 @@ class PersonalPerjawatanController extends Controller
     }
 
     /**
-     * Displays a single PersonalPerjawatan model.
+     * Displays a single PersonalKelulusan model.
      * @param integer $id
      * @return mixed
      */
@@ -58,13 +57,13 @@ class PersonalPerjawatanController extends Controller
     }
 
     /**
-     * Creates a new PersonalPerjawatan model.
+     * Creates a new PersonalKelulusan model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
     public function actionCreate($id)
     {
-        $model = new PersonalPerjawatan();
+        $model = new PersonalKelulusan();
 
         if ($model->load(Yii::$app->request->post())) {
             $model->id_personal = $id;
@@ -72,7 +71,7 @@ class PersonalPerjawatanController extends Controller
             {
                 echo 1;
             }
-            //return $this->redirect(['view', 'id' => $model->id_personal_perjawatan]);
+            //return $this->redirect(['view', 'id' => $model->id_personal_kelulusan]);
         } else {
             return $this->renderAjax('create', [
                 'model' => $model,
@@ -81,7 +80,7 @@ class PersonalPerjawatanController extends Controller
     }
 
     /**
-     * Updates an existing PersonalPerjawatan model.
+     * Updates an existing PersonalKelulusan model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -92,7 +91,7 @@ class PersonalPerjawatanController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             echo 2;
-            //return $this->redirect(['view', 'id' => $model->id_personal_perjawatan]);
+            //return $this->redirect(['view', 'id' => $model->id_personal_kelulusan]);
         } else {
             return $this->renderAjax('update', [
                 'model' => $model,
@@ -101,7 +100,7 @@ class PersonalPerjawatanController extends Controller
     }
 
     /**
-     * Deletes an existing PersonalPerjawatan model.
+     * Deletes an existing PersonalKelulusan model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -110,32 +109,19 @@ class PersonalPerjawatanController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return 1;// $this->redirect(['index']);
-    }
-
-    public function actionList($id)
-    {
-        $instituts = AgensiInstitut::find()->where(['id_agensi' => $id])->all();
-        if(count($instituts) > 0) {
-            echo "<option value=\"\">Sila Pilih</option>";
-            foreach($instituts as $institut){
-                echo "<option value=\"".$institut->id_agensi_institut."\">".$institut->nama_institut."</option>";    
-            }
-        }
-        else
-            echo "<option> - </option>";
+        return 1;//return $this->redirect(['index']);
     }
 
     /**
-     * Finds the PersonalPerjawatan model based on its primary key value.
+     * Finds the PersonalKelulusan model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return PersonalPerjawatan the loaded model
+     * @return PersonalKelulusan the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = PersonalPerjawatan::findOne($id)) !== null) {
+        if (($model = PersonalKelulusan::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

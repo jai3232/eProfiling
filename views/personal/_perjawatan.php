@@ -32,9 +32,12 @@ use app\models\RefPurataJamMengajar;
     Modal::begin([
         'header' => '<h3 id="modal-header">Tambah Perjawatan</h3>',
         'id' => 'modal',
+        'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>',
     ]);
 
         echo '<div id="modalContent"></div>';
+
+
 
     Modal::end();
 
@@ -73,6 +76,7 @@ use app\models\RefPurataJamMengajar;
            //'nama_institut_lain',
            [
                 'label' => 'Institut',
+                //'attribute' => 'nama_institut_lain',
                 'value' => function($model) {
                     return $model->id_agensi_institut? AgensiInstitut::findOne(['id_agensi_institut' => $model->id_agensi_institut])['nama_institut']:$model->nama_institut_lain;
                 }

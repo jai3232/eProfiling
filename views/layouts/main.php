@@ -37,8 +37,27 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'About', 'url' => ['/site/about']],
-            ['label' => 'Contact', 'url' => ['/site/contact']],
+            //['label' => 'Agensi', 'url' => ['/agensi/index']],
+            [
+            'label' => 'Agensi',
+            'items' => [
+                 ['label' => 'Agensi', 'url' => ['/agensi/index']],
+                 '<li class="divider"></li>',
+                 //'<li class="dropdown-header">Dropdown Header</li>',
+                 ['label' => 'Bidang', 'url' => ['/bidang/index']],
+            ],
+            ],
+            //['label' => 'About', 'url' => ['/site/about']],
+            //['label' => 'Contact', 'url' => ['/site/contact']],
+            ['label' => 'Pengajar',
+             'visible' => !Yii::$app->user->isGuest,
+             'items' => [
+                //['label' => 'Personal', 'url' => ['/personal/info']],
+                ['label' => 'Admin', 'url' => ['/personal/index', 'sort' => '-id_personal']],
+                ['label' => 'Personal', 'url' => ['/personal/info']],
+             ],
+            ],
+            
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

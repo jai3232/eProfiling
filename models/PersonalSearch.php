@@ -18,7 +18,7 @@ class PersonalSearch extends Personal
     public function rules()
     {
         return [
-            [['id_personal', 'id_personal_penyelia', 'status_oku', 'status_warganegara', 'bangsa', 'status_perkahwinan', 'poskod', 'negeri', 'status'], 'integer'],
+            [['id_personal', 'id_personal_penyelia', 'status_oku', 'status_warganegara', 'bangsa', 'status_perkahwinan', 'poskod', 'negeri', 'id_ref_status_data'], 'integer'],
             [['nama', 'no_kp', 'emel', 'jantina', 'jenis_oku', 'nama_warganegara', 'bangsa_lain', 'alamat1', 'alamat2', 'bandar', 'no_telefon_peribadi', 'gambar_personal', 'katalaluan', 'tahap_akses'], 'safe'],
         ];
     }
@@ -67,7 +67,7 @@ class PersonalSearch extends Personal
             'status_perkahwinan' => $this->status_perkahwinan,
             'poskod' => $this->poskod,
             'negeri' => $this->negeri,
-            'status' => $this->status,
+            'id_ref_status_data' => $this->id_ref_status_data,
         ]);
 
         $query->andFilterWhere(['like', 'nama', $this->nama])
@@ -84,6 +84,8 @@ class PersonalSearch extends Personal
             ->andFilterWhere(['like', 'gambar_personal', $this->gambar_personal])
             ->andFilterWhere(['like', 'katalaluan', $this->katalaluan])
             ->andFilterWhere(['like', 'tahap_akses', $this->tahap_akses]);
+
+        //$query->orderBy('id_personal DESC');
 
         return $dataProvider;
     }

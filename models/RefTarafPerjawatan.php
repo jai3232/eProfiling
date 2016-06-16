@@ -41,4 +41,9 @@ class RefTarafPerjawatan extends \yii\db\ActiveRecord
             'taraf_perjawatan' => 'Taraf Perjawatan',
         ];
     }
+
+    public function getPersonalPerjawatan()
+    {
+        return $this->hasMany(PersonalPerjawatan::className(), ['id_ref_taraf_perjawatan' => 'id_ref_taraf_perjawatan']);
+    }
 }

@@ -5,12 +5,12 @@ namespace app\models;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\Bidang;
+use app\models\PersonalKelulusan;
 
 /**
- * BidangSearch represents the model behind the search form about `app\models\Bidang`.
+ * PersonalKelulusanSearch represents the model behind the search form about `app\models\PersonalKelulusan`.
  */
-class BidangSearch extends Bidang
+class PersonalKelulusanSearch extends PersonalKelulusan
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class BidangSearch extends Bidang
     public function rules()
     {
         return [
-            [['id_bidang', 'status_bidang', 'id_jenis_kompetensi'], 'integer'],
-            [['kod_noss', 'nama_bidang'], 'safe'],
+            [['id_personal_kelulusan', 'id_personal', 'id_ref_tahap_kelulusan', 'tahun_dapat_sijil', 'tahun_lupus_sijil'], 'integer'],
+            [['institusi_kelulusan', 'pengkhususan_kelulusan'], 'safe'],
         ];
     }
 
@@ -41,10 +41,7 @@ class BidangSearch extends Bidang
      */
     public function search($params)
     {
-        $query = Bidang::find();
-
-        // if(!isset($params['idag']))
-        //     $params['idag'] = 0;
+        $query = PersonalKelulusan::find();
 
         // add conditions that should always apply here
 
@@ -60,19 +57,17 @@ class BidangSearch extends Bidang
             return $dataProvider;
         }
 
-        if(!isset($params['idag']))
-             $params['idag'] = '';
-
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_bidang' => $this->id_bidang,
-            'id_agensi' =>  $params['idag'],//$this->id_agensi,
-            'status_bidang' => $this->status_bidang,
-            'id_jenis_kompetensi' => $this->id_jenis_kompetensi,
+            'id_personal_kelulusan' => $this->id_personal_kelulusan,
+            'id_personal' => $this->id_personal,
+            'id_ref_tahap_kelulusan' => $this->id_ref_tahap_kelulusan,
+            'tahun_dapat_sijil' => $this->tahun_dapat_sijil,
+            'tahun_lupus_sijil' => $this->tahun_lupus_sijil,
         ]);
 
-        $query->andFilterWhere(['like', 'kod_noss', $this->kod_noss])
-            ->andFilterWhere(['like', 'nama_bidang', $this->nama_bidang]);
+        $query->andFilterWhere(['like', 'institusi_kelulusan', $this->institusi_kelulusan])
+            ->andFilterWhere(['like', 'pengkhususan_kelulusan', $this->pengkhususan_kelulusan]);
 
         return $dataProvider;
     }

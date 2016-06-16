@@ -8,6 +8,7 @@ use app\models\PersonalSearch;
 use app\models\Agensi;
 use app\models\AgensiInstitut;
 use app\models\PersonalPerjawatan;
+use app\models\PersonalKelulusan;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -68,6 +69,8 @@ class PersonalController extends Controller
      */
     public function actionCreate()
     {
+
+        return $this->redirect(['index', 'sort' => '-id_personal']);
         $model = new Personal();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -123,6 +126,32 @@ class PersonalController extends Controller
                 'model' => $model,
             ]);
         }
+    }
+
+    public function actionUpdateActive($id, $checked)
+    {
+        $model = $this->findModel($id);
+        if($checked == '0')
+            $model->aktif = 1;
+        else
+            $model->aktif = 0;
+        $model->save();
+    }
+
+    public function actionUpdateAccess($id, $val)
+    {
+        $model = $this->findModel($id);
+        $model->tahap_akses = $val;
+        $model->save();
+        return $val;
+    }
+
+    public function actionUpdateStatus($id)
+    {
+        $model = $this->findModel($id);
+        //$model->tahap_akses = $val;
+        //$model->save();
+        return $val;
     }
 
     /**
@@ -283,6 +312,7 @@ class PersonalController extends Controller
         $id = \Yii::$app->user->identity->id_personal;
 
         $perjawatanQuery = PersonalPerjawatan::find()->where(['id_personal' => $id]);
+        $kelulusanQuery = PersonalKelulusan::find()->where(['id_personal' => $id]);
 
         $perjawatanProvider = new ActiveDataProvider([
             'query' => $perjawatanQuery,
@@ -297,9 +327,23 @@ class PersonalController extends Controller
             ],
         ]);
 
+        $kelulusanProvider = new ActiveDataProvider([
+            'query' => $kelulusanQuery,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    //'created_at' => SORT_DESC,
+                    //'title' => SORT_ASC, 
+                ]
+            ],
+        ]);
+
         return $this->render('info', [
             'personal' => $this->findModel($id),
             'perjawatanDataProvider' => $perjawatanProvider,
+            'kelulusanDataProvider' => $kelulusanProvider,
         ]);
     }
 

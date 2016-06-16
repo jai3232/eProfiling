@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Personal */
 
 $this->title = $model->id_personal;
-$this->params['breadcrumbs'][] = ['label' => 'Personals', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Personal', 'url' => ['index', 'sort' => '-id_personal']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="personal-view">
@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'uploads/'.$model->no_kp.'.jpg',
             ],
             //'katalaluan',
-            'status',
+            'id_ref_status_data',
             'tahap_akses',
         ],
     ]) ?>

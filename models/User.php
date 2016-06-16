@@ -31,8 +31,9 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $negeri;
     public $no_telefon_peribadi;
     public $gambar_personal;
-    public $status;
+    public $id_ref_status_data;
     public $tahap_akses;
+    public $aktif;
 
 
 

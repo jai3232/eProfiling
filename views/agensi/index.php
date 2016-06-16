@@ -34,17 +34,19 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Institut',
                 'format' => 'raw',
+                'contentOptions' => ['class' => 'text-center'],
                 'value' => function($data){
                     return HTML::a('<span class="glyphicon glyphicon-list"></span>', ['agensi-institut/list', 'idag' => $data->id_agensi], ['title' => 'List']);
                 }
             ],
-            [
-                'label' => 'Bidang',
-                'format' => 'raw',
-                'value' => function($data){
-                    return HTML::a('<span class="glyphicon glyphicon-list"></span>', ['bidang/index', 'idag' => $data->id_agensi], ['title' => 'List']);
-                }
-            ]
+            // [
+            //     'label' => 'Bidang',
+            //     'format' => 'raw',
+            //     'contentOptions' => ['class' => 'text-center'],
+            //     'value' => function($data){
+            //         return HTML::a('<span class="glyphicon glyphicon-list"></span>', ['bidang/index', 'idag' => $data->id_agensi], ['title' => 'List']);
+            //     }
+            // ]
         ],
     ]); ?>
 </div>

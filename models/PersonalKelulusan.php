@@ -63,4 +63,9 @@ class PersonalKelulusan extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Personal::className(), ['id_personal' => 'id_personal']);
     }
+
+    public function getIdTahapKelulusan()
+    {
+        return $this->hasOne(RefTahapKelulusan::className(), ['id_ref_tahap_kelulusan' => 'id_ref_tahap_kelulusan']);
+    }
 }

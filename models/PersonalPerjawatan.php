@@ -90,4 +90,30 @@ class PersonalPerjawatan extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Personal::className(), ['id_personal' => 'id_personal']);
     }
+
+    public function getIdTarafPerjawatan()
+    {
+        return $this->hasOne(RefTarafPerjawatan::className(), ['id_ref_taraf_perjawatan' => 'id_ref_taraf_perjawatan']);
+    }
+
+    public function getIdSkimPerjawatan()
+    {
+        return $this->hasOne(RefSkimPerjawatan::className(), ['id_ref_skim_perjawatan' => 'id_ref_skim_perjawatan']);
+    }
+
+    public function getIdGredPerjawatan()
+    {
+        return $this->hasOne(RefGredPerjawatan::className(), ['id_ref_gred_perjawatan' => 'id_ref_gred_perjawatan']);
+    }
+
+    public function getIdAgensiInstitut()
+    {
+        return $this->hasOne(AgensiInstitut::className(), ['id_agensi_institut' => 'id_agensi_institut']);
+    }
+
+    public function getIdPurataJamMengajar()
+    {
+        return $this->hasOne(RefPurataJamMengajar::className(), ['id_ref_purata_jam_mengajar' => 'id_ref_purata_jam_mengajar']);
+    }
+
 }

@@ -93,8 +93,9 @@ $('form#{$model->formName()}').on('beforeSubmit', function(){
                 form.trigger('reset');
                 $.pjax.reload({container: '#perjawatanGrid'});
             }
+            else
             if($.trim(data) == 2) {
-                $('#modalContent').html('Berjaya');
+                $('#modalContent').html('<h4>Berjaya</h4>');
                 $.pjax.reload({container: '#perjawatanGrid'});
             }
             else {

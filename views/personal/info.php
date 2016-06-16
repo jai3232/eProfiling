@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'label' => 'Kelulusan',
-                'content' => 'Anim pariatur cliche...',
+                'content' => $this->render('_kelulusan', ['kelulusanDataProvider' => $kelulusanDataProvider, 'id_personal' => $personal->id_personal]),
             ],            
 
             

@@ -28,7 +28,7 @@ use Yii;
  * @property string $no_telefon_peribadi
  * @property string $gambar_personal
  * @property string $katalaluan
- * @property integer $status
+ * @property integer $id_ref_status_data
  * @property string $tahap_akses
  *
  * @property PersonalKelulusan[] $personalKelulusans
@@ -56,7 +56,7 @@ class Personal extends \yii\db\ActiveRecord
     {
         return [
             [['nama', 'no_kp', 'emel'], 'required'],
-            [['id_personal_penyelia', 'status_oku', 'status_warganegara', 'bangsa', 'status_perkahwinan', 'poskod', 'negeri', 'status'], 'integer'],
+            [['id_personal_penyelia', 'status_oku', 'status_warganegara', 'bangsa', 'status_perkahwinan', 'poskod', 'negeri', 'id_ref_status_data'], 'integer'],
             [['nama', 'katalaluan'], 'string', 'max' => 255],
             [['no_kp', 'no_telefon_peribadi'], 'string', 'max' => 12],
             [['emel', 'jenis_oku'], 'string', 'max' => 100],
@@ -104,7 +104,7 @@ class Personal extends \yii\db\ActiveRecord
             'no_telefon_peribadi' => 'No Telefon Peribadi',
             'gambar_personal' => 'Gambar Personal',
             'katalaluan' => 'Katalaluan',
-            'status' => 'Status',
+            'id_ref_status_data' => 'Status',
             'tahap_akses' => 'Tahap Akses',
             'captcha' => 'Captcha (Klik pada captcha untuk tukar)',
             'image_file' => 'Fail Gambar',

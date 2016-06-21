@@ -134,4 +134,62 @@ $(function(){
 		}
 		return false;
 	});
+
+
+	// JAWATAN GRID VIEW
+	$('.jawatan-aktif-check').click(function(){
+		$('.jawatan-aktif-check').prop('checked', false);
+		$(this).prop('checked', true);
+		$.post($(this).val(), function(data){ /*alert(data)*/
+
+		});
+		$('.personal-view .glyphicon-ok').addClass('glyphicon-remove');
+		$('.personal-view .glyphicon-remove').removeClass('glyphicon-ok');
+		$(this).parent().prev().html('<span class="glyphicon glyphicon-ok"></span>');
+	});
+
+	// PERSONAL BIDANG
+
+	$('#tambah-bidang').click(function(){
+		$('#modal3').modal('show').find('#modalContent3').load($(this).attr('value'));
+		$('#modal-header3').html('Tambah Bidang');
+	});
+
+	$('.personal-bidang-index').on('click', '.glyphicon-pencil', function(){
+		$('#modal3').modal('show').find('#modalContent3').load($(this).parent().attr('href'));
+		$('#modal-header3').html('Kemaskini Bidang');
+		return false;
+	});
+
+	$('.personal-bidang-index').on('click', '.glyphicon-eye-open', function(){
+		$('#modal3').modal('show').find('#modalContent3').load($(this).parent().attr('href'));
+		$('#modal-header3').html('Maklumat Bidang');
+		return false;
+	});
+
+	$('.personal-bidang-index').on( "click", ".glyphicon-trash", function() {
+		if(confirm('Padam rekod ini?')) {
+			$.post($(this).parent().attr('href'), function(data){
+				if($.trim(data) == 1)
+					$.pjax.reload({container: '#bidangGrid'});
+			});
+		}
+		return false;
+	});
+
+	$('.bidang-aktif-check').on('click', function(){
+		$('.bidang-aktif-check').prop('checked', false);
+		$(this).prop('checked', true);
+		$.post($(this).val(), function(data){ /*alert(data)*/});
+		
+	});
+
+
+	if($('.bidang-aktif-check:checked').length == 0) { // find checked box, if no checked set the last inserted record
+		$('.bidang-aktif-check').eq(0).prop('checked', true);
+		var value = $('.bidang-aktif-check').eq(0).val();
+		$.post(value, function(data){ /*alert(data);*/});
+
+	}
+
 });

@@ -13,6 +13,7 @@ use Yii;
  * @property integer $id_personal_perjawatan
  * @property integer $is_aktif
  *
+ * @property PenilaianProfil[] $penilaianProfils
  * @property PersonalPerjawatan $idPersonalPerjawatan
  * @property Bidang $idBidang
  * @property Personal $idPersonal
@@ -33,7 +34,7 @@ class PersonalBidang extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_bidang', 'id_personal', 'id_personal_perjawatan'], 'required'],
+            [['id_bidang', 'id_personal_perjawatan'], 'required'],
             [['id_bidang', 'id_personal', 'id_personal_perjawatan', 'is_aktif'], 'integer'],
             [['id_personal_perjawatan'], 'exist', 'skipOnError' => true, 'targetClass' => PersonalPerjawatan::className(), 'targetAttribute' => ['id_personal_perjawatan' => 'id_personal_perjawatan']],
             [['id_bidang'], 'exist', 'skipOnError' => true, 'targetClass' => Bidang::className(), 'targetAttribute' => ['id_bidang' => 'id_bidang']],
@@ -53,6 +54,14 @@ class PersonalBidang extends \yii\db\ActiveRecord
             'id_personal_perjawatan' => 'Id Personal Perjawatan',
             'is_aktif' => 'Is Aktif',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPenilaianProfils()
+    {
+        return $this->hasMany(PenilaianProfil::className(), ['id_personal_bidang' => 'id_personal_bidang']);
     }
 
     /**

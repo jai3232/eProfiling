@@ -69,7 +69,7 @@ use yii\jui\DatePicker;
                                                                                 
                                                                                 ]) ?>
 
-    <?= $form->field($model, 'is_aktif')->checkbox(['label' => 'Aktif?']) ?>
+    <?php //= $form->field($model, 'is_aktif')->checkbox(['label' => 'Aktif?']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

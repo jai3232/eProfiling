@@ -9,6 +9,7 @@ use app\models\Agensi;
 use app\models\AgensiInstitut;
 use app\models\PersonalPerjawatan;
 use app\models\PersonalKelulusan;
+use app\models\PersonalBidang;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -174,6 +175,7 @@ class PersonalController extends Controller
         if(Yii::$app->request->post()) {
             $no_kp = Yii::$app->request->post()['Personal']['no_kp'];
             $result = $model->findOne(['no_kp' => $no_kp]);
+            
             if(count($result) == 0) {
                 return $this->redirect(['personal/register', 'no_kp' => $no_kp, 'model' => $model]);
                 //return $this->render('register', ['no_kp' => $no_kp, 'model' => $model]);
@@ -249,8 +251,12 @@ class PersonalController extends Controller
                 return $this->redirect(['personal/check']);
             }
         }
-        else
-            return $this->redirect(['personal/check']);
+        else {
+            //return $this->redirect(['personal/check']);
+            $no_kp = Yii::$app->request->get()['no_kp'];
+            //return print_r(Yii::$app->request->get());
+            return $this->render('register', ['no_kp' => $no_kp, 'model' => $model, 'agensi' => $agensi, 'perjawatan' => $perjawatan]); 
+        }
         // if(Yii::$app->request->post()) {
         //     // if(isset(Yii::$app->request->post()['Personal']['emel'])) {
         //     //     //print_r(Yii::$app->request->post());
@@ -313,6 +319,7 @@ class PersonalController extends Controller
 
         $perjawatanQuery = PersonalPerjawatan::find()->where(['id_personal' => $id]);
         $kelulusanQuery = PersonalKelulusan::find()->where(['id_personal' => $id]);
+        $bidangQuery = PersonalBidang::find()->where(['id_personal' => $id]);
 
         $perjawatanProvider = new ActiveDataProvider([
             'query' => $perjawatanQuery,
@@ -322,7 +329,8 @@ class PersonalController extends Controller
             'sort' => [
                 'defaultOrder' => [
                     //'created_at' => SORT_DESC,
-                    //'title' => SORT_ASC, 
+                    //'title' => SORT_ASC,
+                    'id_personal_perjawatan' => SORT_DESC,
                 ]
             ],
         ]);
@@ -340,10 +348,25 @@ class PersonalController extends Controller
             ],
         ]);
 
+        $bidangProvider = new ActiveDataProvider([
+            'query' => $bidangQuery,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    //'created_at' => SORT_DESC,
+                    //'title' => SORT_ASC, 
+                    'id_personal_bidang' => SORT_DESC,
+                ]
+            ],
+        ]);
+
         return $this->render('info', [
             'personal' => $this->findModel($id),
             'perjawatanDataProvider' => $perjawatanProvider,
             'kelulusanDataProvider' => $kelulusanProvider,
+            'bidangDataProvider' => $bidangProvider,
         ]);
     }
 

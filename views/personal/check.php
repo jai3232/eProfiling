@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-personal">
 
-    <?php $form = ActiveForm::begin(['action' => ['personal/register']]); ?>
+    <?php $form = ActiveForm::begin(); ?>
 
         <?= $form->field($model, 'no_kp') ?>
 

@@ -14,6 +14,10 @@ use app\models\RefStatusData;
 $this->title = 'Admin Personal';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+<!--[if lt IE 9]>
+<script src="http://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+<script src="http://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
 <div class="personal-index">
 
     <h1><?= Html::encode($this->title) ?></h1>

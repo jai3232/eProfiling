@@ -40,6 +40,7 @@ AppAsset::register($this);
             //['label' => 'Agensi', 'url' => ['/agensi/index']],
             [
             'label' => 'Agensi',
+            'visible' => !Yii::$app->user->isGuest,
             'items' => [
                  ['label' => 'Agensi', 'url' => ['/agensi/index']],
                  '<li class="divider"></li>',
@@ -56,6 +57,14 @@ AppAsset::register($this);
                 ['label' => 'Admin', 'url' => ['/personal/index', 'sort' => '-id_personal']],
                 ['label' => 'Personal', 'url' => ['/personal/info']],
              ],
+            ],
+            [
+                'label' => 'Penilaian',
+                'visible' => !Yii::$app->user->isGuest,
+            ],
+            [
+                'label' => 'Laporan',
+                'visible' => !Yii::$app->user->isGuest,
             ],
             
             Yii::$app->user->isGuest ? (

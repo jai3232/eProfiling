@@ -29,7 +29,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Kelulusan',
                 'content' => $this->render('_kelulusan', ['kelulusanDataProvider' => $kelulusanDataProvider, 'id_personal' => $personal->id_personal]),
             ],            
-
+            [
+                'label' => 'Bidang',
+                'content' => $this->render('_bidang', ['bidangDataProvider' => $bidangDataProvider, 'id_personal' => $personal->id_personal]),
+            ],
             
         ],
     ]);

@@ -40,6 +40,7 @@ use yii\widgets\Pjax;
     <?= GridView::widget([
         'dataProvider' => $kelulusanDataProvider,
         //'filterModel' => $searchModel,
+        'showOnEmpty' => false,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 

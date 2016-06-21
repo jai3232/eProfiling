@@ -45,6 +45,7 @@ use app\models\RefPurataJamMengajar;
     <?php Pjax::begin(['id' => 'perjawatanGrid']); ?>
     <?= GridView::widget([
         'dataProvider' => $perjawatanDataProvider,
+        'showOnEmpty' => false,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             //'id_personal_perjawatan',
@@ -88,7 +89,7 @@ use app\models\RefPurataJamMengajar;
             'tarikh_tamat_perjawatan',
             //'is_aktif',
             [
-                'label' => 'Aktif',
+                'label' => 'Status',
                 'format' => 'raw',
                 'contentOptions' => ['class' => 'text-center'],
                 'value' => function($model) {
@@ -99,8 +100,24 @@ use app\models\RefPurataJamMengajar;
                 }
             ],
 
+            [
+                'class' => 'yii\grid\CheckboxColumn',
+                'header' => 'Aktif',
+                'contentOptions' => ['class' => 'text-center'],
+                'checkboxOptions' => function ($model, $key, $index, $column) {
+                    return $model->is_aktif? 
+                        ['checked' => true, 'class' => 'jawatan-aktif-check', 'value' => Url::to(['personal-perjawatan/jawatan-update-active', 
+                         'id' => $model->id_personal_perjawatan, 'id_personal' => $model->id_personal])]
+                        : 
+                        ['checked' => false, 'class' => 'jawatan-aktif-check', 'value' => Url::to(['personal-perjawatan/jawatan-update-active', 
+                         'id' => $model->id_personal_perjawatan, 'id_personal' => $model->id_personal])];
+                }
+
+            ],
+
             ['class' => 'yii\grid\ActionColumn',
-             'controller' => 'personal-perjawatan'
+             'controller' => 'personal-perjawatan',
+             'header' => 'Tindakan'
             ],
         ],
     ]); ?>

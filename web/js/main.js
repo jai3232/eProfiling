@@ -192,4 +192,30 @@ $(function(){
 
 	}
 
+	// EVALUATION
+
+	$('input[name=header-radio]').click(function(){
+		if($(this).val()/1 == 0) {
+			$('.score-radio input').removeAttr('checked');
+			$('.score-radio input[value=0]').prop('checked', true);
+			
+		}
+		if($(this).val()/1 == 1) {
+			$('.score-radio input').removeAttr('checked');
+			$('.score-radio input[value=1]').prop('checked', true);
+		}
+		if($(this).val()/1 == 2) {
+			$('.score-radio input').removeAttr('checked');
+			$('.score-radio input[value=2]').prop('checked', true);
+		}
+		if($(this).val()/1 == 3) {
+			$('.score-radio input').removeAttr('checked');
+			$('.score-radio input[value=3]').prop('checked', true);
+		}
+		if($(this).val()/1 == 4) {
+			$('.score-radio input').removeAttr('checked');
+			$('.score-radio input[value=4]').prop('checked', true);
+		}
+	});
+
 });

@@ -60,6 +60,7 @@ AppAsset::register($this);
             ],
             [
                 'label' => 'Penilaian',
+                'url' => ['penilaian-profil/index'],
                 'visible' => !Yii::$app->user->isGuest,
             ],
             [

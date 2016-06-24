@@ -8,13 +8,12 @@ use Yii;
  * This is the model class for table "penilaian_profil".
  *
  * @property integer $id_penilaian_profil
- * @property integer $id_bidang_abiliti
- * @property integer $id_personal
- * @property integer $id_agensi_institut
+ * @property integer $id_personal_bidang
  * @property string $tarikh_penilaian
+ * @property integer $status_siap
  *
  * @property PenilaianMarkah[] $penilaianMarkahs
- * @property Personal $idPersonal
+ * @property PersonalBidang $idPersonalBidang
  */
 class PenilaianProfil extends \yii\db\ActiveRecord
 {
@@ -32,10 +31,10 @@ class PenilaianProfil extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_penilaian_profil', 'id_bidang_abiliti', 'id_personal', 'id_agensi_institut', 'tarikh_penilaian'], 'required'],
-            [['id_penilaian_profil', 'id_bidang_abiliti', 'id_personal', 'id_agensi_institut'], 'integer'],
+            [['id_personal_bidang'], 'required'],
+            [['id_personal_bidang', 'status_siap'], 'integer'],
             [['tarikh_penilaian'], 'safe'],
-            [['id_personal'], 'exist', 'skipOnError' => true, 'targetClass' => Personal::className(), 'targetAttribute' => ['id_personal' => 'id_personal']],
+            [['id_personal_bidang'], 'exist', 'skipOnError' => true, 'targetClass' => PersonalBidang::className(), 'targetAttribute' => ['id_personal_bidang' => 'id_personal_bidang']],
         ];
     }
 
@@ -46,10 +45,9 @@ class PenilaianProfil extends \yii\db\ActiveRecord
     {
         return [
             'id_penilaian_profil' => 'Id Penilaian Profil',
-            'id_bidang_abiliti' => 'Id Bidang Abiliti',
-            'id_personal' => 'Id Personal',
-            'id_agensi_institut' => 'Id Agensi Institut',
+            'id_personal_bidang' => 'Id Personal Bidang',
             'tarikh_penilaian' => 'Tarikh Penilaian',
+            'status_siap' => 'Status Siap',
         ];
     }
 
@@ -64,8 +62,8 @@ class PenilaianProfil extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getIdPersonal()
+    public function getIdPersonalBidang()
     {
-        return $this->hasOne(Personal::className(), ['id_personal' => 'id_personal']);
+        return $this->hasOne(PersonalBidang::className(), ['id_personal_bidang' => 'id_personal_bidang']);
     }
 }

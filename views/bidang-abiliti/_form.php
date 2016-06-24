@@ -20,9 +20,9 @@ use yii\web\View;
 
     <?= $form->field($model, 'nama_abiliti')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'jenis_abiliti')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'jenis_abiliti')->dropDownList(['A' => 'Ability', 'S' => 'Skill', 'K' => 'Knowledge'], ['prompt' => '-Sila Pilih-']) //textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'importance')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'importance')->dropDownList(['A' => 'A: Very Important', 'B' => 'B: Moderate', 'C' => 'C: Not so imporatant'], ['prompt' => '-Sila Pilih-'])//textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'status_bidang_abiliti')->textInput() ?>
 

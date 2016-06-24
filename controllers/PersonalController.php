@@ -344,6 +344,7 @@ class PersonalController extends Controller
                 'defaultOrder' => [
                     //'created_at' => SORT_DESC,
                     //'title' => SORT_ASC, 
+                    'id_personal_kelulusan' => SORT_DESC,
                 ]
             ],
         ]);

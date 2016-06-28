@@ -10,7 +10,6 @@ use Yii;
  * @property integer $id_penilaian_profil
  * @property integer $id_personal_bidang
  * @property string $tarikh_penilaian
- * @property integer $status_siap
  *
  * @property PenilaianMarkah[] $penilaianMarkahs
  * @property PersonalBidang $idPersonalBidang
@@ -32,7 +31,7 @@ class PenilaianProfil extends \yii\db\ActiveRecord
     {
         return [
             [['id_personal_bidang'], 'required'],
-            [['id_personal_bidang', 'status_siap'], 'integer'],
+            [['id_penilaian_profil', 'id_personal_bidang'], 'integer'],
             [['tarikh_penilaian'], 'safe'],
             [['id_personal_bidang'], 'exist', 'skipOnError' => true, 'targetClass' => PersonalBidang::className(), 'targetAttribute' => ['id_personal_bidang' => 'id_personal_bidang']],
         ];
@@ -47,7 +46,6 @@ class PenilaianProfil extends \yii\db\ActiveRecord
             'id_penilaian_profil' => 'Id Penilaian Profil',
             'id_personal_bidang' => 'Id Personal Bidang',
             'tarikh_penilaian' => 'Tarikh Penilaian',
-            'status_siap' => 'Status Siap',
         ];
     }
 

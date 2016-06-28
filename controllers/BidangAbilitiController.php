@@ -81,14 +81,15 @@ class BidangAbilitiController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($idbd)
+    public function actionCreate($idbi, $idbt, $idbd)
     {
         $model = new BidangAbiliti();
 
         $model->id_bidang_duti = $idbd;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_bidang_abiliti]);
+            //return $this->redirect(['view', 'id' => $model->id_bidang_abiliti]);
+            return $this->redirect(['index', 'idbi' => $idbi, 'idbt' => $idbt, 'idbd' => $idbd]);
         } else {
             return $this->render('create', [
                 'model' => $model,

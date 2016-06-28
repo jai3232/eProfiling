@@ -50,6 +50,11 @@ class BidangSearch extends Bidang
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'id_bidang' => SORT_DESC,
+                ]
+            ],
         ]);
 
         $this->load($params);

@@ -20,14 +20,14 @@ $(function(){
 	});
 
 	$('.personal-perjawatan-index').on( "click", ".glyphicon-pencil", function() {
-  	$('#modal').modal('show').find('#modalContent').load($(this).parent().attr('href'));
+  		$('#modal').modal('show').find('#modalContent').load($(this).parent().attr('href'));
 		$('#modal-header').html('Kemaskini Perjawatan');
 		return false;
 	});
 
 
 	$('.personal-perjawatan-index').on( "click", ".glyphicon-eye-open", function() {
-  	$('#modal').modal('show').find('#modalContent').load($(this).parent().attr('href'));
+  		$('#modal').modal('show').find('#modalContent').load($(this).parent().attr('href'));
 		$('#modal-header').html('Maklumat Perjawatan');
 		return false;
 	});
@@ -135,6 +135,30 @@ $(function(){
 		return false;
 	});
 
+	$('.personal-info').click(function(){
+		$('#modal').modal('show').find('#modalContent').load($(this).attr('href'));
+		$('#modal-header').html('Maklumat Personal');
+		return false;
+	});
+
+	$('.personal-perjawatan').click(function(){
+		$('#modal').modal('show').find('#modalContent').load($(this).attr('href'));
+		$('#modal-header').html('Maklumat Perjawatan');
+		return false;
+	});
+
+	$('.personal-kelulusan').click(function(){
+		$('#modal').modal('show').find('#modalContent').load($(this).attr('href'));
+		$('#modal-header').html('Maklumat Kelulusan');
+		return false;
+	});
+
+	$('.personal-bidang').click(function(){
+		$('#modal').modal('show').find('#modalContent').load($(this).attr('href'));
+		$('#modal-header').html('Maklumat Bidang');
+		return false;
+	});
+
 
 	// JAWATAN GRID VIEW
 	$('.jawatan-aktif-check').click(function(){
@@ -177,24 +201,38 @@ $(function(){
 		return false;
 	});
 
-	$('.bidang-aktif-check').on('click', function(){
+	// $('.bidang-aktif-check').on('click', function(){
+	// 	$('.bidang-aktif-check').prop('checked', false);
+	// 	$(this).prop('checked', true);
+	// 	$.post($(this).val(), function(data){ /*alert(data)*/});
+	// });
+
+	$('.personal-bidang-index').on('click', '.bidang-aktif-check', function(){
 		$('.bidang-aktif-check').prop('checked', false);
 		$(this).prop('checked', true);
 		$.post($(this).val(), function(data){ /*alert(data)*/});
-		
 	});
 
+	// This is to set latest inserted personal bidang active
+	//$('#bidangGrid').on('pjax:start', function() { alert('will load'); });
+	$('#bidangGrid').on('pjax:end', function() { 
+		$('.bidang-aktif-check').prop('checked', false);
+		setActiveBidang();
+	});
 
-	if($('.bidang-aktif-check:checked').length == 0) { // find checked box, if no checked set the last inserted record
-		$('.bidang-aktif-check').eq(0).prop('checked', true);
-		var value = $('.bidang-aktif-check').eq(0).val();
-		$.post(value, function(data){ /*alert(data);*/});
-
+	function setActiveBidang() {
+		if($('.bidang-aktif-check:checked').length == 0) { // find checked box, if no checked set the last inserted record
+			$('.bidang-aktif-check').eq(0).prop('checked', true);
+			var value = $('.bidang-aktif-check').eq(0).val();
+			$.post(value, function(data){ /*alert(data);*/});
+		}
 	}
+	setActiveBidang();
 
 	// EVALUATION
 
-	$('input[name=header-radio]').click(function(){
+	//$('input[name=header-radio]').click(function(){
+	$('.penilaian-markah').on('click', 'input[name=header-radio]', function(){
 		if($(this).val()/1 == 0) {
 			$('.score-radio input').removeAttr('checked');
 			$('.score-radio input[value=0]').prop('checked', true);
@@ -211,11 +249,33 @@ $(function(){
 		if($(this).val()/1 == 3) {
 			$('.score-radio input').removeAttr('checked');
 			$('.score-radio input[value=3]').prop('checked', true);
-		}
-		if($(this).val()/1 == 4) {
-			$('.score-radio input').removeAttr('checked');
+		}{
+
+		if($(this).val()/1 == 4) 			$('.score-radio input').removeAttr('checked');
 			$('.score-radio input[value=4]').prop('checked', true);
 		}
 	});
+
+	//ADMIN
+
+	$('.access input').click(function(){
+		//alert($(this).parent().parent().attr('id'));
+		var access_string = '';
+		var check_input_label = $(this).parent().parent().children(); 
+		var parentDiv = $(this).parent().parent();
+		var total_check_input_label = check_input_label.length;
+		for(var i = 0; i < total_check_input_label; i++) {
+			if(check_input_label.eq(i).children().is(':checked')) {
+				if(access_string == '')
+					access_string = check_input_label.eq(i).children().val();
+				else	
+					access_string += ',' + check_input_label.eq(i).children().val();
+			}
+		}
+		//alert(parentDiv.attr('dir'));
+		$.post(parentDiv.attr('dir'), {val:access_string}, function(data){ if($.trim(data) != 1) alert('error! '+data);});
+	});
+
+	//	$('#penilaian-tablel table').DataTable({"pageLength": 2});
 
 });

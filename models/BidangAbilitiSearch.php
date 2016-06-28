@@ -49,6 +49,11 @@ class BidangAbilitiSearch extends BidangAbiliti
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'id_bidang_abiliti' => SORT_DESC,
+                ]
+            ],
         ]);
 
         $this->load($params);

@@ -18,7 +18,10 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'nama_duti')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status_bidang_duti')->textInput() ?>
+    <?php
+    	if(!$model->isNewRecord)
+     		echo $form->field($model, 'status_bidang_duti')->checkBox();
+     ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

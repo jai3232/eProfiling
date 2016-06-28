@@ -17,13 +17,19 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'kod_noss')->textInput(['maxlength' => true]) ?>
 
+    <?= $form->field($model, 'sub_sektor')->textInput(['maxlength' => true]) ?>
+
     <?= $form->field($model, 'nama_bidang')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status_bidang')->textInput() ?>
+    <?php
+        if(!$model->isNewRecord)
+            echo $form->field($model, 'status_bidang')->checkBox();
+    ?>
 
     <?= $form->field($model, 'id_jenis_kompetensi')->dropDownList(ArrayHelper::map($jenisKompetensi->find()->all(),
-                                                                    'id_jenis_kompetensi', 'nama_kompetensi')
-                                                    )?>
+                                                                    'id_jenis_kompetensi', 'nama_kompetensi'),
+                                                                    ['prompt' => '- Sila Pilih -']
+                                                    )->label('Jenis Kompetensi')?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

@@ -75,14 +75,15 @@ class BidangDutiController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($idbt)
+    public function actionCreate($idbi, $idbt)
     {
         $model = new BidangDuti();
 
         $model->id_bidang_tier = $idbt;
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_bidang_duti]);
+            //return $this->redirect(['view', 'id' => $model->id_bidang_duti]);
+            return $this->redirect(['index', 'idbi' => $idbi, 'idbt' => $idbt, 'sort' => '-id_bidang_duti']);
         } else {
             return $this->render('create', [
                 'model' => $model,

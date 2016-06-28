@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 
 $this->title = $model->id_bidang_tier;
 //$this->params['breadcrumbs'][] = ['label' => 'Bidang Tier', 'url' => ['index',  'idag' => Yii::$app->request->get('idag'), 'idbi' => Yii::$app->request->get('idbi')]];
-$this->params['breadcrumbs'][] = ['label' => 'Bidang Tier', 'url' => ['index', 'idbi' => $model->id_bidang]];
+$this->params['breadcrumbs'][] = ['label' => 'Tier', 'url' => ['index', 'idbi' => $model->id_bidang]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bidang-tier-view">
@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id_bidang_tier',
             'idBidang.nama_bidang',
-            'subsektor:ntext',
+            //'subsektor:ntext',
             'kod_tier',
             'status_bidang_tier',
             'tarikh_pembangunan_tier',

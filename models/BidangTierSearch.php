@@ -19,7 +19,7 @@ class BidangTierSearch extends BidangTier
     {
         return [
             [['id_bidang_tier', 'id_bidang', 'status_bidang_tier'], 'integer'],
-            [['subsektor', 'kod_tier', 'tarikh_pembangunan_tier'], 'safe'],
+            [['kod_tier', 'tarikh_pembangunan_tier'], 'safe'],
         ];
     }
 
@@ -49,6 +49,11 @@ class BidangTierSearch extends BidangTier
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'id_bidang_tier' => SORT_DESC,
+                ]
+            ],
         ]);
 
         $this->load($params);
@@ -67,8 +72,7 @@ class BidangTierSearch extends BidangTier
             'tarikh_pembangunan_tier' => $this->tarikh_pembangunan_tier,
         ]);
 
-        $query->andFilterWhere(['like', 'subsektor', $this->subsektor])
-            ->andFilterWhere(['like', 'kod_tier', $this->kod_tier]);
+        $query->andFilterWhere(['like', 'kod_tier', $this->kod_tier]);
 
         return $dataProvider;
     }

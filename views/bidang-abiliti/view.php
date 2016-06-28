@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\BidangAbiliti */
 
 $this->title = $model->id_bidang_abiliti;
-$this->params['breadcrumbs'][] = ['label' => 'Bidang Abiliti', 'url' => ['index', 'idbd' => $model->id_bidang_duti, 'idbt' => $bidangTier->id_bidang_tier, 'idbi' =>$bidang->id_bidang]];
+$this->params['breadcrumbs'][] = ['label' => 'Abiliti', 'url' => ['index', 'idbd' => $model->id_bidang_duti, 'idbt' => $bidangTier->id_bidang_tier, 'idbi' =>$bidang->id_bidang]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bidang-abiliti-view">

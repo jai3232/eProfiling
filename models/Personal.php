@@ -62,7 +62,7 @@ class Personal extends \yii\db\ActiveRecord
             [['emel', 'jenis_oku'], 'string', 'max' => 100],
             [['jantina'], 'string', 'max' => 1],
             [['nama_warganegara'], 'string', 'max' => 30],
-            [['bangsa_lain', 'tahap_akses'], 'string', 'max' => 10],
+            [['bangsa_lain'], 'string', 'max' => 10],
             [['alamat1', 'alamat2', 'bandar', 'gambar_personal'], 'string', 'max' => 50],
             [['no_kp'], 'unique'],
             [['emel'], 'unique'],

@@ -71,7 +71,8 @@ class BidangController extends Controller
 
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_bidang]);
+            //return $this->redirect(['view', 'id' => $model->id_bidang]);
+            return $this->redirect(['index', 'sort' => '-id_bidang'] );
         } else {
             return $this->render('create', [
                 'model' => $model,

@@ -49,6 +49,11 @@ class BidangDutiSearch extends BidangDuti
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => [
+                'defaultOrder' => [
+                    'id_bidang_duti' => SORT_DESC,
+                ]
+            ],
         ]);
 
         $this->load($params);

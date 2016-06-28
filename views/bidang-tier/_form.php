@@ -15,15 +15,16 @@ use yii\jui\DatePicker;
 
     <?php //= $form->field($model, 'id_bidang')->textInput() ?>
 
-    <?= $form->field($model, 'subsektor')->textarea(['rows' => 6]) ?>
-
     <?= $form->field($model, 'kod_tier')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status_bidang_tier')->textInput() ?>
+    <?php
+        if(!$model->isNewRecord)
+            echo $form->field($model, 'status_bidang_tier')->checkBox(); 
+    ?>
 
     <?php //= $form->field($model, 'tarikh_pembangunan_tier')->textInput() ?>
 
-    <?= $form->field($model, 'tarikh_pembangunan_tier')->widget(DatePicker::className(), ['options' => ['class' => 'form-control', 'readonly' => 'readonly'], 'dateFormat' => 'dd/M/yyyy']) ?>
+    <?= $form->field($model, 'tarikh_pembangunan_tier')->widget(DatePicker::className(), ['options' => ['class' => 'form-control', 'readonly' => 'readonly'], 'dateFormat' => 'yyyy-MM-dd']) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

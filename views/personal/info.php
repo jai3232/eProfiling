@@ -14,12 +14,15 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="personal-view">
 
 <?php
+    $tabActive = Yii::$app->request->get('tab');
+    if(!isset($tabActive))
+        $tabActive = 0;
     echo Tabs::widget([
         'items' => [
             [
                 'label' => 'Personal',
                 'content' => $this->render('_personal', ['model' => $personal]),
-                'active' => true
+                'active' => $tabActive == 0 ? true:false,
             ],
             [
                 'label' => 'Perjawatan',
@@ -32,6 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Bidang',
                 'content' => $this->render('_bidang', ['bidangDataProvider' => $bidangDataProvider, 'id_personal' => $personal->id_personal]),
+            ],
+            [
+                'label' => 'Perakuan',
+                'content' => $this->render('_perakuan', ['model' => $personal]),
+                'active' => $tabActive == 4 ? true:false,
             ],
             
         ],

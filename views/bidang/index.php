@@ -1,7 +1,9 @@
 <?php
 
 use yii\helpers\Html;
+use yii\helpers\ArrayHelper;
 use yii\grid\GridView;
+use app\models\RefJenisKompetensi;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\BidangSearch */
@@ -29,14 +31,22 @@ $this->params['breadcrumbs'][] = $this->title;
 
             //'id_bidang',
             'kod_noss',
+            'sub_sektor',
             'nama_bidang',
-            'status_bidang',
-            'id_jenis_kompetensi',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            //'status_bidang',
+            //'id_jenis_kompetensi',
             [
-                'label' => 'Bidang Tier',
+                'label' => 'Jenis Kompetensi',
+                'attribute' => 'id_jenis_kompetensi',
                 'format' => 'raw',
+                'value' => 'idJenisKompetensi.nama_kompetensi',
+                'filter' => ArrayHelper::map(RefJenisKompetensi::find()->all(), 'id_jenis_kompetensi', 'nama_kompetensi'),
+            ],
+            ['header' => 'Tindakan', 'class' => 'yii\grid\ActionColumn'],
+            [
+                'label' => 'Senarai Tier',
+                'format' => 'raw',
+                'contentOptions' => ['class' => 'text-center'],
                 'value' => function($data){
                     return HTML::a('<span class="glyphicon glyphicon-list"></span>', ['bidang-tier/index', 'idbi' => $data->id_bidang], ['title' => 'List']);
                 }

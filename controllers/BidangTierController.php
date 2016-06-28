@@ -76,7 +76,7 @@ class BidangTierController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             //return $this->redirect(['view', 'id' => $model->id_bidang_tier, 'idag' => $idag,'idbi' => $model->id_bidang]);
-            return $this->redirect(['view', 'id' => $model->id_bidang_tier, 'idbi' => $model->id_bidang]);
+            return $this->redirect(['index', 'id' => $model->id_bidang_tier, 'idbi' => $model->id_bidang, 'sort' => '-id_bidang_tier']);
         } else {
             return $this->render('create', [
                 'model' => $model,

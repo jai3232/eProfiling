@@ -6,8 +6,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\BidangDuti */
 
-$this->title = 'Tambah Bidang Duti';
-$this->params['breadcrumbs'][] = ['label' => 'Bidang Duti', 'url' => ['index', 'idbi' => Yii::$app->request->get('idbi'), 'idbt' => Yii::$app->request->get('idbt')]];
+$this->title = 'Tambah Duti';
+$this->params['breadcrumbs'][] = ['label' => 'Duti', 'url' => ['index', 'idbi' => Yii::$app->request->get('idbi'), 'idbt' => Yii::$app->request->get('idbt')]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="bidang-duti-create">

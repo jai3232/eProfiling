@@ -20,7 +20,7 @@ if(isset($_GET['ability']))
 
 <div class="penilaian-profil-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h2><?= Html::encode($this->title) ?></h2>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -37,6 +37,7 @@ if(isset($_GET['ability']))
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
+        'tableOptions' => ['class' => 'table table-striped table-bordered table-hover table-condensed'],
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
@@ -56,7 +57,23 @@ if(isset($_GET['ability']))
                 }
             ],
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'format' => 'raw',
+                'value' => function($model) {
+                    if($model->status_siap) {
+                        return '-';
+                    }
+                    else {
+                        return Html::a('<span class="glyphicon glyphicon-trash"></span>', Url::to([
+                            'penilaian-profil/delete-profile', 
+                            'id' => $model->id_penilaian_profil,
+                        ]), ['title' => 'Padam Rekod', 'data-confirm' => 'Padam rekod ini?']);
+                    }
+                }
+                // 'class' => 'yii\grid\ActionColumn', 
+                // 'template' => '{delete}',
+                // 'visible' => $this->statuSiap(),
+            ],
         ],
     ]); ?>
 </div>

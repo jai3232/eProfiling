@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id_bidang
  * @property string $kod_noss
+ * @property string $sub_sektor
  * @property string $nama_bidang
  * @property integer $status_bidang
  * @property integer $id_jenis_kompetensi
@@ -34,7 +35,8 @@ class Bidang extends \yii\db\ActiveRecord
         return [
             [['kod_noss', 'nama_bidang', 'id_jenis_kompetensi'], 'required'],
             [['status_bidang', 'id_jenis_kompetensi'], 'integer'],
-            [['kod_noss', 'nama_bidang'], 'string', 'max' => 255],
+            [['kod_noss', 'sub_sektor'], 'string', 'max' => 100],
+            [['nama_bidang'], 'string', 'max' => 255],
         ];
     }
 
@@ -46,6 +48,7 @@ class Bidang extends \yii\db\ActiveRecord
         return [
             'id_bidang' => 'Id Bidang',
             'kod_noss' => 'Kod Noss',
+            'sub_sektor' => 'Sub Sektor',
             'nama_bidang' => 'Nama Bidang',
             'status_bidang' => 'Status Bidang',
             'id_jenis_kompetensi' => 'Id Jenis Kompetensi',
@@ -68,10 +71,10 @@ class Bidang extends \yii\db\ActiveRecord
         return $this->hasMany(PersonalBidang::className(), ['id_bidang' => 'id_bidang']);
     }
 
-    //'idJenisKompetensi.nama_kompetensi',
-
     public function getIdJenisKompetensi()
     {
         return $this->hasOne(RefJenisKompetensi::className(), ['id_jenis_kompetensi' => 'id_jenis_kompetensi']);
     }
 }
+
+

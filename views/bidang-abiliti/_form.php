@@ -20,11 +20,14 @@ use yii\web\View;
 
     <?= $form->field($model, 'nama_abiliti')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'jenis_abiliti')->dropDownList(['A' => 'Ability', 'S' => 'Skill', 'K' => 'Knowledge'], ['prompt' => '-Sila Pilih-']) //textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'jenis_abiliti')->dropDownList(['A' => 'Attitude', 'S' => 'Skill', 'K' => 'Knowledge'], ['prompt' => '- Sila Pilih -'])?>
 
-    <?= $form->field($model, 'importance')->dropDownList(['A' => 'A: Very Important', 'B' => 'B: Moderate', 'C' => 'C: Not so imporatant'], ['prompt' => '-Sila Pilih-'])//textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'importance')->dropDownList(['A' => 'Very Important', 'B' => 'Moderate', 'C' => 'Not so important'], ['prompt' => '- Sila Pilih -'])?>
 
-    <?= $form->field($model, 'status_bidang_abiliti')->textInput() ?>
+    <?php 
+        if(!$model->isNewRecord)
+            echo $form->field($model, 'status_bidang_abiliti')->checkBox();
+    ?>
 
     <?= $form->field($model, 'tarikh_daftar')->widget(DatePicker::className(), ['options' => ['class' => 'form-control datepicker', 'readonly' => 'readonly'], 
                                                                                 'dateFormat' => 'php:Y-m-d', 

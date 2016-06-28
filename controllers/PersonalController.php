@@ -10,6 +10,7 @@ use app\models\AgensiInstitut;
 use app\models\PersonalPerjawatan;
 use app\models\PersonalKelulusan;
 use app\models\PersonalBidang;
+use app\models\PenilaianProfil;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -42,6 +43,27 @@ class PersonalController extends Controller
      */
     public function actionIndex()
     {
+        // $personal_bidangs = PersonalBidang::findAll(['id_personal' => 45]);
+        // if(count($personal_bidangs) > 0) {
+        //     $i = 0;
+        //     foreach ($personal_bidangs as $personal_bidang) {
+        //         $id_personal_bidang_array[$i] = $personal_bidang->attributes['id_personal_bidang'];
+        //         $i++;
+        //     }
+        //     $penilaian_profils = PenilaianProfil::find()->all();
+
+        //     if(count($penilaian_profils)) {
+        //         foreach ($penilaian_profils as $penilaian_profil) {
+        //             $id_penilaian_profil_array[$i] = $penilaian_profil->attributes['id_penilaian_profil'];
+        //             $i++;   
+        //         }
+        //     }
+        //     else
+        //         $id_penilaian_profil_array = -1;
+        // }
+        // else
+        //     $id_penilaian_profil_array = -1;
+        // return print_r($id_penilaian_profil_array);
         $searchModel = new PersonalSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -58,7 +80,7 @@ class PersonalController extends Controller
      */
     public function actionView($id)
     {
-        return $this->render('view', [
+        return $this->renderAjax('view', [
             'model' => $this->findModel($id),
         ]);
     }
@@ -139,21 +161,26 @@ class PersonalController extends Controller
         $model->save();
     }
 
-    public function actionUpdateAccess($id, $val)
+    public function actionUpdateAccess($id)
     {
         $model = $this->findModel($id);
+        $val = Yii::$app->request->post('val');
+
         $model->tahap_akses = $val;
-        $model->save();
-        return $val;
+        if($model->save())
+            return 1;
+        else {
+            return print_r($model->getErrors());
+        }
     }
 
-    public function actionUpdateStatus($id)
-    {
-        $model = $this->findModel($id);
-        //$model->tahap_akses = $val;
-        //$model->save();
-        return $val;
-    }
+    // public function actionUpdateStatus($id)
+    // {
+    //     $model = $this->findModel($id);
+    //     //$model->tahap_akses = $val;
+    //     //$model->save();
+    //     return $val;
+    // }
 
     /**
      * Deletes an existing Personal model.
@@ -202,6 +229,7 @@ class PersonalController extends Controller
             
             if(isset(Yii::$app->request->post()['Personal']['emel'])) {
                 $personal_email = Yii::$app->request->post()['Personal']['emel'];
+                $password = substr(md5(time()), 26);
                 // if($model->load(Yii::$app->request->post()) && $model->save()) {
                 //     $id_personal = $model->findOne(['no_kp' => Yii::$app->request->post()['Personal']['no_kp']])->id_personal;
                 //     $perjawatan->id_personal = $id_personal;
@@ -211,7 +239,8 @@ class PersonalController extends Controller
                 $val_kod = md5($personal_email).'@'.$no_kp;
                 $url = 'http://'.$_SERVER['HTTP_HOST'].Yii::$app->urlManager->createUrl(['personal/confirm']);
                 $body = '<h3>Pengesahan Email</h3>';
-                $body .= '<p>Kod Pengesahan anda adalah '.$val_kod.' .';
+                $body .= '<p>Kod Pengesahan anda adalah '.$val_kod.' .</p>';
+                $body .= '<p>Login: '.$no_kp.'<br>Katalaluan: '.$password.'<p>';
                 $body .= '<p>Anda boleh melawat URL '.$url.' untuk mengesahan email atau ';
                 $body .= 'klik pada <a href=\''.$url.'&code='.$val_kod.'\'>link ini</a> untuk pengesahan email anda.</p>';
 
@@ -224,7 +253,12 @@ class PersonalController extends Controller
 
                 if($sent) {
                     if($model->load(Yii::$app->request->post()) && $model->save()) {
-                        $id_personal = $model->findOne(['no_kp' => Yii::$app->request->post()['Personal']['no_kp']])->id_personal;
+                        //$id_personal = $model->findOne(['no_kp' => Yii::$app->request->post()['Personal']['no_kp']])->id_personal;
+                        $personal = $model->findOne(['no_kp' => Yii::$app->request->post()['Personal']['no_kp']]);
+                        $id_personal = $personal->id_personal;
+                        $personal->katalaluan = Yii::$app->getSecurity()->generatePasswordHash($password);
+                        if(!$personal->save())
+                            return print_r($personal->getErrors());
                         $perjawatan->id_personal = $id_personal;
                         $perjawatan->id_agensi_institut = Yii::$app->request->post()['PersonalPerjawatan']['id_agensi_institut'];
                         $perjawatan->save();
@@ -283,7 +317,7 @@ class PersonalController extends Controller
             //$pre_code = $model->id_personal.$model->emel;
         
             if(md5($model->emel) == $arr_code[0]){
-                $model->status = 1;
+                $model->id_ref_status_data = 2;
                 //$model->captcha = Yii::$app->session['__captcha/site/captcha']; // This is to set captha on update if required
                 if($model->save())
                     return $this->render('confirmed', ['confirm' => 1]);
@@ -296,6 +330,17 @@ class PersonalController extends Controller
         }
         else
             return $this->render('confirm');
+    }
+
+    public function actionVerify($id)
+    {
+        if(Yii::$app->request->post()) {
+            $model = $this->findModel($id);
+            $model->id_ref_status_data = 3;
+            if(!$model->save())
+                return print_r($model->getErrors());
+            return $this->redirect(['info', 'tab' => 4]);
+        }
     }
 
     public function actionList($id)
@@ -344,7 +389,6 @@ class PersonalController extends Controller
                 'defaultOrder' => [
                     //'created_at' => SORT_DESC,
                     //'title' => SORT_ASC, 
-                    'id_personal_kelulusan' => SORT_DESC,
                 ]
             ],
         ]);
@@ -369,6 +413,68 @@ class PersonalController extends Controller
             'kelulusanDataProvider' => $kelulusanProvider,
             'bidangDataProvider' => $bidangProvider,
         ]);
+    }
+
+    public function actionPersonalPerjawatan($id)
+    {
+        $perjawatanQuery = PersonalPerjawatan::find()->where(['id_personal' => $id]);
+
+        $perjawatanDataProvider = new ActiveDataProvider([
+            'query' => $perjawatanQuery,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    //'created_at' => SORT_DESC,
+                    //'title' => SORT_ASC,
+                    'id_personal_perjawatan' => SORT_DESC,
+                ]
+            ],
+        ]);
+
+        return $this->renderAjax('_perjawatan_info', ['perjawatanDataProvider' => $perjawatanDataProvider, 'id_personal' => $id]);
+    }
+
+    public function actionPersonalKelulusan($id)
+    {
+        $kelulusanQuery = PersonalKelulusan::find()->where(['id_personal' => $id]);
+
+        $kelulusanDataProvider = new ActiveDataProvider([
+            'query' => $kelulusanQuery,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    //'created_at' => SORT_DESC,
+                    //'title' => SORT_ASC, 
+                ]
+            ],
+        ]);
+
+        return $this->renderAjax('_kelulusan_info', ['kelulusanDataProvider' => $kelulusanDataProvider, 'id_personal' => $id]);
+    }
+
+    public function actionPersonalBidang($id)
+    {
+        $bidangQuery = PersonalBidang::find()->where(['id_personal' => $id]);
+
+         $bidangDataProvider = new ActiveDataProvider([
+            'query' => $bidangQuery,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+            'sort' => [
+                'defaultOrder' => [
+                    //'created_at' => SORT_DESC,
+                    //'title' => SORT_ASC, 
+                    'id_personal_bidang' => SORT_DESC,
+                ]
+            ],
+        ]);
+
+        return $this->renderAjax('_bidang_info', ['bidangDataProvider' => $bidangDataProvider, 'id_personal' => $id]);
     }
 
     /**

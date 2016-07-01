@@ -13,11 +13,13 @@ use yii\helpers\Html;
 use yii\widgets\Pjax;
 use fedemotta\datatables\DataTables;
 
+
 $this->title = 'Penilaian Markah';
 $this->params['breadcrumbs'][] = ['label' => 'Profail Penilaian', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 $score = [1, 2, 3, 4, 5];
+
 ?>
 <div class="penilaian-markah">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -69,13 +71,21 @@ $score = [1, 2, 3, 4, 5];
     ],
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
-        'nombor_abiliti',
+        //'nombor_abiliti',
+        [
+            'label' => 'Nombor Abiliti',
+            'value' => function($model) {
+                $bidang_duti = BidangDuti::findOne($model->id_bidang_duti);
+                return $bidang_duti->nombor_duti.'-'.$model->nombor_abiliti;
+            }
+        ],
         'importance',
         'nama_abiliti',
         //columns
         [
             'header' => 'Skor Penilaian'.Html::radioList('header-radio', '', $score, ['class' => 'select-score']),
             'format' => 'raw',
+            'contentOptions' => ['style' => 'width:200px;'], 
             'value' => function ($model, $key, $index, $grid) {
                 $score = [1, 2, 3, 4, 5];
                 $id_penilaian_profil = Yii::$app->request->get('id');

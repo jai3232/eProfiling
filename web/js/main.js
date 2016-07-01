@@ -236,7 +236,6 @@ $(function(){
 		if($(this).val()/1 == 0) {
 			$('.score-radio input').removeAttr('checked');
 			$('.score-radio input[value=0]').prop('checked', true);
-			
 		}
 		if($(this).val()/1 == 1) {
 			$('.score-radio input').removeAttr('checked');
@@ -249,9 +248,9 @@ $(function(){
 		if($(this).val()/1 == 3) {
 			$('.score-radio input').removeAttr('checked');
 			$('.score-radio input[value=3]').prop('checked', true);
-		}{
-
-		if($(this).val()/1 == 4) 			$('.score-radio input').removeAttr('checked');
+		}
+		if($(this).val()/1 == 4) {
+			$('.score-radio input').removeAttr('checked');
 			$('.score-radio input[value=4]').prop('checked', true);
 		}
 	});
@@ -276,6 +275,35 @@ $(function(){
 		$.post(parentDiv.attr('dir'), {val:access_string}, function(data){ if($.trim(data) != 1) alert('error! '+data);});
 	});
 
+	$('.access input').load(function(){
+		
+		// $(this).attr('title','XXX');
+		// $(this).tooltip();
+	});
+
+	$('input[name="access_level[]"][value=0]').attr('title','Admin System');
+	$('input[name="access_level[]"][value=0]').tooltip();
+	$('input[name="access_level[]"][value=1]').attr('title','Admin UPPK');
+	$('input[name="access_level[]"][value=1]').tooltip();
+	$('input[name="access_level[]"][value=2]').attr('title','Admin Agensi');
+	$('input[name="access_level[]"][value=2]').tooltip();
+	$('input[name="access_level[]"][value=3]').attr('title','Admin Institut');
+	$('input[name="access_level[]"][value=3]').tooltip();
+	$('input[name="access_level[]"][value=4]').attr('title','HOD');
+	$('input[name="access_level[]"][value=4]').tooltip();
+	$('input[name="access_level[]"][value=5]').attr('title','Executive');
+	$('input[name="access_level[]"][value=5]').tooltip();
+	$('input[name="access_level[]"][value=6]').attr('title','Data Entry');
+	$('input[name="access_level[]"][value=6]').tooltip();
+	$('input[name="access_level[]"][value=7]').attr('title','Pengajar');
+	$('input[name="access_level[]"][value=7]').tooltip();
+
 	//	$('#penilaian-tablel table').DataTable({"pageLength": 2});
+
+
+    $("[data-toggle='tooltip']").tooltip(); 
+
+    $("[data-toggle='popover']").popover(); 
+
 
 });

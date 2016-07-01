@@ -31,7 +31,7 @@ $config = [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'mail.ciast.gov.my',
                 'username' => 'sistem',
-                'password' => 's!st3M@c1a5t',
+                'password' => '',
                 'port' => '465',
                 'encryption' => 'ssl',
             ],

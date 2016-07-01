@@ -7,6 +7,7 @@ use yii\helpers\ArrayHelper;
 use app\models\RefAdmTahapAkses;
 use app\models\RefStatusData;
 use yii\bootstrap\Modal;
+use yii\jui\DatePicker;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PersonalSearch */
@@ -37,6 +38,14 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
         echo '<div style="overflow:scroll; max-height:500px;" id="modalContent"></div>';
     Modal::end();
+
+    echo DatePicker::widget([
+    'name'  => 'from_date',
+    'value'  => 'x',
+    'options' => ['class' => 'hidden'],
+    //'language' => 'ru',
+    //'dateFormat' => 'yyyy-MM-dd',
+    ]);
 
     ?>
     <?= GridView::widget([
@@ -116,7 +125,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($model) {
                     //return Html::checkBox('test', false, ['class' => 'xx', 'value' => 'yyy']);
                     //($name, $selection = null, $items = [], $options = [])
-                    $accessLevel = ['AS', 'AU', 'AA', 'AI', 'HD', 'EX', 'DE', 'IN' ];
+                    $accessLevel = ['AS', 'AU', 'AA', 'AI', 'HD', 'EX', 'DE', 'PE' ];
                     $checkedValue = explode(',', $model->tahap_akses);
                     return Html::checkBoxList('access_level', $checkedValue, $accessLevel, ['class' => 'access', 'id' => $model->id_personal, 'dir' => Url::to(['update-access', 'id' => $model->id_personal]),]);
                 },

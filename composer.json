@@ -19,8 +19,8 @@
         "yiisoft/yii2-bootstrap": "*",
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-jui": "^2.0",
-        "kartik-v/yii2-builder": "@dev",
-        "fedemotta/yii2-widget-datatables": "*"
+        "fedemotta/yii2-widget-datatables": "*",
+        "yii2mod/yii2-editable": "*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

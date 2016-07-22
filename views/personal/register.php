@@ -35,19 +35,19 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= $form->field($model, 'emel_repeat')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($agensi, 'nama_agensi')->dropDownList(ArrayHelper::map($agensi->find()->all(), 
-    																											'id_agensi', 'nama_agensi'),
-    																											[
-    																												'prompt' => '- Sila Pilih -',
-    																												'onchange' => '$.post("'.Yii::$app->urlManager->createUrl(['personal/list', 'id' => ''])
-    																																								.'"+$(this).val(), function(data){$("#personalperjawatan-id_agensi_institut").html(data);})'
-    																											]) ?>
+    																		'id_agensi', 'nama_agensi'),
+    																		[
+    																			'prompt' => '- Sila Pilih -',
+    																			'onchange' => '$.post("'.Yii::$app->urlManager->createUrl(['personal/list', 'id' => ''])
+																							  .'"+$(this).val(), function(data){$("#personalperjawatan-id_agensi_institut").html(data);})'
+    																		]) ?>
 
     <?= $form->field($perjawatan, 'id_agensi_institut')->dropDownList(['prompt' => '- Sila Pilih -']) ?>
 
     <?= $form->field($model, 'captcha')->widget(\yii\captcha\Captcha::classname(), []) ?><?php //echo $this->getVerifyCode(); ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Daftar' : 'Kemaskini', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

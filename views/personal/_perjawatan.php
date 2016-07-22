@@ -75,11 +75,12 @@ use app\models\RefPurataJamMengajar;
            //      }
            // ],
            //'nama_institut_lain',
+            'idAgensi.nama_agensi',
            [
                 'label' => 'Institut',
                 //'attribute' => 'nama_institut_lain',
                 'value' => function($model) {
-                    return $model->id_agensi_institut? AgensiInstitut::findOne(['id_agensi_institut' => $model->id_agensi_institut])['nama_institut']:$model->nama_institut_lain;
+                    return $model->id_agensi_institut? AgensiInstitut::findOne(['id_agensi_institut' => $model->id_agensi_institut])['nama_institut'] : $model->nama_institut_lain;
                 }
            ],
            'nama_bidang_lain',

@@ -16,6 +16,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
+use yii2mod\editable\EditableAction;
 
 /**
  * PersonalController implements the CRUD actions for Personal model.
@@ -41,6 +42,18 @@ class PersonalController extends Controller
      * Lists all Personal models.
      * @return mixed
      */
+
+     public function actions()
+    {
+        return [
+            'change-id-personal' => [
+            'class' => EditableAction::className(),
+            'modelClass' => Personal::className(),
+            'forceCreate' => false
+            ]
+        ];
+    }
+
     public function actionIndex()
     {
         // $personal_bidangs = PersonalBidang::findAll(['id_personal' => 45]);
@@ -64,6 +77,8 @@ class PersonalController extends Controller
         // else
         //     $id_penilaian_profil_array = -1;
         // return print_r($id_penilaian_profil_array);
+        // if(!Yii::$app->user->identity->accessLevel([0, 1, 2, 3]))
+        //     return $this->redirect(['site/unauthorized']);
         $searchModel = new PersonalSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -167,6 +182,21 @@ class PersonalController extends Controller
         $val = Yii::$app->request->post('val');
 
         $model->tahap_akses = $val;
+        if($model->save())
+            return 1;
+        else {
+            return print_r($model->getErrors());
+        }
+    }
+
+    public function actionUpdateSupervisor($id, $value='')
+    {
+        //$id = Yii::$app->request->get('id');
+        //$value = Yii::$app->request->get('value');
+        //return $id;
+        $model = $this->findModel($id);
+        $model->id_personal_penyelia = $value;
+
         if($model->save())
             return 1;
         else {

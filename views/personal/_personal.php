@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\jui\AutoComplete;
 use app\models\Personal;
+use app\models\PersonalPerjawatan;
 //use yii\web\JsExpression;
 //use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
@@ -31,9 +32,19 @@ $negeri =   [
                 '16' => 'Putrajaya'
             ];
 
+$id_personal = Yii::$app->user->identity->id_personal;
+if(count(PersonalPerjawatan::findAll(['id_personal' => $id_personal])) > 0) {
+    $id_institut = PersonalPerjawatan::find()->select('id_agensi_institut')->where(['is_aktif' => 1, 'id_personal' => $id_personal])->one()->attributes['id_agensi_institut'];
+    $where_institut = ['personal_perjawatan.id_agensi_institut' => $id_institut];
+}
+else
+    $where_institut = '';
+//print_r($id_institut);
+
 $data = Personal::find()
-    ->select(['id_personal AS value', 'CONCAT(nama, \' (No. KP: \', no_kp, \')\') AS label', 'id_personal AS id'])
-    //->where()
+    ->select(['personal.id_personal', 'personal.id_personal AS value', 'CONCAT(personal.nama, \' (No. KP: \', personal.no_kp, \')\') AS label', 'personal.id_personal AS id'])
+    ->joinWith('personalPerjawatans')
+    ->where($where_institut)
     ->orderBy('nama')
     ->asArray()
     ->all();
@@ -57,7 +68,7 @@ $data = Personal::find()
                 'autoFill' => true,
             ],
             'options' => ['class' => 'form-control', 'onclick' => 'this.select();'],
-        ])->label('ID Penyelia (Sila taip nama Penyelia)');
+        ])->label('ID Penyelia (Sila taip nama / no. KP Penyelia)');
     ?>
     <!-- <div class="form-group">
         <label class="control-label" for="personal-id_personal_penyelia">ID Penyelia</label> -->
@@ -97,7 +108,7 @@ $data = Personal::find()
 
     <?= $form->field($model, 'bangsa_lain')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'status_perkahwinan')->dropDownList(['0' => 'Bujang', '1' => 'Kahwin', '2' => 'Duda', '3' => 'Janda'], ['prompt' => '- Sila Pilih -']) ?>
+    <?= $form->field($model, 'status_perkahwinan')->dropDownList(['0' => 'Bujang', '1' => 'Kahwin'], ['prompt' => '- Sila Pilih -']) ?>
 
     <?= $form->field($model, 'alamat1')->textInput(['maxlength' => true]) ?>
 

@@ -6,8 +6,12 @@ use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use app\models\RefAdmTahapAkses;
 use app\models\RefStatusData;
+use app\models\Personal;
+use app\models\PersonalPerjawatan;
 use yii\bootstrap\Modal;
 use yii\jui\DatePicker;
+//use yii2mod\editable\EditableColumn;
+use yii\jui\AutoComplete;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\PersonalSearch */
@@ -61,16 +65,99 @@ $this->params['breadcrumbs'][] = $this->title;
             //'id_personal',
             [
                 'label' => 'ID',
-                //'attribute' => 'id_personal',
+                'attribute' => 'id_personal',
                 'value' => 'id_personal',
+                'filter'=> false,
             ],
             'nama',
             'no_kp',
+            /*[
+                'class' => EditableColumn::className(),
+                'attribute' => 'id_personal_penyelia',
+                'type' => 'text',
+                'url' => ['change-id-personal'],
+                'value' => function($model) {
+                    return $model->id_personal_penyelia;
+                },
+                'editableOptions' => function ($model) {
+                    return [
+                        'source' => [1 => 'Active', 2 => 'Deleted'],
+                        'value' => $model->id_personal,
+                    ];
+                },
+            ],*/
+           /* [
+                //'class' => 'hiqdev\xeditable\grid\XEditableColumn',
+                'attribute' => 'id_personal_penyelia',
+                'format' => 'raw',
+                'value' => function($model) {
+                    return Editable::widget([
+                                    'name'=>'person_name', 
+                                    'asPopover' => true,
+                                    'value' => $model->id_personal_penyelia,
+                                    'header' => 'Name',
+                                    'inputType' => Editable::INPUT_DROPDOWN_LIST,
+                                    'data' => [0 => 'pass', 1 => 'fail', 2 => 'waived', 3 => 'todo'],
+                                    'size'=>'md',
+                                    'options' => ['class'=>'form-control', 'placeholder'=>'Enter person name...'],
+                                    'pluginOptions'=>[
+                                                        'url' => Url::to(['/site/prod'])
+                                                     ]
+                                ]);
+                    ///return $model->id_personal_penyelia;
+                },
+            ],*/
+            [
+                'label' => 'ID Penyelia',
+                'format' => 'raw',
+                'value' => function($model) {
+
+                    $id_personal = Yii::$app->user->identity->id_personal;
+                    if(count(PersonalPerjawatan::findAll(['id_personal' => $id_personal])) > 0) {
+                        $id_institut = PersonalPerjawatan::find()->select('id_agensi_institut')->where(['is_aktif' => 1, 'id_personal' => $id_personal])->one()->attributes['id_agensi_institut'];
+                        $where_institut = ['personal_perjawatan.id_agensi_institut' => $id_institut];
+                    }
+                    else
+                        $where_institut = '';
+
+                    $data = Personal::find()
+                            ->select(['personal.id_personal', 'personal.id_personal AS value', 'CONCAT(personal.nama, \' (No. KP: \', personal.no_kp, \', ID:\', personal.id_personal,\')\') AS label', 'personal.id_personal AS id'])
+                            ->joinWith('personalPerjawatans')
+                            ->where($where_institut)
+                            ->orderBy('nama')
+                            ->asArray()
+                            ->all();
+
+                    return AutoComplete::widget([
+                                //'model' => $model,
+                                'attribute' => 'id_personal_penyelia',
+                                'value' => $model->id_personal_penyelia,
+                                'clientOptions' => [
+                                    'source' => $data,//['1' => 'USA', '2' => 'RUS'],
+                                    //'source' => json_encode($negeri, JSON_PRETTY_PRINT),
+                                    'autoFill' => true,
+                                ],
+                                'options' => [
+                                                'class' => 'form-control', 'onclick' => 'this.select();', 
+                                                'onchange' => '$.get("'.URL::to(['personal/update-supervisor', 'id' => $model->id_personal]).'&value="+$(this).val(), function(data){if($.trim(data) != 1)alert(data);});',
+                                                //'onblur' => '$.get("'.URL::to(['personal/update-supervisor', 'id' => $model->id_personal]).'&value="+$(this).val(), function(data){if($.trim(data) != 1)alert(data);});',
+                                             ],
+                            ]);
+                    
+                },
+            ],
             // [
-            //     'label' => 'ID Penyelia',
-            //     'attribute' => 'id_personal_penyelia',
+            //     'class' => EditableColumn::className(),
+            //     'value' => function($model) {
+            //         return 'x';
+            //     }
             // ],
             'emel',
+            // [
+            //     'class' => EditableColumn::className(),
+            //     'attribute' => 'id_personal_penyelia',
+            //     'url' => ['change-username'],
+            // ],
             // 'jantina',
             // 'status_oku',
             // 'jenis_oku',
@@ -172,6 +259,28 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'template' => '{personal}&nbsp;&nbsp;{jawatan}&nbsp;&nbsp;{kelulusan}&nbsp;&nbsp;{bidang}',
             ],
+            ['header' => 'Tindakan', 'class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>
+
+<?php $script = <<< JS
+
+$('.editable-input input').on('shown', function(){
+    setTimeout(function() { alert('x'); }, 50);
+});
+
+$(document).ready(function () {
+    $('html').on('click', '.editable-input input', function () {
+        $(this).select();
+    });
+});
+
+$('.ui-autocomplete-input').on("blur focus", function(e){ 
+     $(this).change();
+});
+
+JS;
+$this->registerJs($script);
+
+?>

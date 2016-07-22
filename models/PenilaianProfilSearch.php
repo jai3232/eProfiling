@@ -66,22 +66,23 @@ class PenilaianProfilSearch extends PenilaianProfil
 
         // grid filtering conditions
 
-        $personal = Personal::findOne(['no_kp' => Yii::$app->user->identity->no_kp]);
-        $id_personal = $personal->id_personal;
+        // $personal = Personal::findOne(['no_kp' => Yii::$app->user->identity->no_kp]);
+        // $id_personal = $personal->id_personal;
         // $personal_bidang = PersonalBidang::findAll(['id_personal' => 2]);
         // if(count($personal_bidang)) {
         //     $id_personal_bidang = $personal_bidang->attributes['id_personal_bidang'];
         // }
         // else
         //     $id_personal_bidang = -1; // no record
-        $personal_bidangs = PersonalBidang::findAll(['id_personal' => $id_personal]);
+        //$personal_bidangs = PersonalBidang::findAll(['id_personal' => $id_personal]);
+        $personal_bidangs = PersonalBidang::findAll(['id_personal' => Yii::$app->user->identity->id_personal]);
         if(count($personal_bidangs) > 0) {
             $i = 0;
             foreach ($personal_bidangs as $personal_bidang) {
                 $id_personal_bidang_array[$i] = $personal_bidang->attributes['id_personal_bidang'];
                 $i++;
             }
-            $penilaian_profils = PenilaianProfil::find()->all();
+            $penilaian_profils = PenilaianProfil::findAll(['id_personal_bidang' => $id_personal_bidang_array]);
 
             if(count($penilaian_profils)) {
                 foreach ($penilaian_profils as $penilaian_profil) {
@@ -101,7 +102,7 @@ class PenilaianProfilSearch extends PenilaianProfil
             'id_personal_bidang' => $this->id_personal_bidang,
             'tarikh_penilaian' => $this->tarikh_penilaian,
         ]);
-
+        
         return $dataProvider;
     }
 }

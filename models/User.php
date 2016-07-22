@@ -140,4 +140,13 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
             return $this->katalaluan;// === md5($password);
         //return $this->katalaluan === Yii::$app->getSecurity()->validatePassword($password, $this->katalaluan);
     }
+
+    // This function to limit the access level of logged in user
+    public static function accessLevel($accessArray)
+    {
+        $access_level = explode(',', \Yii::$app->user->identity->tahap_akses);
+        if(count(array_intersect($access_level, $accessArray)) > 0)
+            return true;
+        return false;
+    }
 }

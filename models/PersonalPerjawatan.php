@@ -42,7 +42,7 @@ class PersonalPerjawatan extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_personal', 'kategori_perjawatan', 'id_ref_taraf_perjawatan', 'id_ref_skim_perjawatan', 'id_ref_gred_perjawatan', 'id_agensi_institut', 'id_ref_purata_jam_mengajar', 'is_aktif'], 'integer'],
+            [['id_personal', 'kategori_perjawatan', 'id_ref_taraf_perjawatan', 'id_ref_skim_perjawatan', 'id_ref_gred_perjawatan', 'id_agensi', 'id_agensi_institut', 'id_ref_purata_jam_mengajar', 'is_aktif'], 'integer'],
             [['tarikh_mula_perjawatan', 'tarikh_tamat_perjawatan'], 'safe'],
             [['nama_perjawatan', 'nama_bidang_lain'], 'string', 'max' => 100],
             [['nama_institut_lain'], 'string', 'max' => 50],
@@ -64,6 +64,7 @@ class PersonalPerjawatan extends \yii\db\ActiveRecord
             'nama_perjawatan' => 'Nama Perjawatan',
             'id_ref_skim_perjawatan' => 'Id Ref Skim Perjawatan',
             'id_ref_gred_perjawatan' => 'Id Ref Gred Perjawatan',
+            'id_agensi' => 'Id Agensi',
             'id_agensi_institut' => 'Id Agensi Institut',
             'nama_institut_lain' => 'Nama Institut Lain',
             'nama_bidang_lain' => 'Nama Bidang Lain',
@@ -109,6 +110,11 @@ class PersonalPerjawatan extends \yii\db\ActiveRecord
     public function getIdAgensiInstitut()
     {
         return $this->hasOne(AgensiInstitut::className(), ['id_agensi_institut' => 'id_agensi_institut']);
+    }
+
+    public function getIdAgensi()
+    {
+        return $this->hasOne(Agensi::className(), ['id_agensi' => 'id_agensi']);
     }
 
     public function getIdPurataJamMengajar()

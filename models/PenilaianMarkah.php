@@ -31,7 +31,7 @@ class PenilaianMarkah extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['id_penilaian_profil', 'markah', 'status_supervisor', 'nota_supervisor'], 'required'],
+            [['id_penilaian_profil', 'markah'], 'required'],
             [['id_penilaian_profil', 'markah', 'status_supervisor'], 'integer'],
             [['nota_supervisor'], 'string'],
             [['id_penilaian_profil'], 'exist', 'skipOnError' => true, 'targetClass' => PenilaianProfil::className(), 'targetAttribute' => ['id_penilaian_profil' => 'id_penilaian_profil']],

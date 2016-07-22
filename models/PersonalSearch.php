@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Personal;
+use app\models\PersonalPerjawatan;
 
 /**
  * PersonalSearch represents the model behind the search form about `app\models\Personal`.
@@ -56,6 +57,16 @@ class PersonalSearch extends Personal
             // $query->where('0=1');
             return $dataProvider;
         }
+
+        $id_personal = Yii::$app->user->identity->id_personal;
+        //$access_level = explode(',', Yii::$app->user->identity->tahap_akses);
+        $id_institut = PersonalPerjawatan::find()->select('id_agensi_institut')->where(['is_aktif' => 1, 'id_personal' => $id_personal])->one()->attributes['id_agensi_institut'];
+
+        // Join Table
+        $query->joinWith('personalPerjawatans');
+        //if(count(array_intersect($access_level, [0, 1])) == 0)
+        if(!Yii::$app->user->identity->accessLevel([0, 1])) // accessLevel declaration can be found at User model
+            $query->where(['personal_perjawatan.id_agensi_institut' => $id_institut]);
 
         // grid filtering conditions
         $query->andFilterWhere([

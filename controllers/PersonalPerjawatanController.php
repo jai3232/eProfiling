@@ -129,7 +129,7 @@ class PersonalPerjawatanController extends Controller
 
     public function actionList($id)
     {
-        $instituts = AgensiInstitut::find()->where(['id_agensi' => $id])->all();
+        $instituts = AgensiInstitut::find()->where(['id_agensi' => $id])->orderBy('nama_institut')->all();
         if(count($instituts) > 0) {
             echo "<option value=\"\">Sila Pilih</option>";
             foreach($instituts as $institut){

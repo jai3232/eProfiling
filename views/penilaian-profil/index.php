@@ -42,7 +42,7 @@ if(isset($_GET['ability']))
             ['class' => 'yii\grid\SerialColumn'],
 
             'id_penilaian_profil',
-            'id_personal_bidang',
+            //'id_personal_bidang',
             'idPersonalBidang.idBidang.nama_bidang',
             'tarikh_penilaian',
             [
@@ -53,7 +53,18 @@ if(isset($_GET['ability']))
                     $draf = Html::a('Draf', 
                                     Url::to(['penilaian-profil/create', 'id' => $model->id_penilaian_profil]), 
                                     ['title' => 'Draf, Klik untuk siap']);
-                    return $model->status_siap? 'Siap' : $draf;
+                    $pengesahan = Html::a('Pengesahan', 
+                                    Url::to(['penilaian-profil/evaluation', 'id' => $model->id_penilaian_profil]), 
+                                    ['title' => 'Pengesahan']);
+                    if($model->status_siap == 0)
+                        return $draf;
+                    if($model->status_siap == 1)
+                        return $pengesahan;
+                    if($model->status_siap == 2)
+                        return 'Perubahan';
+                    if($model->status_siap == 3)
+                        return 'Siap';
+                    //return $model->status_siap? 'Siap' : $draf;
                 }
             ],
 

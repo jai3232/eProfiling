@@ -45,6 +45,9 @@ class SiteController extends Controller
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
                 
             ],
+            'page' => [
+                'class' => 'yii\web\ViewAction',
+            ],
         ];
     }
 
@@ -93,5 +96,10 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionUnauthorized()
+    {
+        return $this->render('unauthorized');
     }
 }

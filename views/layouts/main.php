@@ -36,7 +36,14 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
+            [
+             'label' => 'Home', 'url' => ['/site/index'],
+             'visible' => Yii::$app->user->isGuest 
+            ],
+            [
+             'label' => 'Home', 'url' => ['/site/login'],
+             'visible' => !Yii::$app->user->isGuest 
+            ],
             //['label' => 'Agensi', 'url' => ['/agensi/index']],
             [
             'label' => 'Agensi',

@@ -34,15 +34,23 @@ use yii\jui\DatePicker;
 
     <div class="form-group">
         <label class="control-label">Agensi</label>
-    <?= Html::dropDownList('agensi', '', ArrayHelper::map(Agensi::find()->all(), 'id_agensi', 'nama_agensi'), 
+    <?php /*Html::dropDownList('agensi', '', ArrayHelper::map(Agensi::find()->orderBy('nama_agensi')->all(), 'id_agensi', 'nama_agensi'), 
                           ['class' => 'form-control', 
                            'prompt' => 'Sila Pilih',
                            'onchange' => '$.post("'.Yii::$app->urlManager->createUrl(['personal-perjawatan/list', 'id' => '']).'"+$(this).val(), function(data){$("#personalperjawatan-id_agensi_institut").html(data);})'
                           ]
 
-                          ) ?>
+                          ) */
+    ?>
 
     </div>
+
+    <?= $form->field($model, 'id_agensi')->dropDownList(ArrayHelper::map(Agensi::find()->orderBy('nama_agensi')->all(), 'id_agensi', 'nama_agensi'), 
+                                            ['prompt' => '- Sila Pilih',
+                                             'onchange' => '$.post("'.Yii::$app->urlManager->createUrl(['personal-perjawatan/list', 'id' => '']).'"+$(this).val(), function(data){$("#personalperjawatan-id_agensi_institut").html(data);})'
+                                            ]) 
+
+    ?>    
 
     <?= $form->field($model, 'id_agensi_institut')->dropDownList(ArrayHelper::map(AgensiInstitut::find()->all(), 'id_agensi_institut', 'nama_institut'), ['prompt' => '-'])->label('Institut Agensi') ?>
 

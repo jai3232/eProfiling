@@ -19,6 +19,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $score = [1, 2, 3, 4, 5];
 
+$amount = 0;
+if (!empty($dataProvider->getModels())) {
+    foreach ($dataProvider->getModels() as $key => $val) {
+        $amount += $val->markah;
+    }
+}
+
 ?>
 <div class="penilaian-markah">
     <h1><?= Html::encode($this->title) ?></h1>
@@ -27,6 +34,8 @@ $score = [1, 2, 3, 4, 5];
         'id' => 'penilaian-tablel',
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
+        'showFooter'=> true,
+        //'footerRowOptions'=>['style'=>'font-weight:bold;text-decoration: underline;'],
         'showOnEmpty' => false,
         'tableOptions' => ['class' => 'table table-striped table-bordered table-hover table-condensed'],
         'formatter' => ['class' => 'yii\i18n\Formatter','nullDisplay' => '-'],
@@ -61,8 +70,16 @@ $score = [1, 2, 3, 4, 5];
             //'importance',
             //'nama_abiliti',
             //'id_bidang_abiliti',
-            'markah', 
-            'status_supervisor',
+            //'markah', 
+            [
+                'label' => 'Markah',
+                'attribute' => 'markah',
+                'value' => function($model) {
+                    return $model->markah;
+                },
+                'footer' => $amount,
+            ],
+            'markah_supervisor',
             'nota_supervisor',          
         ],
     ]);

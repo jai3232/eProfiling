@@ -38,6 +38,7 @@ if(isset($_GET['ability']))
         'dataProvider' => $dataProvider,
         //'filterModel' => $searchModel,
         'tableOptions' => ['class' => 'table table-striped table-bordered table-hover table-condensed'],
+        'showOnEmpty' => false,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 

@@ -6,6 +6,7 @@ use app\models\BidangDuti;
 use app\models\BidangAbiliti;
 use app\models\PenilaianProfil;
 use app\models\PenilaianMarkah;
+use app\models\Personal;
 use app\models\PersonalBidang;
 use yii\data\ActiveDataProvider;
 use yii\grid\GridView;
@@ -15,7 +16,7 @@ use yii\widgets\Pjax;
 use fedemotta\datatables\DataTables;
 
 
-$this->title = 'Penilaian Markah';
+$this->title = 'Penilaian Markah Penyelia';
 $this->params['breadcrumbs'][] = ['label' => 'Profail Penilaian', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -31,8 +32,11 @@ $score = [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5];
       <a href="#" class="list-group-item">3. Dapat melakukan kerja sendiri / ada pengetahuan / Boleh dipercayai</a>
       <a href="#" class="list-group-item">4. Mampu melakukan kerja sendiri / Banyak pengetahuan / Boleh mengajar tapi tidak kreatif</a>
       <a href="#" class="list-group-item">5. Mampu melakukan kerja sendiri dengan lengkap dan boleh mengarah / Pengetahuan yang mencukupi / Boleh mengajar, membangun dan menasihat</a>
+      <a href="#" class="list-group-item">A = Sangat Penting</a>
+      <a href="#" class="list-group-item">B = Penting</a>
+      <a href="#" class="list-group-item">C = Kurang Penting</a>
     </div>
-<?php echo Html::beginForm(['evaluation'], 'post', ['id' => 'evaluation']); ?>
+<?php echo Html::beginForm(['supervise'], 'post', ['id' => 'supervise']); ?>
 <?= Html::hiddenInput('id_penilaian_profil', Yii::$app->request->get('id')? Yii::$app->request->get('id') : $id_penilaian_profil, []) ?>
 
 <?php Pjax::begin(['id' => 'penilaianGrid']); ?>
@@ -47,6 +51,7 @@ $score = [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5];
             //'nombor_abiliti',
             [
                 'label' => 'Nombor Abiliti',
+                'header' => 'Nombor <br>Abiliti',
                 'value' => function($model) {
                     $bidang_duti = BidangDuti::findOne($model->id_bidang_duti);
                     return $bidang_duti->nombor_duti.'-'.$model->nombor_abiliti;
@@ -54,19 +59,20 @@ $score = [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5];
             ],
             //'importance',
             [
-                'header' => 'Tahap Kepentingan',
+                'header' => 'Tahap <br> Kepentingan',
                 'attribute' => 'importance',
+                'contentOptions' =>['style' => 'text-align:center;'],
                 'value' => function($model) {
                     $importance = ['A' => 'Sangat Penting', 'B' => 'Penting', 'C' => 'Kurang Penting'];
-                    return $model->importance.' ('.$importance[ $model->importance].')';
+                    return $model->importance;//.' ('.$importance[ $model->importance].')';
                 }
             ],
             'nama_abiliti',
             //'id_bidang_abiliti',
             [
-            	'header' => 'Evaluation Score',//.Html::radioList('header-radio', '', $score, ['class' => 'select-score']),
+            	'header' => 'Skor Pengajar',//.Html::radioList('header-radio', '', $score, ['class' => 'select-score']),
             	'format' => 'raw',
-                'contentOptions' =>['style' => 'width:330px; text-align:center;'],
+                'contentOptions' =>['style' => 'width:270px; text-align:center;'],
             	'value' => function ($model, $key, $index, $grid) {
             		$score = [1 => '1, &nbsp;&nbsp;&nbsp;', 2 => '2, &nbsp;&nbsp;&nbsp;', 3 => '3, &nbsp;&nbsp;&nbsp;', 4 => '4, &nbsp;&nbsp;&nbsp;', 5 => 5];
                     //$score = [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5];
@@ -77,8 +83,48 @@ $score = [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5];
             		else
             			$markah = '';
                     //return print_r($markah);
-            		return Html::radioList($model->id_bidang_abiliti, $markah, $score, ['class' => 'score-radio', 'encode'=>false]);
+            		return Html::radioList($model->id_bidang_abiliti, $markah, $score, ['class' => 'score-radio', 
+                                                                                        'encode'=>false, 
+        //                                                                                 // 'item' => function ($index, $label, $name, $checked, $value) {
+        //                                                                                 //                 return Html::radio($name, $checked, [
+        //                                                                                 //                     'value' => $value,
+        //                                                                                 //                     'label' => Html::encode($label),
+        //                                                                                 //                     'disabled' => true,
+        //                                                                                 //                     'encode'=>false, 
+        // ]);
+        //                                                                                           }
+                                                                                       ]);
             	}
+            ],
+            [
+                'header' => 'Pengesahan Penyelia',//.Html::radioList('header-radio', '', $score, ['class' => 'select-score']),
+                'format' => 'raw',
+                'contentOptions' =>['style' => 'width:270px; text-align:center;'],
+                'value' => function ($model, $key, $index, $grid) {
+                    $score = [1 => '1, &nbsp;&nbsp;&nbsp;', 2 => '2, &nbsp;&nbsp;&nbsp;', 3 => '3, &nbsp;&nbsp;&nbsp;', 4 => '4, &nbsp;&nbsp;&nbsp;', 5 => 5];
+                    //$score = [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5];
+                    $id_penilaian_profil = Yii::$app->request->get('id');
+                    $penilaian_markah = PenilaianMarkah::findOne(['id_penilaian_profil' => $id_penilaian_profil, 'id_bidang_abiliti' => $model->id_bidang_abiliti]);
+                    if(count($penilaian_markah) > 0)
+                        $markah_penyelia = $penilaian_markah->attributes['markah_penyelia'];
+                    else
+                        $markah_penyelia = '';
+                    //return print_r($markah);
+                    return Html::radioList('s'.$model->id_bidang_abiliti, $markah_penyelia, $score, ['class' => 'supervise-radio', 'encode'=>false]);
+                }
+            ],
+            [
+                'header' => 'Nota Penyelia',
+                'format' => 'raw',
+                'value' => function($model, $key, $index, $grid) {
+                    $id_penilaian_profil = Yii::$app->request->get('id');
+                    $penilaian_markah = PenilaianMarkah::findOne(['id_penilaian_profil' => $id_penilaian_profil, 'id_bidang_abiliti' => $model->id_bidang_abiliti]);
+                    if(count($penilaian_markah) > 0)
+                        $nota_supervisor = $penilaian_markah->attributes['nota_supervisor'];
+                    else
+                        $nota_supervisor = '';
+                    return Html::textarea('n'.$model->id_bidang_abiliti, $nota_supervisor);
+                }
             ]
         ],
     ]);
@@ -133,7 +179,7 @@ $score = [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5];
 ?>
 
 <div class="form-group">
-    <?= Html::button('Simpan Penilaian' , ['class' => 'btn btn-success', 'onclick' => 'if(confirm("Simpan Penilaian?")) $.post("'.Url::to(['penilaian-profil/save-evaluation']).'", $("#evaluation").serialize(), function(data){if(data != true)alert(data);})']) ?>
+    <?= Html::button('Simpan Penilaian' , ['class' => 'btn btn-success', 'onclick' => 'if(confirm("Simpan Penilaian?")) {/*alert( $("#supervise").serialize());*/$.post("'.Url::to(['penilaian-profil/save-supervise']).'", $("#supervise").serialize(), function(data){if(data != true)alert(data);})}']) ?>
     <?= Html::submitButton('Hantar Penilaian' , ['class' => 'btn btn-primary', 'id' => 'hantar-penilaian']) ?>
 </div>
 
@@ -153,7 +199,7 @@ function checkScore() {
     var radioLength = $('.score-radio').length;
     for(var i = 0; i < radioLength; i++) {
         name = $('.score-radio:eq(' + i +') input:eq(0)').attr('name');
-        if(!$('input:radio[name=' + name + ']').is(':checked')) {
+        if(!$('input:radio[name=s' + name + ']').is(':checked')) {
             alert('Sila lengkapkan semua markah abiliti');
             return false;
         }
@@ -162,6 +208,8 @@ function checkScore() {
 }
 
 //$('.score-radio input[value=1]').prop('checked', true);
+
+$('.score-radio input').prop('disabled', true);
 
 scoreLength = $('.score-radio').length;
 for(var i = 0; i < scoreLength; i++)

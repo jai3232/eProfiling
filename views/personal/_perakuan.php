@@ -3,18 +3,22 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 ?>
 
-<div class="personal-form">
+<?php
 
-    <?php $form = ActiveForm::begin( ['action' => ['personal/verify', 'id' => $model->id_personal]]); ?>
+$perakuan = 'Adalah saya mengaku bahawa semua maklumat adalah benar dan saya bertanggungjawab terhadap maklumat berkenaan. Saya juga membenarkan maklumat ini digunakan oleh Kementerian Sumber Manusia.';
 
+?>
 
-    <?= $form->field($model, 'id_ref_status_data')->checkbox(['value' => 3, 'label' => 'Perakuan', 'disabled' => $model->id_ref_status_data == 3? true:false]) ?>
+<div class="perakuan-form">
+    <?php $form = ActiveForm::begin(['action' => ['personal/verify', 'id' => $model->id_personal]]); ?>
+
+    <?= $form->field($model, 'id_ref_status_data')->checkbox(['value' => 3, 
+                                                              'label' => $perakuan,
+                                                              'disabled' => $model->id_ref_status_data == 3? true:false,
+                                                              ]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton('Sah Perakuan', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 
-                                                'data-confirm' => 'Buat Perakuan?',
-                                                'class' => 'hidden',
-                              ]) ?>
+        <?= Html::submitButton('Hantar Perakuan', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary', 'data-confirm' => 'Hantar Perakauan?', 'class' => $model->id_ref_status_data == 3? 'hidden': 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

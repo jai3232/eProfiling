@@ -32,8 +32,8 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'id_ref_gred_perjawatan')->dropDownList(ArrayHelper::map(RefGredPerjawatan::find()->all(), 'id_ref_gred_perjawatan', 'gred_perjawatan'), ['prompt' => 'Sila Pilih'])->label('Gred Jawatan') ?>
 
-    <div class="form-group">
-        <label class="control-label">Agensi</label>
+    <!-- <div class="form-group">
+        <label class="control-label">Agensi</label> -->
     <?php /*Html::dropDownList('agensi', '', ArrayHelper::map(Agensi::find()->orderBy('nama_agensi')->all(), 'id_agensi', 'nama_agensi'), 
                           ['class' => 'form-control', 
                            'prompt' => 'Sila Pilih',
@@ -43,12 +43,12 @@ use yii\jui\DatePicker;
                           ) */
     ?>
 
-    </div>
+    <!-- </div> -->
 
     <?= $form->field($model, 'id_agensi')->dropDownList(ArrayHelper::map(Agensi::find()->orderBy('nama_agensi')->all(), 'id_agensi', 'nama_agensi'), 
                                             ['prompt' => '- Sila Pilih',
                                              'onchange' => '$.post("'.Yii::$app->urlManager->createUrl(['personal-perjawatan/list', 'id' => '']).'"+$(this).val(), function(data){$("#personalperjawatan-id_agensi_institut").html(data);})'
-                                            ]) 
+                                            ])->label('Agensi')
 
     ?>    
 

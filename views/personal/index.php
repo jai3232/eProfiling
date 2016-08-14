@@ -212,7 +212,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($model) {
                     //return Html::checkBox('test', false, ['class' => 'xx', 'value' => 'yyy']);
                     //($name, $selection = null, $items = [], $options = [])
-                    $accessLevel = ['AS', 'AU', 'AA', 'AI', 'HD', 'EX', 'DE', 'PE' ];
+                    if(Yii::$app->user->identity->accessLevel([0]))
+                        $accessLevel = ['AS', 'AU', 'AA', 'AI', 'HD', 'EX', 'DE', 'PE' ];
+                    elseif(Yii::$app->user->identity->accessLevel([1]))
+                        $accessLevel = [2 => 'AA', 3 => 'AI', 4 => 'HD', 5 => 'EX', 6 => 'DE', 7 => 'PE' ];
+                    elseif(Yii::$app->user->identity->accessLevel([2]))
+                        $accessLevel = [3 => 'AI', 4 => 'HD', 5 => 'EX', 6 => 'DE', 7 => 'PE' ];
+                    elseif(Yii::$app->user->identity->accessLevel([3]))
+                        $accessLevel = [4 => 'HD', 5 => 'EX', 6 => 'DE', 7 => 'PE' ];
+                    else
+                        $accessLevel = [];
+                    
                     $checkedValue = explode(',', $model->tahap_akses);
                     return Html::checkBoxList('access_level', $checkedValue, $accessLevel, ['class' => 'access', 'id' => $model->id_personal, 'dir' => Url::to(['update-access', 'id' => $model->id_personal]),]);
                 },

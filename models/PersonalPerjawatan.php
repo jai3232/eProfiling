@@ -43,6 +43,7 @@ class PersonalPerjawatan extends \yii\db\ActiveRecord
     {
         return [
             [['id_personal', 'kategori_perjawatan', 'id_ref_taraf_perjawatan', 'id_ref_skim_perjawatan', 'id_ref_gred_perjawatan', 'id_agensi', 'id_agensi_institut', 'id_ref_purata_jam_mengajar', 'is_aktif'], 'integer'],
+            [['id_agensi', 'id_agensi_institut'], 'required'],
             [['tarikh_mula_perjawatan', 'tarikh_tamat_perjawatan'], 'safe'],
             [['nama_perjawatan', 'nama_bidang_lain'], 'string', 'max' => 100],
             [['nama_institut_lain'], 'string', 'max' => 50],

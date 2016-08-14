@@ -61,14 +61,14 @@ $data = Personal::find()
 
     <?= $form->field($model, 'no_kp')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'id_personal_penyelia')->widget(AutoComplete::classname(), [
+    <?php /*echo $form->field($model, 'id_personal_penyelia')->widget(AutoComplete::classname(), [
             'clientOptions' => [
                 'source' => $data,//['1' => 'USA', '2' => 'RUS'],
                 //'source' => json_encode($negeri, JSON_PRETTY_PRINT),
                 'autoFill' => true,
             ],
             'options' => ['class' => 'form-control', 'onclick' => 'this.select();'],
-        ])->label('ID Penyelia (Sila taip nama / no. KP Penyelia)');
+        ])->label('ID Penyelia (Sila taip nama / no. KP Penyelia)');*/
     ?>
     <!-- <div class="form-group">
         <label class="control-label" for="personal-id_personal_penyelia">ID Penyelia</label> -->

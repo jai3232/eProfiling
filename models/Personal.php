@@ -126,4 +126,9 @@ class Personal extends \yii\db\ActiveRecord
     {
         return $this->hasMany(PersonalPerjawatan::className(), ['id_personal' => 'id_personal']);
     }
+
+    public function getPersonalBidangs()
+    {
+        return $this->hasMany(PersonalBidang::className(), ['id_personal' => 'id_personal']);
+    }
 }

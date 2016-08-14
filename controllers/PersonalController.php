@@ -77,8 +77,10 @@ class PersonalController extends Controller
         // else
         //     $id_penilaian_profil_array = -1;
         // return print_r($id_penilaian_profil_array);
-        // if(!Yii::$app->user->identity->accessLevel([0, 1, 2, 3]))
-        //     return $this->redirect(['site/unauthorized']);
+
+        
+        if(!Yii::$app->user->identity->accessLevel([0, 1, 2, 3]))
+            return $this->redirect(['site/unauthorized']);
         $searchModel = new PersonalSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

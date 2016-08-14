@@ -23,6 +23,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Tambah Abiliti', ['create', 'idbi' => Yii::$app->request->get('idbi'), 'idbt' => Yii::$app->request->get('idbt'), 'idbd' => Yii::$app->request->get('idbd')], ['class' => 'btn btn-success']) ?>
     </p>
+    <?php
+        $importance = ['A' => 'Very Important', 'B' => 'Moderate', 'C' => 'Not so important'];
+    ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -35,12 +38,13 @@ $this->params['breadcrumbs'][] = $this->title;
             //'idBidangDuti.nama_duti',
             'nombor_abiliti',
             'nama_abiliti',
-            'jenis_abiliti',
+            //'jenis_abiliti',
             [
                 'label' => 'Jenis Abiliti',
                 'attribute' => 'jenis_abiliti',
                 'format' => 'raw',
                 'value' => 'jenis_abiliti',
+                'contentOptions' => ['class' => 'text-center'],
                 'filter' => ['A' => 'Attitude', 'S' => 'Skill', 'K' => 'Knowledge'],
             ],
             [
@@ -48,6 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'importance',
                 'format' => 'raw',
                 'value' => 'importance',
+                'contentOptions' => ['class' => 'text-center'],
                 'filter' => ['A' => 'Very Important', 'B' => 'Moderate', 'C' => 'Not so important'],
             ],
             

@@ -20,7 +20,7 @@ $this->title = 'eProfiling';
 	
 	$penilaianProfils = PenilaianProfil::find()
 										->joinWith('idPersonalBidang')
-										->where(['personal_bidang.id_personal' => $arrPersonal, 'penilaian_profil.status_siap' => 0])
+										->where(['personal_bidang.id_personal' => $arrPersonal, 'penilaian_profil.status_siap' => 1])
 										->all();
 
 ?>

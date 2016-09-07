@@ -390,7 +390,7 @@ class PersonalController extends Controller
             return '<option> - </option>';
     }
 
-    public function actionInfo()
+    public function actionInfo($tab = 0, $msg = '')
     {
         $id = \Yii::$app->user->identity->id_personal;
 
@@ -444,6 +444,8 @@ class PersonalController extends Controller
             'perjawatanDataProvider' => $perjawatanProvider,
             'kelulusanDataProvider' => $kelulusanProvider,
             'bidangDataProvider' => $bidangProvider,
+            'tab' => $tab,
+            'msg' => $msg,
         ]);
     }
 
@@ -507,6 +509,70 @@ class PersonalController extends Controller
         ]);
 
         return $this->renderAjax('_bidang_info', ['bidangDataProvider' => $bidangDataProvider, 'id_personal' => $id]);
+    }
+
+    public function actionForgotPassword()
+    {
+        $model = new Personal();
+        if(Yii::$app->request->post()) {
+            $nokp = Yii::$app->request->post()['Personal']['no_kp'];
+            $email = Yii::$app->request->post()['Personal']['emel'];
+            $found = count(Personal::findAll(['no_kp' => $nokp, 'emel' => $email]));
+            if($found > 0) {
+                $password = substr(md5(time()), 26);
+                $body = '<h3>Set Semula Katalaluan</h3>';
+                $body .= '<p>Login: '.$nokp.'<br>Katalaluan: '.$password.'<p>';
+                $sent = Yii::$app->mailer->compose()
+                    ->setFrom(['sistem@ciast.gov.my' => 'Sistem eProfiling'])
+                    ->setTo($email)
+                    ->setSubject('Set Semula Katalaluan eProfiling')
+                    ->setHTMLBody($body)
+                    ->send();
+
+                if($sent) {
+                        $personal = $model->findOne(['no_kp' => $nokp]);
+                        $personal->katalaluan = Yii::$app->getSecurity()->generatePasswordHash($password);
+                        if(!$personal->save())
+                            return print_r($personal->getErrors());
+                }
+            }
+        }
+        
+        return $this->render('password', [
+            'model' => $model,
+            'found' => isset($found)? $found: 'x'
+        ]);
+    }
+
+    public function actionChangePassword()
+    {
+        $model = new Personal;
+        
+        $old_password = Yii::$app->request->post('katalaluan_lama');
+        $old_hash = Yii::$app->getSecurity()->generatePasswordHash($old_password);
+        $id = Yii::$app->request->post('id');
+        
+        if($id) {
+            $personal = $model->findOne(['id_personal' => $id]);
+            $new_password = Yii::$app->request->post('katalaluan_baru');
+            $repeat_password = Yii::$app->request->post('katalaluan_baru_ulang');
+            //if(password_verify($old_password, $personal->katalaluan)) { // PHP 5.5 >=
+            if(crypt($old_password, $personal->katalaluan) == $personal->katalaluan) {
+                //return $this->redirect(['personal/info', 'tab' => 5]);
+                //return $this->render('info', ['tab' => 5]);
+                if($new_password == $repeat_password) {
+                    $personal->katalaluan = Yii::$app->getSecurity()->generatePasswordHash($new_password);
+                    if(!$personal->save())
+                        return print_r($personal->getErrors());
+                    return $this->actionInfo(5, 'OK');
+                }
+                else
+                    return $this->actionInfo(5, 'MatchError');
+            }
+            else
+                return $this->actionInfo(5, 'PassError');
+        }
+            return $this->actionInfo(5);
     }
 
     /**

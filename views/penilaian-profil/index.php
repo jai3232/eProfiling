@@ -57,6 +57,9 @@ if(isset($_GET['ability']))
                     $pengesahan = Html::a('Pengesahan', 
                                     Url::to(['penilaian-profil/evaluation', 'id' => $model->id_penilaian_profil]), 
                                     ['title' => 'Pengesahan']);
+                    $siap = Html::a('Selesai', 
+                                    Url::to(['penilaian-profil/evaluation', 'id' => $model->id_penilaian_profil]), 
+                                    ['title' => 'Siap']);
                     if($model->status_siap == 0)
                         return $draf;
                     if($model->status_siap == 1)
@@ -64,7 +67,7 @@ if(isset($_GET['ability']))
                     if($model->status_siap == 2)
                         return 'Perubahan';
                     if($model->status_siap == 3)
-                        return 'Siap';
+                        return $siap;
                     //return $model->status_siap? 'Siap' : $draf;
                 }
             ],

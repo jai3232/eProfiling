@@ -215,11 +215,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     if(Yii::$app->user->identity->accessLevel([0]))
                         $accessLevel = ['AS', 'AU', 'AA', 'AI', 'HD', 'EX', 'DE', 'PE' ];
                     elseif(Yii::$app->user->identity->accessLevel([1]))
-                        $accessLevel = [2 => 'AA', 3 => 'AI', 4 => 'HD', 5 => 'EX', 6 => 'DE', 7 => 'PE' ];
+                        $accessLevel = [2 => 'AA', 3 => 'AI', 4 => 'HD', 5 => 'EX', 7 => 'PE' ];
                     elseif(Yii::$app->user->identity->accessLevel([2]))
-                        $accessLevel = [3 => 'AI', 4 => 'HD', 5 => 'EX', 6 => 'DE', 7 => 'PE' ];
+                        $accessLevel = [3 => 'AI', 4 => 'HD', 5 => 'EX', 7 => 'PE' ];
                     elseif(Yii::$app->user->identity->accessLevel([3]))
-                        $accessLevel = [4 => 'HD', 5 => 'EX', 6 => 'DE', 7 => 'PE' ];
+                        $accessLevel = [4 => 'HD', 5 => 'EX', 7 => 'PE' ];
                     else
                         $accessLevel = [];
                     

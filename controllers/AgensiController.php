@@ -35,6 +35,9 @@ class AgensiController extends Controller
      */
     public function actionIndex()
     {
+        if(!Yii::$app->user->identity->accessLevel([0, 1]))
+            return $this->redirect(['site/unauthorized']);
+
         $searchModel = new AgensiSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 

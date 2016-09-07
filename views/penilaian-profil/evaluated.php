@@ -19,10 +19,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 $score = [1, 2, 3, 4, 5];
 
-$amount = 0;
+$total_score = 0; 
+$supervisor_total_score = 0;
+
 if (!empty($dataProvider->getModels())) {
     foreach ($dataProvider->getModels() as $key => $val) {
-        $amount += $val->markah;
+        $total_score += $val->markah;
+        $supervisor_total_score += $val->markah_supervisor;
     }
 }
 
@@ -65,7 +68,8 @@ if (!empty($dataProvider->getModels())) {
                 'value' => function($model) {
                     $abiliti = BidangAbiliti::findOne($model->id_bidang_abiliti);
                     return $abiliti->nama_abiliti;
-                }
+                },
+                'footer' => '<strong>Jumlah</strong>'
             ],
             //'importance',
             //'nama_abiliti',
@@ -77,9 +81,12 @@ if (!empty($dataProvider->getModels())) {
                 'value' => function($model) {
                     return $model->markah;
                 },
-                'footer' => $amount,
+                'footer' => '<strong>'.$total_score.'</strong>',
             ],
-            'markah_supervisor',
+            [
+                'attribute' => 'markah_supervisor',
+                'footer' => '<strong>'.$supervisor_total_score.'</strong>',
+            ],
             'nota_supervisor',          
         ],
     ]);

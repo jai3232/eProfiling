@@ -41,6 +41,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'content' => $this->render('_perakuan', ['model' => $personal]),
                 'active' => $tabActive == 4 ? true:false,
             ],
+            [
+                'label' => 'Tukar Katalaluan',
+                'content' => $this->render('_katalaluan', ['model' => $personal, 'msg' => $msg]),
+                'active' => $tabActive == 5 ? true:false,
+            ],
             
         ],
     ]);

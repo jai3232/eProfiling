@@ -37,6 +37,8 @@ class BidangController extends Controller
      */
     public function actionIndex()
     {
+        if(!Yii::$app->user->identity->accessLevel([0, 1, 2, 3]))
+            return $this->redirect(['site/unauthorized']);
         $searchModel = new BidangSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         //$model = Bidang::findOne(['id_agensi' => $idag]);

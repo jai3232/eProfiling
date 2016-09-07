@@ -106,11 +106,11 @@ $score = [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5];
                     $id_penilaian_profil = Yii::$app->request->get('id');
                     $penilaian_markah = PenilaianMarkah::findOne(['id_penilaian_profil' => $id_penilaian_profil, 'id_bidang_abiliti' => $model->id_bidang_abiliti]);
                     if(count($penilaian_markah) > 0)
-                        $markah_penyelia = $penilaian_markah->attributes['markah_penyelia'];
+                        $markah_supervisor = $penilaian_markah->attributes['markah_supervisor'];
                     else
-                        $markah_penyelia = '';
+                        $markah_supervisor = '';
                     //return print_r($markah);
-                    return Html::radioList('s'.$model->id_bidang_abiliti, $markah_penyelia, $score, ['class' => 'supervise-radio', 'encode'=>false]);
+                    return Html::radioList('s'.$model->id_bidang_abiliti, $markah_supervisor, $score, ['class' => 'supervise-radio', 'encode'=>false]);
                 }
             ],
             [

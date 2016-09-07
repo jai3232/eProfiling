@@ -273,6 +273,53 @@ class PenilaianProfilController extends Controller
 
     public function actionSupervise($id = 0)
     {
+        $scores = Yii::$app->request->post();
+        
+        if($scores) {
+            $id_penilaian_profil = $scores['id_penilaian_profil'];
+
+            foreach ($scores as $key => $value) {
+                if($key[0] == 's' || $key[0] == 'n') {
+                    $id_bidang_abiliti = substr($key, 1);
+                    $ada_penilaian = PenilaianMarkah::findAll(['id_penilaian_profil' => $id_penilaian_profil,
+                                                               'id_bidang_abiliti' => $id_bidang_abiliti,
+                    ]);
+                    if(count($ada_penilaian) > 0) {
+                        $penilaian_markah = PenilaianMarkah::findOne(['id_penilaian_profil' => $id_penilaian_profil,
+                                                               'id_bidang_abiliti' => $id_bidang_abiliti,
+                        ]);
+                        if($key[0] == 's')
+                            $penilaian_markah->markah_supervisor = $value;
+                        if($key[0] == 'n')
+                            $penilaian_markah->nota_supervisor = $value;
+
+                        if(!$penilaian_markah->save())
+                            return print_r($penilaian_markah->getErrors());
+                        $penilaian_profil = PenilaianProfil::findOne(['id_penilaian_profil' => $id_penilaian_profil]);
+                        $penilaian_profil->status_siap = 2;
+                        if(!$penilaian_profil->save())
+                            return print_r($penilaian_profil->getErrors());
+                    }
+                    else { 
+                        $penilaian_markah = new PenilaianMarkah();
+                        $penilaian_markah->id_penilaian_profil = $id_penilaian_profil;
+                        $penilaian_markah->id_bidang_abiliti =$id_bidang_abiliti;
+                        if($key[0] == 's')
+                            $penilaian_markah->markah_supervisor = $value;
+                        if($key[0] == 'n')
+                            $penilaian_markah->nota_supervisor = $value;
+                        if(!$penilaian_markah->save())
+                            return print_r($penilaian_markah->getErrors());
+                        $penilaian_profil = PenilaianProfil::findOne(['id_penilaian_profil' => $id_penilaian_profil]);
+                        $penilaian_profil->status_siap = 2;
+                        if(!$penilaian_profil->save())
+                            return print_r($penilaian_profil->getErrors());
+                    }
+                }
+            }
+
+            return true;
+        }   
         $penilai_profil = PenilaianProfil::findOne(['id_penilaian_profil' => $id]);//->where();
         $id_personal_bidang = $penilai_profil->attributes['id_personal_bidang'];
         $personal_bidang = PersonalBidang::findOne(['id_personal_bidang' => $id_personal_bidang]);

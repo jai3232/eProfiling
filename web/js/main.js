@@ -131,6 +131,10 @@ $(function(){
 		if(confirm('Peraku pengguna ini?')) {
 			$(this).parent().prev().html(4);
 			$(this).parent().html('Selesai');
+			$.post($(this).attr('href'), function(data){ 
+				if($.trim(data)/1 != 1)
+					alert(data);
+			});
 		}
 		return false;
 	});
@@ -259,20 +263,26 @@ $(function(){
 
 	$('.access input').click(function(){
 		//alert($(this).parent().parent().attr('id'));
-		var access_string = '';
-		var check_input_label = $(this).parent().parent().children(); 
-		var parentDiv = $(this).parent().parent();
-		var total_check_input_label = check_input_label.length;
-		for(var i = 0; i < total_check_input_label; i++) {
-			if(check_input_label.eq(i).children().is(':checked')) {
-				if(access_string == '')
-					access_string = check_input_label.eq(i).children().val();
-				else	
-					access_string += ',' + check_input_label.eq(i).children().val();
+
+		if(confirm('Set akses pengguna ini?')) {
+			var access_string = '';
+			var check_input_label = $(this).parent().parent().children(); 
+			var parentDiv = $(this).parent().parent();
+			var total_check_input_label = check_input_label.length;
+			for(var i = 0; i < total_check_input_label; i++) {
+				if(check_input_label.eq(i).children().is(':checked')) {
+					if(access_string == '')
+						access_string = check_input_label.eq(i).children().val();
+					else	
+						access_string += ',' + check_input_label.eq(i).children().val();
+				}
 			}
+			//alert(parentDiv.attr('dir'));
+			$.post(parentDiv.attr('dir'), {val:access_string}, function(data){ if($.trim(data) != 1) alert('error! '+data);});
 		}
-		//alert(parentDiv.attr('dir'));
-		$.post(parentDiv.attr('dir'), {val:access_string}, function(data){ if($.trim(data) != 1) alert('error! '+data);});
+		else {
+			$(this).prop('checked', !$(this).prop('checked')); 
+		}
 	});
 
 	$('.access input').load(function(){

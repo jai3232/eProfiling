@@ -34,7 +34,9 @@ $this->params['breadcrumbs'][] = $this->title;
             ],            
             [
                 'label' => 'Bidang',
-                'content' => $this->render('_bidang', ['bidangDataProvider' => $bidangDataProvider, 'id_personal' => $personal->id_personal]),
+                'content' => $personal->id_ref_status_data == 4 ? $this->render('_bidang', ['bidangDataProvider' => $bidangDataProvider, 'id_personal' => $personal->id_personal]) : '<h4>Sila pastikan maklumat anda disahkan dahulu.</h4>',
+                //'visible' => $personal->id_ref_status_data == 4 ? true:false,
+                'headerOptions' => ['class' =>  $personal->id_ref_status_data == 4 ? '':'disabled'],
             ],
             [
                 'label' => 'Perakuan',

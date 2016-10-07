@@ -206,13 +206,16 @@ class PersonalController extends Controller
         }
     }
 
-    // public function actionUpdateStatus($id)
-    // {
-    //     $model = $this->findModel($id);
-    //     //$model->tahap_akses = $val;
-    //     //$model->save();
-    //     return $val;
-    // }
+    public function actionUpdateStatus($id)
+    {
+        $model = $this->findModel($id);
+        $model->id_ref_status_data = 4;
+        if($model->save())
+            return 1;
+        else {
+            return print_r($model->getErrors());
+        }
+    }
 
     /**
      * Deletes an existing Personal model.

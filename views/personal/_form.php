@@ -72,15 +72,15 @@ $data = Personal::find()
 
     <?= $form->field($model, 'nama_warganegara')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'bangsa')->dropDownList(['1' => 'Melayu', '2' => 'Cina', '3' => 'India', '4' => 'Lain'], ['prompt' => '- Sila Pilih -']) ?>
+    <?= $form->field($model, 'bangsa')->dropDownList(['1' => 'Melayu', '2' => 'Cina', '3' => 'India', '4' => 'Lain-lain'], ['prompt' => '- Sila Pilih -']) ?>
 
     <?= $form->field($model, 'bangsa_lain')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'status_perkahwinan')->dropDownList(['0' => 'Bujang', '1' => 'Kahwin', '2' => 'Duda', '3' => 'Janda'], ['prompt' => '- Sila Pilih -']) ?>
 
-    <?= $form->field($model, 'alamat1')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'alamat1')->textInput(['maxlength' => true])->label('Alamat') ?>
 
-    <?= $form->field($model, 'alamat2')->textInput(['maxlength' => true]) ?>
+    <?php //= $form->field($model, 'alamat2')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'bandar')->textInput(['maxlength' => true]) ?>
 

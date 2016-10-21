@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\AgensiInstitutSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Institut';
+$this->title = 'Agensi Institut';
 $this->params['breadcrumbs'][] = ['label' => 'Agensi', 'url' => ['agensi/index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -17,11 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    <?php if(Yii::$app->user->identity->accessLevel([0, 1, 6])) { ?>
+
     <p>
         <?= Html::a('Tambah Agensi Institut', ['create', 'idag' => Yii::$app->request->get('idag')], ['class' => 'btn btn-success']) ?>
     </p>
-    <?php } ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -47,15 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'email:email',
             'portal',
 
-            ['class' => 'yii\grid\ActionColumn', 'visible' => Yii::$app->user->identity->accessLevel([0, 1])? true:false],
-            [
-                'label' => 'Bidang Institut',
-                'format' => 'raw',
-                'contentOptions' => ['class' => 'text-center'],
-                'value' => function($data){
-                    return HTML::a('<span class="glyphicon glyphicon-list"></span>', ['bidang-institut/index', 'idai' => $data->id_agensi_institut, 'idag' => Yii::$app->request->get('idag')], ['title' => 'List']);
-                }
-            ],
+            ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 </div>

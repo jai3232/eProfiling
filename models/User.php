@@ -34,6 +34,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
     public $id_ref_status_data;
     public $tahap_akses;
     public $aktif;
+    public $tarikh_data;
 
 
 
@@ -149,4 +150,5 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
             return true;
         return false;
     }
+
 }

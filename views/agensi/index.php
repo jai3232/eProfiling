@@ -15,10 +15,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <?php if(Yii::$app->user->identity->accessLevel([0, 1, 6])) { ?>
     <p>
-        <?= Html::a('Create Agensi', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Tambah Agensi', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <?php } ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -30,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'kod_agensi',
             'nama_agensi',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            ['class' => 'yii\grid\ActionColumn', 'visible' => Yii::$app->user->identity->accessLevel([0, 1])? true:false],
             [
                 'label' => 'Institut',
                 'format' => 'raw',

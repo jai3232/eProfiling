@@ -9,7 +9,7 @@ $this->title = 'eProfiling';
     <div class="jumbotron">
         <h1>eProfiling</h1>
 
-        <p class="lead">Profail pengajar kemahiran berasaskan CUDBAS atas talian.</p>
+        <p class="lead">Profil Kompetensi Pengajar Kemahiran Malaysia.</p>
 
         <p><a class="btn btn-lg btn-success" href="<?= Yii::$app->urlManager->createUrl(['personal/check'])?>">Daftar eProfiling</a></p>
     </div>

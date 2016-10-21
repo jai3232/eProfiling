@@ -166,14 +166,16 @@ $(function(){
 
 	// JAWATAN GRID VIEW
 	$('.jawatan-aktif-check').click(function(){
-		$('.jawatan-aktif-check').prop('checked', false);
-		$(this).prop('checked', true);
-		$.post($(this).val(), function(data){ /*alert(data)*/
-
-		});
-		$('.personal-view .glyphicon-ok').addClass('glyphicon-remove');
-		$('.personal-view .glyphicon-remove').removeClass('glyphicon-ok');
-		$(this).parent().prev().html('<span class="glyphicon glyphicon-ok"></span>');
+		if(confirm('Aktifkan jawatan ini?')) {
+			$('.jawatan-aktif-check').prop('checked', false);
+			$(this).prop('checked', true);
+			$.post($(this).val(), function(data){ alert(data)});
+			$('.personal-view .glyphicon-ok').addClass('glyphicon-remove');
+			$('.personal-view .glyphicon-remove').removeClass('glyphicon-ok');
+			$(this).parent().prev().html('<span class="glyphicon glyphicon-ok"></span>');
+		}
+		else 
+			$(this).prop('checked', !$(this).prop('checked')); 
 	});
 
 	// PERSONAL BIDANG
@@ -211,10 +213,27 @@ $(function(){
 	// 	$.post($(this).val(), function(data){ /*alert(data)*/});
 	// });
 
+	// Setting untuk activekan bidang
+
 	$('.personal-bidang-index').on('click', '.bidang-aktif-check', function(){
-		$('.bidang-aktif-check').prop('checked', false);
-		$(this).prop('checked', true);
-		$.post($(this).val(), function(data){ /*alert(data)*/});
+		if(confirm('Setkan bidang ini?')) {
+			$('.bidang-aktif-check').prop('checked', false);
+			$(this).prop('checked', true);
+			$.post($(this).val(), function(data){ /*alert(data)*/});
+			$('#w5.nav-tabs > li.active').removeClass('active').addClass('disabled');
+			$('#w5.nav-tabs > li:first-child a').trigger('click');
+			//$('#w5.nav-tabs > li:first-child').addClass('active');
+		}
+		else 
+			$(this).prop('checked', !$(this).prop('checked')); 
+	});
+
+
+	$('li').click(function(e){ 
+		if($(this).hasClass('disabled')) {
+			e.stopPropagation();
+			//$('#w5.nav-tabs > li:first-child a').trigger('click');
+		}
 	});
 
 	// This is to set latest inserted personal bidang active
@@ -231,7 +250,7 @@ $(function(){
 			$.post(value, function(data){ /*alert(data);*/});
 		}
 	}
-	setActiveBidang();
+	//setActiveBidang();
 
 	// EVALUATION
 

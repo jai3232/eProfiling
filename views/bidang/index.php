@@ -16,11 +16,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="bidang-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php //echo ;?>
-
+    <?php if(Yii::$app->user->identity->accessLevel([0, 1, 6])) { ?>
     <p>
         <?= Html::a('Tambah Bidang', ['create', 'idag' => Yii::$app->request->get('idag')], ['class' => 'btn btn-success']) ?>
     </p>
+    <?php } ?>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -42,11 +42,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => 'idJenisKompetensi.nama_kompetensi',
                 'filter' => ArrayHelper::map(RefJenisKompetensi::find()->all(), 'id_jenis_kompetensi', 'nama_kompetensi'),
             ],
-            ['header' => 'Tindakan', 'class' => 'yii\grid\ActionColumn'],
+            ['header' => 'Tindakan', 'class' => 'yii\grid\ActionColumn', 'visible' => Yii::$app->user->identity->accessLevel([0, 1])? true:false],
             [
                 'label' => 'Senarai Tier',
                 'format' => 'raw',
                 'contentOptions' => ['class' => 'text-center'],
+                'visible' => Yii::$app->user->identity->accessLevel([0, 1])? true:false,
                 'value' => function($data){
                     return HTML::a('<span class="glyphicon glyphicon-list"></span>', ['bidang-tier/index', 'idbi' => $data->id_bidang], ['title' => 'List']);
                 }

@@ -28,7 +28,7 @@ use yii\widgets\Pjax;
     Modal::begin([
         'header' => '<h3 id="modal-header2">Tambah Kelulusan</h3>',
         'id' => 'modal2',
-        'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>',
+        'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>',
     ]);
 
         echo '<div id="modalContent2"></div>';

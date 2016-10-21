@@ -17,6 +17,7 @@ use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
 use yii\data\ActiveDataProvider;
 use yii2mod\editable\EditableAction;
+use yii\filters\AccessControl;
 
 /**
  * PersonalController implements the CRUD actions for Personal model.
@@ -33,6 +34,26 @@ class PersonalController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        //'actions' => ['login', 'error'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['login', 'check', 'register', 'registered', 'list', 'forgot-password'],
+                        'allow' => true,
+                        'roles' => ['?'],
+                    ]
+                    //[
+                    //  'actions' => ['logout', 'index' ,'call-back'], // add all actions to take guest to login page
+                    //  'allow' => true,
+                    //  'roles' => ['@'],
+                    //],
                 ],
             ],
         ];
@@ -78,6 +99,8 @@ class PersonalController extends Controller
         //     $id_penilaian_profil_array = -1;
         // return print_r($id_penilaian_profil_array);
 
+        if(Yii::$app->user->isGuest)
+            return $this->redirect(['site/login']);
         
         if(!Yii::$app->user->identity->accessLevel([0, 1, 2, 3]))
             return $this->redirect(['site/unauthorized']);
@@ -295,8 +318,12 @@ class PersonalController extends Controller
                         if(!$personal->save())
                             return print_r($personal->getErrors());
                         $perjawatan->id_personal = $id_personal;
+                        $perjawatan->id_agensi = Yii::$app->request->post()['Agensi']['nama_agensi'];
                         $perjawatan->id_agensi_institut = Yii::$app->request->post()['PersonalPerjawatan']['id_agensi_institut'];
-                        $perjawatan->save();
+                        $perjawatan->is_aktif = 1;
+                        if(!$perjawatan->save())
+                            return $this->render('emailed', ['model' => $model, 'error' => $perjawatan->getErrors()]);
+                        else
                         // $val_kod = md5($id_personal.$no_kp).'@'.$id_personal;
                         // $url = 'http://'.$_SERVER['HTTP_HOST'].Yii::$app->urlManager->createUrl(['personal/confirm']);
                         // $body = '<h3>Pengesahan Email</h3>';
@@ -304,7 +331,7 @@ class PersonalController extends Controller
                         // $body .= '<p>Anda boleh melawat URL '.$url.' untuk mengesahan email atau ';
                         // $body .= 'klik pada <a href=\''.$url.'&code='.$val_kod.'\'>link ini</a> untuk pengesahan email anda.</p>';
 
-                        return $this->render('emailed', ['model' => $model]);
+                            return $this->render('emailed', ['model' => $model]);
                     }
                     else
                         print_r($model->getErrors());
@@ -395,6 +422,9 @@ class PersonalController extends Controller
 
     public function actionInfo($tab = 0, $msg = '')
     {
+        if(Yii::$app->user->isGuest)
+            return $this->redirect(['site/login']);
+
         $id = \Yii::$app->user->identity->id_personal;
 
         $perjawatanQuery = PersonalPerjawatan::find()->where(['id_personal' => $id]);

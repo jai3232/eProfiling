@@ -110,9 +110,9 @@ $data = Personal::find()
 
     <?= $form->field($model, 'status_perkahwinan')->dropDownList(['0' => 'Bujang', '1' => 'Kahwin'], ['prompt' => '- Sila Pilih -']) ?>
 
-    <?= $form->field($model, 'alamat1')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'alamat1')->textInput(['maxlength' => true])->label('Alamat') ?>
 
-    <?= $form->field($model, 'alamat2')->textInput(['maxlength' => true]) ?>
+    <?php //= $form->field($model, 'alamat2')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'bandar')->textInput(['maxlength' => true]) ?>
 
@@ -136,7 +136,7 @@ $data = Personal::find()
     <?php //= $form->field($model, 'tahap_akses')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Tambah' : 'Kemaskini', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

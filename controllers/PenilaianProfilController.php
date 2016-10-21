@@ -17,6 +17,7 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Session;
 use yii\data\ActiveDataProvider;
+use yii\filters\AccessControl;
 
 /**
  * PenilaianProfilController implements the CRUD actions for PenilaianProfil model.
@@ -33,6 +34,16 @@ class PenilaianProfilController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        //'actions' => ['login', 'error'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
@@ -385,7 +396,7 @@ class PenilaianProfilController extends Controller
             }
 
         }
-        return true;
+        return $this->redirect(['penilaian-profil']);
     }
 
     /**

@@ -13,6 +13,7 @@ use app\models\PersonalPerjawatan;
 ?>
 
 <div class="personal-bidang-form">
+
     <?php $form = ActiveForm::begin(['id' => $model->formName()]); ?>
     <?php
         // print_r(Bidang::findOne(['id_bidang' => 5])->attributes['nama_bidang']);
@@ -23,7 +24,7 @@ use app\models\PersonalPerjawatan;
                                 ->where(['bidang_institut.id_agensi_institut' => $id_agensi_institut])
                                 ->all();
     ?>
-    <?= $form->field($model, 'id_bidang')->dropDownList(ArrayHelper::Map($bidang, 'id_bidang', 'nama_bidang'), ['prompt' => '- Sila Pilih -'])->label('Bidang') ?>
+    <?= $form->field($model, 'id_bidang')->dropDownList(ArrayHelper::Map($bidang, 'id_bidang', 'nama_bidang'), ['prompt' => '- Sila Pilih -', 'data-live-search' => 'true'])->label('Bidang') ?>
 
     <?php // = $form->field($model, 'id_personal_perjawatan')->textInput(['readonly' => true, 'value' => 'Your Value']) ?>
 
@@ -38,38 +39,3 @@ use app\models\PersonalPerjawatan;
     <?php ActiveForm::end(); ?>
 
 </div>
-
-<?php $script = <<< JS
-
-$('form#{$model->formName()}').on('beforeSubmit', function(){
-
-    var form = $(this);
-    //alert(form.attr('action'));
-    //return false;
-    $.post(
-        form.attr('action'),
-        form.serialize()
-    )
-        .done(function(data){
-            if($.trim(data) == 1) { // if create success
-                form.trigger('reset');
-                $.pjax.reload({container: '#bidangGrid'});
-            }
-            else
-            if($.trim(data) == 2) { // if uddate success
-                $('#modalContent2').html('<h4>Berjaya</h4>');
-                $.pjax.reload({container: '#bidangGrid'});
-            }
-            else {
-                alert('error:'+data);
-            }
-        })
-        .fail();
-    return false;
-})
-
-
-JS;
-$this->registerJs($script);
-
-?>

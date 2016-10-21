@@ -25,12 +25,20 @@ if(isset($_GET['ability']))
 
     <p>
         <?php //= Html::a('Profil Penilaian Baru', ['create', 'op' => 'new'], ['class' => 'btn btn-success', 'data-confirm' => 'Ambil Penilaian Baru?']) ?>
-    
-
     <?php
-        echo Html::beginForm(['create', 'op' => 'new'], 'post');
-        echo Html::submitButton('Profil Penilaian Baru', ['class' => 'submit btn btn-success', 'data-confirm' => 'Ambil Penilaian Baru?']);
-        echo Html::endForm();
+        if(\Yii::$app->user->identity->id_ref_status_data == 3) {
+    ?>
+    <div class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Ingatan!</strong> Anda telah melakukan perubahan kepada profail data yang memerlukan pengesahan semula Admin. Sila pastikan pengesahan Admin sebelum meneruskan penilaian.
+    </div>
+    <?php
+        }
+        else {
+            echo Html::beginForm(['create', 'op' => 'new'], 'post');
+            echo Html::submitButton('Profil Penilaian Baru', ['class' => 'submit btn btn-success', 'data-confirm' => 'Ambil Penilaian Baru?']);
+            echo Html::endForm();
+        }
     ?>
     </p>
 

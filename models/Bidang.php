@@ -71,10 +71,18 @@ class Bidang extends \yii\db\ActiveRecord
         return $this->hasMany(PersonalBidang::className(), ['id_bidang' => 'id_bidang']);
     }
 
+    public function getBidangInstituts()
+    {
+        return $this->hasMany(BidangInstitut::className(), ['id_bidang' => 'id_bidang']);
+    }
+
     public function getIdJenisKompetensi()
     {
         return $this->hasOne(RefJenisKompetensi::className(), ['id_jenis_kompetensi' => 'id_jenis_kompetensi']);
     }
+
+
+
 }
 
 

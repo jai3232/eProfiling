@@ -26,9 +26,9 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'id_ref_taraf_perjawatan')->dropDownList(ArrayHelper::map(RefTarafPerjawatan::find()->all(), 'id_ref_taraf_perjawatan', 'taraf_perjawatan'), ['prompt' => 'Sila Pilih'])->label('Taraf Jawatan') ?>
 
-    <?= $form->field($model, 'nama_perjawatan')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'nama_perjawatan')->textInput(['maxlength' => true])->label('Nama Jawatan') ?>
 
-    <?= $form->field($model, 'id_ref_skim_perjawatan')->dropDownList(ArrayHelper::map(RefSkimPerjawatan::find()->all(), 'id_ref_skim_perjawatan', 'nama_skim_perjawatan', 'kod_skim_perjawatan'), ['prompt' => 'Sila Pilih'])->label('Skim Jawatan') ?>
+    <?= $form->field($model, 'id_ref_skim_perjawatan')->dropDownList(ArrayHelper::map(RefSkimPerjawatan::find()->orderBy('kod_skim_perjawatan')->all(), 'id_ref_skim_perjawatan', 'nama_skim_perjawatan', 'kod_skim_perjawatan'), ['prompt' => 'Sila Pilih'])->label('Skim Jawatan') ?>
 
     <?= $form->field($model, 'id_ref_gred_perjawatan')->dropDownList(ArrayHelper::map(RefGredPerjawatan::find()->all(), 'id_ref_gred_perjawatan', 'gred_perjawatan'), ['prompt' => 'Sila Pilih'])->label('Gred Jawatan') ?>
 
@@ -52,12 +52,12 @@ use yii\jui\DatePicker;
 
     ?>    
 
-    <?= $form->field($model, 'id_agensi_institut')->dropDownList(ArrayHelper::map(AgensiInstitut::find()->all(), 'id_agensi_institut', 'nama_institut'), ['prompt' => '-'])->label('Institut Agensi') ?>
+    <?= $form->field($model, 'id_agensi_institut')->dropDownList(ArrayHelper::map(AgensiInstitut::find()->all(), 'id_agensi_institut', 'nama_institut'), ['prompt' => '-'])->label('Institut') ?>
 
 
-    <?= $form->field($model, 'nama_institut_lain')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'nama_institut_lain')->textInput(['maxlength' => true])->label('Nama Institut (Jika tiada dalam senarai di atas)') ?>
 
-    <?= $form->field($model, 'nama_bidang_lain')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'nama_bidang_lain')->textInput(['maxlength' => true])->label('Bidang Tugas') ?>
 
     <?= $form->field($model, 'no_telefon_pejabat')->textInput(['maxlength' => true]) ?>
 
@@ -65,14 +65,14 @@ use yii\jui\DatePicker;
 
     <?= $form->field($model, 'tarikh_mula_perjawatan')->widget(DatePicker::className(), ['options' => ['class' => 'form-control datepicker', 'readonly' => 'readonly'], 
                                                                                 'dateFormat' => 'php:Y-m-d', 
-                                                                                'clientOptions' => ['setDate' => date('Y-m-d'), 'changeYear'=> true],
+                                                                                'clientOptions' => ['setDate' => date('Y-m-d'), 'changeYear'=> true, 'yearRange' => 'c-50:c'],
                                                                                 'value' => date('Y-m-d'),
                                                                                 
                                                                                 ]) ?>
 
     <?= $form->field($model, 'tarikh_tamat_perjawatan')->widget(DatePicker::className(), ['options' => ['class' => 'form-control datepicker', 'readonly' => 'readonly'], 
                                                                                 'dateFormat' => 'php:Y-m-d', 
-                                                                                'clientOptions' => ['setDate' => date('Y-m-d'), 'changeYear'=> true],
+                                                                                'clientOptions' => ['setDate' => date('Y-m-d'), 'changeYear'=> true, 'yearRange' => 'c-50:c+5'],
                                                                                 'value' => date('Y-m-d'),
                                                                                 
                                                                                 ]) ?>
@@ -80,7 +80,7 @@ use yii\jui\DatePicker;
     <?php //= $form->field($model, 'is_aktif')->checkbox(['label' => 'Aktif?']) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Tambah' : 'Kemaskini', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

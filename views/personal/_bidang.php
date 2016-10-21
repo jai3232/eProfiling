@@ -17,7 +17,10 @@ use yii\widgets\Pjax;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <div class="list-group">
+      <a href="#" class="list-group-item active list-group-item-info"><strong>Makluman</strong></a>
+      <a href="#" class="list-group-item">Penambahan dan perubahan kepada bidang semasa memerlukan perakuan semula dan pengesahan semula daripada Admin Agensi/Institut</a>
+    </div>
     <p>
         <?php //= Html::a('Tambah Bidang', ['personal-bidang/create'], ['class' => 'btn btn-success']) ?>
         <?= Html::button('Tambah Bidang', ['value' => Url::to(['personal-bidang/create', 'id' => $id_personal]), 'class' => 'btn btn-success', 'id' => 'tambah-bidang']) ?>
@@ -26,7 +29,7 @@ use yii\widgets\Pjax;
         Modal::begin([
             'header' => '<h3 id="modal-header3">Tambah Bidang</h3>',
             'id' => 'modal3',
-            'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>',
+            'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>',
          ]);
 
         echo '<div id="modalContent3"></div>';
@@ -75,6 +78,8 @@ use yii\widgets\Pjax;
                 'class' => 'yii\grid\ActionColumn',
                 'header' => 'Tindakan',
                 'controller' => 'personal-bidang',
+                'template' => '{view}  {delete}',
+                'contentOptions' => ['class' => 'text-center'],
             ],
         ],
     ]); ?>

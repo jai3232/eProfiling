@@ -22,7 +22,7 @@ $score = [1, 2, 3, 4, 5];
 $total_score = 0; 
 $supervisor_total_score = 0;
 
-if (!empty($dataProvider->getModels())) {
+if (!is_null($dataProvider->getModels())) { //is_null for php 5.5 and below
     foreach ($dataProvider->getModels() as $key => $val) {
         $total_score += $val->markah;
         $supervisor_total_score += $val->markah_supervisor;

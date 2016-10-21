@@ -111,7 +111,8 @@ class PersonalPerjawatanController extends Controller
 
         $model = $this->findModel($id);
         $model->is_aktif = 1;
-        $model->save();
+        if(!$model->save())
+            print_r($model->getErrors());
     }
 
     /**

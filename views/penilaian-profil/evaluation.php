@@ -64,7 +64,7 @@ $score = [1 => 1, 2 => 2, 3 => 3, 4 => 4, 5 => 5];
             'nama_abiliti',
             //'id_bidang_abiliti',
             [
-            	'header' => 'Evaluation Score',//.Html::radioList('header-radio', '', $score, ['class' => 'select-score']),
+            	'header' => 'Skor Penilaian',//.Html::radioList('header-radio', '', $score, ['class' => 'select-score']),
             	'format' => 'raw',
                 'contentOptions' =>['style' => 'width:330px; text-align:center;'],
             	'value' => function ($model, $key, $index, $grid) {

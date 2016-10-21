@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'no_kp')->textInput(['maxlength' => true])->textInput(['readonly' => true, 'value' => $no_kp]) ?>
+    <?= $form->field($model, 'no_kp')->textInput(['maxlength' => true])->textInput(['readonly' => true, 'value' => $no_kp])->label('No. Kad Pengenalan') ?>
 
     <?= $form->field($model, 'nama')->textInput(['maxlength' => true]) ?>
 
@@ -42,7 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
 																							  .'"+$(this).val(), function(data){$("#personalperjawatan-id_agensi_institut").html(data);})'
     																		]) ?>
 
-    <?= $form->field($perjawatan, 'id_agensi_institut')->dropDownList(['prompt' => '- Sila Pilih -']) ?>
+    <?= $form->field($perjawatan, 'id_agensi_institut')->dropDownList(['prompt' => '- Sila Pilih -'])->label('Nama Institut') ?>
 
     <?= $form->field($model, 'captcha')->widget(\yii\captcha\Captcha::classname(), []) ?><?php //echo $this->getVerifyCode(); ?>
 

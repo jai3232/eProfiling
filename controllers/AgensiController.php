@@ -8,6 +8,7 @@ use app\models\AgensiSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * AgensiController implements the CRUD actions for Agensi model.
@@ -26,6 +27,16 @@ class AgensiController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        //'actions' => ['login', 'error'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -35,7 +46,7 @@ class AgensiController extends Controller
      */
     public function actionIndex()
     {
-        if(!Yii::$app->user->identity->accessLevel([0, 1]))
+        if(!Yii::$app->user->identity->accessLevel([0, 1, 2, 3]))
             return $this->redirect(['site/unauthorized']);
 
         $searchModel = new AgensiSearch();

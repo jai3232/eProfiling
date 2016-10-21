@@ -9,7 +9,7 @@ use yii\helpers\ArrayHelper;
 /* @var $model app\models\Personal */
 
 $this->title = 'Lupa Katalaluan';
-$this->params['breadcrumbs'][] = ['label' => 'Personal', 'url' => ['index']];
+//$this->params['breadcrumbs'][] = ['label' => 'Personal', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <?php
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'no_kp')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'no_kp')->textInput(['maxlength' => true])->label('ID Pengguna') ?>
 
     <?= $form->field($model, 'emel')->textInput(['maxlength' => true])->label('Email yang didaftarkan') ?>
     </div>

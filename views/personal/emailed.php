@@ -11,6 +11,16 @@ use yii\widgets\DetailView;
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="peribadi-view">
+<?php 
+	if(isset($error)) {
+?>
+	<div class="alert alert-error alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong><?php print_r($error); ?></strong>
+    </div>
+<?php
+	}
+?>
 
     <h4>
         <p style="align:center;">

@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'ID',
                 'attribute' => 'id_personal',
                 'value' => 'id_personal',
-                'filter'=> false,
+                //'filter'=> false,
             ],
             'nama',
             'no_kp',
@@ -153,6 +153,7 @@ $this->params['breadcrumbs'][] = $this->title;
             //     }
             // ],
             'emel',
+            'personalPerjawatans.id_agensi_institut',
             // [
             //     'class' => EditableColumn::className(),
             //     'attribute' => 'id_personal_penyelia',
@@ -212,14 +213,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($model) {
                     //return Html::checkBox('test', false, ['class' => 'xx', 'value' => 'yyy']);
                     //($name, $selection = null, $items = [], $options = [])
-                    if(Yii::$app->user->identity->accessLevel([0]))
-                        $accessLevel = ['AS', 'AU', 'AA', 'AI', 'HD', 'EX', 'DE', 'PE' ];
+                   if(Yii::$app->user->identity->accessLevel([0]))
+                        $accessLevel = ['AS', 'AU', 'AA', 'AI', 'EX', 'HD', 'DE', 'PE' ];
                     elseif(Yii::$app->user->identity->accessLevel([1]))
-                        $accessLevel = [2 => 'AA', 3 => 'AI', 4 => 'HD', 5 => 'EX', 7 => 'PE' ];
+                        $accessLevel = [2 => 'AA', 3 => 'AI', 4 => 'EX', 5 => 'HD', 6 => 'DE', 7 => 'PE' ];
                     elseif(Yii::$app->user->identity->accessLevel([2]))
-                        $accessLevel = [3 => 'AI', 4 => 'HD', 5 => 'EX', 7 => 'PE' ];
+                        $accessLevel = [3 => 'AI', 4 => 'EX', 5 => 'HD', 7 => 'PE' ];
                     elseif(Yii::$app->user->identity->accessLevel([3]))
-                        $accessLevel = [4 => 'HD', 5 => 'EX', 7 => 'PE' ];
+                        $accessLevel = [4 => 'EX', 5 => 'HD', 7 => 'PE' ];
                     else
                         $accessLevel = [];
                     
@@ -269,7 +270,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'template' => '{personal}&nbsp;&nbsp;{jawatan}&nbsp;&nbsp;{kelulusan}&nbsp;&nbsp;{bidang}',
             ],
-            ['header' => 'Tindakan', 'class' => 'yii\grid\ActionColumn'],
+            [
+                'header' => 'Tindakan', 
+                'class' => 'yii\grid\ActionColumn',
+                'contentOptions' => ['class' => 'text-center'],
+                'template' => '{update} {delete}',
+            ],
         ],
     ]); ?>
 </div>

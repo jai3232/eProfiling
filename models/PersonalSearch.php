@@ -42,12 +42,15 @@ class PersonalSearch extends Personal
      */
     public function search($params)
     {
-        $query = Personal::find();
+        $query = Personal::find()->distinct();
 
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'pagination' => [
+                                'pageSize' => 20,
+                            ],
         ]);
 
         $this->load($params);
@@ -60,17 +63,27 @@ class PersonalSearch extends Personal
 
         $id_personal = Yii::$app->user->identity->id_personal;
         //$access_level = explode(',', Yii::$app->user->identity->tahap_akses);
+        $id_agensi = PersonalPerjawatan::find()->select('id_agensi')->where(['is_aktif' => 1, 'id_personal' => $id_personal])->one()->attributes['id_agensi'];
         $id_institut = PersonalPerjawatan::find()->select('id_agensi_institut')->where(['is_aktif' => 1, 'id_personal' => $id_personal])->one()->attributes['id_agensi_institut'];
 
         // Join Table
         $query->joinWith('personalPerjawatans');
         //if(count(array_intersect($access_level, [0, 1])) == 0)
-        if(!Yii::$app->user->identity->accessLevel([0, 1])) // accessLevel declaration can be found at User model
-            $query->where(['personal_perjawatan.id_agensi_institut' => $id_institut]);
+        
+        //Limit display by institut if accesss is ai
+        if(!Yii::$app->user->identity->accessLevel([0, 1, 2])) // accessLevel declaration can be found at User model
+            $query->andWhere(['personal_perjawatan.id_agensi_institut' => $id_institut]);
+
+        //Limit display by institut if accesss is aa
+        if(Yii::$app->user->identity->accessLevel([2])) // accessLevel declaration can be found at User model
+            $query->andWhere(['personal_perjawatan.id_agensi' => $id_agensi]);
+
+        // do not display own record
+        $query->andWhere(['!=', 'personal.id_personal', $id_personal])->andWhere(['=', 'personal_perjawatan.is_aktif', 1]);
 
         // grid filtering conditions
         $query->andFilterWhere([
-            'id_personal' => $this->id_personal,
+            'personal.id_personal' => $this->id_personal,
             'id_personal_penyelia' => $this->id_personal_penyelia,
             'status_oku' => $this->status_oku,
             'status_warganegara' => $this->status_warganegara,

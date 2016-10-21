@@ -22,6 +22,10 @@ use app\models\RefPurataJamMengajar;
 
     <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <div class="list-group">
+      <a href="#" class="list-group-item active list-group-item-info"><strong>Makluman</strong></a>
+      <a href="#" class="list-group-item">Perubahan atau penambahan kepada perjawatan memerlukan perakuan semula dan pengesahan semula daripada Admin Agensi/Institut</a>
+    </div>
 
     <p>
         <?php //= Html::a('Tambah Perjawatan', ['create'], ['class' => 'btn btn-success']) ?>
@@ -32,7 +36,7 @@ use app\models\RefPurataJamMengajar;
     Modal::begin([
         'header' => '<h3 id="modal-header">Tambah Perjawatan</h3>',
         'id' => 'modal',
-        'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>',
+        'footer' => '<button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>',
     ]);
 
         echo '<div id="modalContent"></div>';

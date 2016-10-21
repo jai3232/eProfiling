@@ -37,11 +37,11 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
             [
-             'label' => 'Home', 'url' => ['/site/index'],
+             'label' => Yii::t('app','Home'), 'url' => ['/site/index'],
              'visible' => Yii::$app->user->isGuest 
             ],
             [
-             'label' => 'Home', 'url' => ['/site/login'],
+             'label' => Yii::t('app','Home'), 'url' => ['/site/login'],
              'visible' => !Yii::$app->user->isGuest 
             ],
             //['label' => 'Agensi', 'url' => ['/agensi/index']],
@@ -49,7 +49,7 @@ AppAsset::register($this);
             'label' => 'Agensi',
             'visible' => !Yii::$app->user->isGuest,
             'items' => [
-                 ['label' => 'Agensi', 'url' => ['/agensi/index']],
+                 ['label' => 'Senarai', 'url' => ['/agensi/index']],
                  '<li class="divider"></li>',
                  //'<li class="dropdown-header">Dropdown Header</li>',
                  ['label' => 'Bidang', 'url' => ['/bidang/index']],
@@ -67,12 +67,18 @@ AppAsset::register($this);
             ],
             [
                 'label' => 'Penilaian',
-                'url' => ['penilaian-profil/index'],
                 'visible' => !Yii::$app->user->isGuest,
+                'items' => [
+                    ['label' => 'Profail', 'url' => ['penilaian-profil/index']],
+                    ['label' => 'Penyelia', 'url' => '#']
+                ]
             ],
             [
                 'label' => 'Laporan',
                 'visible' => !Yii::$app->user->isGuest,
+                'items' => [
+                    ['label' => 'Abiliy Map Pengajar', 'url' => ['/laporan/pengajar-h-o-d']]
+                ]
             ],
             
             Yii::$app->user->isGuest ? (
@@ -95,6 +101,7 @@ AppAsset::register($this);
     <div class="container">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            'homeLink' => false,
         ]) ?>
         <?= $content ?>
     </div>

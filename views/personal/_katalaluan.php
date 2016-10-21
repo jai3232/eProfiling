@@ -45,8 +45,8 @@ use yii\widgets\ActiveForm;
     <label></label>
     </div>
     <div class="form-group">
-        <?= Html::submitButton('Change', ['class' => 'btn btn-primary']) ?>
-        <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <?= Html::submitButton('Tukar', ['class' => 'btn btn-primary']) ?>
+        <?= Html::resetButton('Padam', ['class' => 'btn btn-default']) ?>
     </div>
 
     <?= Html::endForm() ?>

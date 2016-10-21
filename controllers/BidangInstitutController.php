@@ -3,19 +3,18 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\RefJenisKompetensi;
-use app\models\Agensi;
-use app\models\Bidang;
-use app\models\BidangSearch;
+use app\models\AgensiInstitut;
+use app\models\BidangInstitut;
+//use app\models\Bidang;
+use app\models\BidangInstitutSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use yii\filters\AccessControl;
 
 /**
- * BidangController implements the CRUD actions for Bidang model.
+ * BidangInstitutController implements the CRUD actions for BidangInstitut model.
  */
-class BidangController extends Controller
+class BidangInstitutController extends Controller
 {
     /**
      * @inheritdoc
@@ -29,115 +28,106 @@ class BidangController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
-            'access' => [
-                'class' => AccessControl::className(),
-                'rules' => [
-                    [
-                        //'actions' => ['login', 'error'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
         ];
     }
 
     /**
-     * Lists all Bidang models.
+     * Lists all BidangInstitut models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($idai)
     {
-        if(!Yii::$app->user->identity->accessLevel([0, 1, 2, 3]))
-            return $this->redirect(['site/unauthorized']);
-        $searchModel = new BidangSearch();
+        $searchModel = new BidangInstitutSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        //$model = Bidang::findOne(['id_agensi' => $idag]);
+        $agensiInstitut = AgensiInstitut::findOne(['id_agensi_institut' => $idai]);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'agensiInstitut'=>$agensiInstitut,
         ]);
     }
 
     /**
-     * Displays a single Bidang model.
+     * Displays a single BidangInstitut model.
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($id,$idai,$idag)
     {
+      $model = $this->findModel($id);
+        $agensiInstitut = AgensiInstitut::findOne(['id_agensi_institut' => $idai]);
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $model,
+            'agensiInstitut'=>$agensiInstitut,
         ]);
     }
 
     /**
-     * Creates a new Bidang model.
+     * Creates a new BidangInstitut model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($idai,$idag)
     {
-        $model = new Bidang();
-        $jenisKompetensi = new RefJenisKompetensi();
-
+        $model = new BidangInstitut();
+        $model->id_agensi_institut = $idai;
+        $agensiInstitut = AgensiInstitut::findOne(['id_agensi_institut' => $idai]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            //return $this->redirect(['view', 'id' => $model->id_bidang]);
-            return $this->redirect(['index', 'sort' => '-id_bidang'] );
+            return $this->redirect(['index', 'id' => $model->id_bidang_institut,'idai' => $idai,'idag' => $idag]);
         } else {
             return $this->render('create', [
                 'model' => $model,
-                'jenisKompetensi' => $jenisKompetensi,
+                'agensiInstitut'=>$agensiInstitut,
             ]);
         }
     }
 
     /**
-     * Updates an existing Bidang model.
+     * Updates an existing BidangInstitut model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id,$idai,$idag)
     {
         $model = $this->findModel($id);
-        $jenisKompetensi = new RefJenisKompetensi();
-
+        $model->id_agensi_institut = $idai;
+        $agensiInstitut = AgensiInstitut::findOne(['id_agensi_institut' => $idai]);
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_bidang]);
+            return $this->redirect(['index', 'id' => $model->id_bidang_institut,'idai' => $idai,'idag' => $idag]);
         } else {
             return $this->render('update', [
                 'model' => $model,
-                'jenisKompetensi' => $jenisKompetensi,
+                'agensiInstitut'=>$agensiInstitut,
             ]);
         }
     }
 
     /**
-     * Deletes an existing Bidang model.
+     * Deletes an existing BidangInstitut model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id,$idai,$idag)
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['index','idai' => $idai,'idag' => $idag]);
     }
 
     /**
-     * Finds the Bidang model based on its primary key value.
+     * Finds the BidangInstitut model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Bidang the loaded model
+     * @return BidangInstitut the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Bidang::findOne($id)) !== null) {
+        if (($model = BidangInstitut::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

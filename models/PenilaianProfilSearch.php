@@ -43,7 +43,7 @@ class PenilaianProfilSearch extends PenilaianProfil
      */
     public function search($params)
     {
-        $query = PenilaianProfil::find();
+        $query = PenilaianProfil::find()->distinct();
 
         // add conditions that should always apply here
 

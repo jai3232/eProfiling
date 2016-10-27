@@ -122,7 +122,8 @@ use app\models\RefPurataJamMengajar;
 
             ['class' => 'yii\grid\ActionColumn',
              'controller' => 'personal-perjawatan',
-             'header' => 'Tindakan'
+             'header' => 'Tindakan',
+             //'template' => function($model) {}//{ return $model->is_aktif? '{view} {edit}'  : '{view} {edit} {delete}' ; },
             ],
         ],
     ]); ?>

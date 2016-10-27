@@ -126,9 +126,7 @@ class PenilaianProfilController extends Controller
 
         $dataProvider = new ActiveDataProvider([
             'query' => $bidang_abilitis,
-            'pagination' => [
-                'pageSize' => 20,
-            ]
+            'pagination' => false,
         ]);
 
 

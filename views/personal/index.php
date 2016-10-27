@@ -8,6 +8,8 @@ use app\models\RefAdmTahapAkses;
 use app\models\RefStatusData;
 use app\models\Personal;
 use app\models\PersonalPerjawatan;
+use app\models\Agensi;
+use app\models\AgensiInstitut;
 use yii\bootstrap\Modal;
 use yii\jui\DatePicker;
 //use yii2mod\editable\EditableColumn;
@@ -19,6 +21,7 @@ use yii\jui\AutoComplete;
 
 $this->title = 'Admin Personal';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <!--[if lt IE 9]>
 <script src="http://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -153,7 +156,16 @@ $this->params['breadcrumbs'][] = $this->title;
             //     }
             // ],
             'emel',
-            'personalPerjawatans.id_agensi_institut',
+            [
+                'label' => 'Institut',
+                'format' => 'raw',
+                'value' => function($model) {
+                    // $id_institut = $model['personalPerjawatans'][0]->attributes['id_agensi_institut'];
+                    // return AgensiInstitut::find()->where(['id_agensi_institut' => $id_institut])->one()->attributes['nama_institut'];
+                },
+                //'filter' => Html::DropDownList('PersonalSearch[tahap_akses]', '', Agensi::find()->select(['nama_agensi'])->asArray()->all(), ['class' => 'form-control']),
+                //'visible' => Yii::$app->user->identity->accessLevel([2]),
+            ],
             // [
             //     'class' => EditableColumn::className(),
             //     'attribute' => 'id_personal_penyelia',
@@ -227,6 +239,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     $checkedValue = explode(',', $model->tahap_akses);
                     return Html::checkBoxList('access_level', $checkedValue, $accessLevel, ['class' => 'access', 'id' => $model->id_personal, 'dir' => Url::to(['update-access', 'id' => $model->id_personal]),]);
                 },
+                //'filter' => ArrayHelper::map(RefStatusData::find()->all(), 'id_ref_status_data', 'status_data'),
+                'filter' => Html::DropDownList('PersonalSearch[tahap_akses]', 'x', ['' => 'Semua', 'AS', 'AU', 'AA', 'AI', 'EX', 'HD', 'DE', 'PE' ], ['class' => 'form-control']),
             ],
             //'aktif',
             [

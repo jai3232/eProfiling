@@ -73,7 +73,7 @@ class PersonalPerjawatan extends \yii\db\ActiveRecord
             'id_ref_purata_jam_mengajar' => 'Id Ref Purata Jam Mengajar',
             'tarikh_mula_perjawatan' => 'Tarikh Mula Perjawatan',
             'tarikh_tamat_perjawatan' => 'Tarikh Tamat Perjawatan',
-            'is_aktif' => 'Is Aktif',
+            'is_aktif' => 'Aktif',
         ];
     }
 

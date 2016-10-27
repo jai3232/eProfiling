@@ -16,6 +16,9 @@ class PersonalSearch extends Personal
     /**
      * @inheritdoc
      */
+
+    public $nama_institut;
+
     public function rules()
     {
         return [
@@ -42,7 +45,7 @@ class PersonalSearch extends Personal
      */
     public function search($params)
     {
-        $query = Personal::find()->distinct();
+        $query = Personal::find()->orderBy(['id_personal' => SORT_DESC]);
 
         // add conditions that should always apply here
 
@@ -92,6 +95,7 @@ class PersonalSearch extends Personal
             'poskod' => $this->poskod,
             'negeri' => $this->negeri,
             'id_ref_status_data' => $this->id_ref_status_data,
+            //'personal_perjawatan.id_agensi_institutx' => 1,
         ]);
 
         $query->andFilterWhere(['like', 'nama', $this->nama])

@@ -93,7 +93,7 @@ class User extends \yii\base\Object implements \yii\web\IdentityInterface
         $user = Personal::find()->where(['no_kp' => $username])->one();
 
         if(count($user)) {
-            return new static($user);
+            return  new static($user);
         }
 
         // foreach (self::$users as $user) {

@@ -32,7 +32,7 @@ $config = [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'mail.ciast.gov.my',
                 'username' => 'sistem',
-                'password' => '',
+                'password' => 's!st3M@c1a5t',
                 'port' => '465',
                 'encryption' => 'ssl',
             ],
@@ -60,14 +60,17 @@ $config = [
                 ],
             ],
         ],
-        /*
         'urlManager' => [
+            'class' => 'yii\web\UrlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '<controller:\w+>/<id:\d+>' => '<controller>/view',
+                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
+                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             ],
         ],
-        */
+        
     ],
     'params' => $params,
 ];

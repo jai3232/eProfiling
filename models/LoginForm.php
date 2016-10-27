@@ -45,8 +45,14 @@ class LoginForm extends Model
             $user = $this->getUser();
 
             if (!$user || !$user->validatePassword($this->password)) {
-                $this->addError($attribute, 'Incorrect username or password.');
+                $this->addError($attribute, Yii::t('app', 'Incorrect username or password'));
             }
+
+            $status = Personal::find()->where(['no_kp' => $this->username])->one()->attributes['id_ref_status_data'];
+            if($status < 2) {
+                $this->addError($attribute, Yii::t('app', 'Please validate email'));
+            }
+            
         }
     }
 

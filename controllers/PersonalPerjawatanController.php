@@ -67,6 +67,13 @@ class PersonalPerjawatanController extends Controller
         $model = new PersonalPerjawatan();
 
         if ($model->load(Yii::$app->request->post())) {
+            $perjawatans = PersonalPerjawatan::find()->where(['id_personal' => $id])->all();
+
+            foreach ($perjawatans as $perjawatan) {
+                $perjawatan->is_aktif = 0;
+                if(!$perjawatan->save())
+                    echo -1;//return print_r($perjawatan->getErrors());
+            }
             $model->id_personal = $id;
             if($model->save())
             {
@@ -106,7 +113,8 @@ class PersonalPerjawatanController extends Controller
 
         foreach ($perjawatans as $perjawatan) {
             $perjawatan->is_aktif = 0;
-            $perjawatan->save();
+            if(!$perjawatan->save())
+                return print_r($perjawatan->getErrors());
         }
 
         $model = $this->findModel($id);
@@ -123,9 +131,15 @@ class PersonalPerjawatanController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
 
-        return 1;// $this->redirect(['index']);
+
+        if($this->findModel($id)->attributes['is_aktif']/1 == 1)
+            return -1;
+
+        $this->findModel($id)->delete();
+        return 1;
+
+        //return 1;// $this->redirect(['index']);
     }
 
     public function actionList($id)

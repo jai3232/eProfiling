@@ -45,7 +45,7 @@ class PersonalController extends Controller
                         'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['login', 'check', 'register', 'registered', 'list', 'forgot-password'],
+                        'actions' => ['login', 'check', 'register', 'registered', 'list', 'forgot-password', 'confirm'],
                         'allow' => true,
                         'roles' => ['?'],
                     ]

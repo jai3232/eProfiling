@@ -61,7 +61,7 @@ AppAsset::register($this);
              'visible' => !Yii::$app->user->isGuest,
              'items' => [
                 //['label' => 'Personal', 'url' => ['/personal/info']],
-                ['label' => 'Admin', 'url' => ['/personal/index', 'sort' => '-id_personal']],
+                ['label' => 'Admin', 'url' => ['/personal/index'/*, 'sort' => '-id_personal'*/], 'visible' => !Yii::$app->user->isGuest? Yii::$app->user->identity->accessLevel([0, 1, 2, 3]) : false],
                 ['label' => 'Personal', 'url' => ['/personal/info']],
              ],
             ],
@@ -80,7 +80,10 @@ AppAsset::register($this);
                     ['label' => 'Abiliy Map Pengajar', 'url' => ['/laporan/pengajar-h-o-d']]
                 ]
             ],
-            
+            [
+                'label' => 'Muat Turun',
+                'url' => 'downloads',
+            ],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

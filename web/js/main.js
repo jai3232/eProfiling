@@ -38,11 +38,18 @@ $(function(){
 	// 	return false;
 	// });
 
-	$('.personal-perjawatan-index .glyphicon-trash').click(function(){
+	$('.personal-perjawatan-index .glyphicon-trash').click(function(e){
 		if(confirm('Padam rekod ini?')) {
+			var check = $(this).parent().parent().prev().children(':first');
+			if(check.is(':checked')) {
+				alert('Tidak dibenarkan memadam perjawatan aktif. Sila nyahaktifkan dahulu.');
+				return false;
+			}
 			$.post($(this).parent().attr('href'), function(data){
 				if($.trim(data) == 1)
 					$.pjax.reload({container: '#perjawatanGrid'});
+				if($.trim(data)/1 == -1)
+					alert('Tidak dibenarkan memadam perjawatan aktif. Sila nyahaktifkan dahulu.');
 			});
 		}
 		return false;
@@ -51,9 +58,16 @@ $(function(){
 	//$('.personal-perjawatan-index .glyphicon-trash').click(function(){
 	$('.personal-perjawatan-index').on( "click", ".glyphicon-trash", function() {
 		if(confirm('Padam rekod ini?')) {
+			var check = $(this).parent().parent().prev().children(':first');
+			if(check.is(':checked')) {
+				alert('Tidak dibenarkan memadam perjawatan aktif. Sila nyahaktifkan dahulu.');
+				return false;
+			}
 			$.post($(this).parent().attr('href'), function(data){
 				if($.trim(data) == 1)
 					$.pjax.reload({container: '#perjawatanGrid'});
+				if($.trim(data)/1 == -1)
+					alert('Tidak dibenarkan memadam perjawatan aktif. Sila nyahaktifkan dahulu.');
 			});
 		}
 		return false;
@@ -165,11 +179,25 @@ $(function(){
 
 
 	// JAWATAN GRID VIEW
-	$('.jawatan-aktif-check').click(function(){
+
+	// $('.jawatan-aktif-check').click(function(){
+	// 	if(confirm('Aktifkan jawatan ini?')) {
+	// 		$('.jawatan-aktif-check').prop('checked', false);
+	// 		$(this).prop('checked', true);
+	// 		$.post($(this).val(), function(data){ /*alert(data)*/});
+	// 		$('.personal-view .glyphicon-ok').addClass('glyphicon-remove');
+	// 		$('.personal-view .glyphicon-remove').removeClass('glyphicon-ok');
+	// 		$(this).parent().prev().html('<span class="glyphicon glyphicon-ok"></span>');
+	// 	}
+	// 	else 
+	// 		$(this).prop('checked', !$(this).prop('checked')); 
+	// });
+
+	$('.personal-perjawatan-index').on( "click", ".jawatan-aktif-check", function() {
 		if(confirm('Aktifkan jawatan ini?')) {
 			$('.jawatan-aktif-check').prop('checked', false);
 			$(this).prop('checked', true);
-			$.post($(this).val(), function(data){ alert(data)});
+			$.post($(this).val(), function(data){ /*alert(data)*/});
 			$('.personal-view .glyphicon-ok').addClass('glyphicon-remove');
 			$('.personal-view .glyphicon-remove').removeClass('glyphicon-ok');
 			$(this).parent().prev().html('<span class="glyphicon glyphicon-ok"></span>');
@@ -177,6 +205,46 @@ $(function(){
 		else 
 			$(this).prop('checked', !$(this).prop('checked')); 
 	});
+
+	// This is to trigger When Tab Panel is active
+
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+	  var target = $(e.target).attr("href") // activated tab
+	  if(target == '#w4-tab1') {
+	  	var len = $('.jawatan-aktif-check:checked').length;
+	  	if(len > 1) { 
+				for(var i = 0; i < $('.jawatan-aktif-check').length; i++) {
+					if($('.jawatan-aktif-check').eq(i).is(':checked')) {
+						break;
+					}
+				}
+				$('.jawatan-aktif-check').prop('checked', false);
+				//$('.jawatan-aktif-check').eq(i).prop('checked', true);
+				$('.jawatan-aktif-check').eq(i).prop('checked', true);
+				var value = $('.jawatan-aktif-check').eq(i).val();
+				$.post(value, function(data){ /*alert(data);*/});
+				$('.personal-view .glyphicon-ok').addClass('glyphicon-remove');
+				$('.personal-view .glyphicon-remove').removeClass('glyphicon-ok');
+				$('.jawatan-aktif-check').eq(i).parent().prev().html('<span class="glyphicon glyphicon-ok"></span>');
+			
+			}
+		}
+	});
+
+	$('#perjawatanGrid').on('pjax:end', function() { 
+		$('.perjawatan-aktif-check').prop('checked', false);
+		setActivePerjawatan();
+	});
+
+	function setActivePerjawatan() {
+		if($('.perjawatan-aktif-check:checked').length == 0) { // find checked box, if no checked set the last inserted record
+			$('.perjawatan-aktif-check').eq(0).prop('checked', true);
+			var value = $('.perjawatan-aktif-check').eq(0).val();
+			$.post(value, function(data){ /*alert(data);*/});
+		}
+
+	}
+	
 
 	// PERSONAL BIDANG
 
@@ -249,7 +317,10 @@ $(function(){
 			var value = $('.bidang-aktif-check').eq(0).val();
 			$.post(value, function(data){ /*alert(data);*/});
 		}
+
 	}
+
+
 	//setActiveBidang();
 
 	// EVALUATION

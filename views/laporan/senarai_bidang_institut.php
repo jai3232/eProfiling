@@ -1,30 +1,25 @@
 <?php
 /* @var $this yii\web\View */
 use yii\helpers\Html;
-use yii\widgets\DetailView;
+use yii\helpers\Url;
+//use yii\widgets\DetailView;
 use yii\grid\GridView;
 use yii\data\ArrayDataProvider;
 use app\models\Bidang;
-use app\models\BidangTier;
-use app\models\BidangDuti;
-use app\models\BidangAbiliti;
-use app\models\BidangInstitut;
-use app\models\Personal;
-use app\models\PersonalBidang;
-//use app\models\PersonalPerjawatan;
-use app\models\PenilaianProfil;
-use app\models\PenilaianMarkah;
-use app\models\PersonalPerjawatan;
 use app\models\Agensi;
 use app\models\AgensiInstitut;
+
+Url::remember(['senarai-bidang-institut?idag='.$agensi->id_agensi.'&idai='.$agensiInstitut->id_agensi_institut],'senarai_bidang_institut');
+
+$this->params['breadcrumbs'][] = ['label' => 'Laman Laporan', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<h2>Laporan Ability Map</h2>
+<h3>Laporan Ability Map Agensi : <?=$agensi->nama_agensi;?></h3>
+<h3>Institut Pilihan : <?=$agensiInstitut->nama_institut;?></h3>
 
 <?php 
-//AI dan HOD
-//$aa_ai = 'ai';
-//echo "Role : AI<br>";
-//Cari Bidang Institu utk AI/HOD
+
+//Cari Bidang Institut
 $cari_bidang_institut = new \yii\db\Query();
 $cari_bidang_institut->select('*')
 /*
@@ -35,7 +30,7 @@ $cari_bidang_institut->select('*')
 ->join('left join','bidang_institut','bidang.id_bidang = bidang_institut.id_bidang')
 ->join('left join','agensi_institut','agensi_institut.id_agensi_institut = bidang_institut.id_agensi_institut')
 ->join('left join','agensi','agensi_institut.id_agensi = agensi.id_agensi')
-->where(['bidang_institut.id_agensi_institut'=>$institut])
+->where(['bidang_institut.id_agensi_institut'=>$agensiInstitut->id_agensi_institut])
 ->all();
 $command = $cari_bidang_institut->createCommand();
 $resp = $command->queryAll();

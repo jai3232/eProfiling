@@ -1,5 +1,4 @@
 <?php
-/* @var $this yii\web\View */
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\grid\GridView;
@@ -17,36 +16,30 @@ use app\models\PenilaianMarkah;
 use app\models\PersonalPerjawatan;
 use app\models\Agensi;
 use app\models\AgensiInstitut;
-?>
-<h2>Laporan Ability Map</h2>
 
-<?php 
-//AI dan HOD
-//$aa_ai = 'ai';
-//echo "Role : AI<br>";
-//Cari Bidang Institu utk AI/HOD
-$cari_bidang_institut = new \yii\db\Query();
-$cari_bidang_institut->select('*')
-/*
- ->from('bidang_institut')
-->leftjoin('bidang','bidang.id_bidang = bidang_institut.id_bidang')
-*/
+//$aa_ai = 'aa';
+//echo "Role : AA<br>";
+//Cari Bidang Agensi utk AA/EX
+$cari_bidang_agensi = new \yii\db\Query();
+
+//distict x jalan => groupby ok
+$cari_bidang_agensi->select('*')
 ->from('bidang')
 ->join('left join','bidang_institut','bidang.id_bidang = bidang_institut.id_bidang')
 ->join('left join','agensi_institut','agensi_institut.id_agensi_institut = bidang_institut.id_agensi_institut')
 ->join('left join','agensi','agensi_institut.id_agensi = agensi.id_agensi')
-->where(['bidang_institut.id_agensi_institut'=>$institut])
+->where(['agensi_institut.id_agensi'=>$agensi])
+->groupBy('bidang.id_bidang')
 ->all();
-$command = $cari_bidang_institut->createCommand();
+$command = $cari_bidang_agensi->createCommand();
 $resp = $command->queryAll();
-/*
-echo "Bidang Institut : <br>";
+echo "Bidang Agensi : <br>";
 //print_r($resp);
 //echo "test".$resp->nama_bidang;
 foreach ($resp as $dapat){
 	echo "Bidang : ".$dapat['nama_bidang']."<br>";
 }
-*/
+//tukar array jd model/dataprovider
 $provider = new ArrayDataProvider([
 		'allModels' => $resp,
 		'sort' => [
@@ -57,6 +50,7 @@ $provider = new ArrayDataProvider([
 		],
 ]);
 //*
+echo "<h3>Pilihan Bidang Dalam Agensi</h3>";
 echo GridView::widget([
 		'dataProvider' => $provider,
 		'columns' => [
@@ -70,10 +64,10 @@ echo GridView::widget([
 						'buttons' => [
 
 								'abilitymap'=>function($url,$provider,$aa_ai){
-								return Html::a('<span class="glyphicon glyphicon-tag"></span>', ['abiliti-map-institut', 'id' => $provider['id_bidang_institut'],'idai' => $provider['id_agensi_institut'],'idag'=> $provider['id_agensi']], ['title' => 'Ability Map Institut - PENILAIAN TERKINI']);
+								return Html::a('<span class="glyphicon glyphicon-tag"></span>', ['abiliti-map-agensi', 'idag' => $provider['id_agensi'],'idbi' => $provider['id_bidang']], ['title' => 'Ability Map Agensi - PENILAIAN TERKINI']);
 								},
 								'abilitymapbt'=>function($url,$provider){
-								return Html::a('<span class="glyphicon glyphicon-tags"></span>', ['abiliti-map-institut-bulan-tahun', 'id' => $provider['id_bidang_institut'],'idai' => $provider['id_agensi_institut'],'idag'=> $provider['id_agensi']], ['title' => 'Ability Map Institut - PILIHAN TARIKH']);
+								return Html::a('<span class="glyphicon glyphicon-tags"></span>', ['abiliti-map-agensi-bulan-tahun', 'idag' => $provider['id_agensi'],'idbi' => $provider['id_bidang']], ['title' => 'Ability Map Agensi - PILIHAN TARIKH']);
 								},
 						],
 								//
@@ -81,11 +75,4 @@ echo GridView::widget([
 		],
 	]);
 //*/
-// get the posts in the current page
-//$posts = $provider->getModels();
-
-//echo $command2;
-
-
-
 ?>
